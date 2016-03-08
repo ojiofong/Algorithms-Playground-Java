@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BinarySTree2 {
 
@@ -12,16 +14,25 @@ public class BinarySTree2 {
 		bst.add(2, "2");
 		bst.add(1, "1");
 		bst.add(17, "17");
+		
+//		NodeB root = new NodeB(5);
+//		root.leftChild = new NodeB(10);
+//		root.rightChild = new NodeB(15);
+//		root.leftChild.leftChild = new NodeB(20);
+//		root.leftChild.rightChild = new NodeB(25);
+//		root.rightChild.leftChild = new NodeB(30);
+//		root.rightChild.rightChild = new NodeB(35);
 
 		// visitNode(root);
 		// inOrderTraversal(root);
 		// preOrderTraversal(root);
-		 BTreePrinter.printNode(root);
-		//preOrderTraversal(root);
-			//System.out.println("found: " + bst.findNode(7));
-			System.out.println("height left: " + ProblemsTreesGraphs.getHeight(root.leftChild));
-			System.out.println("height right: " + ProblemsTreesGraphs.getHeight(root.rightChild));
-			System.out.println("isTreeBalanced: " + ProblemsTreesGraphs.isTreeBalanced(root));
+		 levelOrderTraversal(root);
+		BTreePrinter.printNode(root);
+		// preOrderTraversal(root);
+		// System.out.println("found: " + bst.findNode(7));
+		System.out.println("height left: " + ProblemsTreesGraphs.getHeight(root.leftChild));
+		System.out.println("height right: " + ProblemsTreesGraphs.getHeight(root.rightChild));
+		System.out.println("isTreeBalanced: " + ProblemsTreesGraphs.isTreeBalanced(root));
 
 	}
 
@@ -117,6 +128,35 @@ public class BinarySTree2 {
 			inOrderTraversal(focus.getRightChild());
 			visitNode(focus);
 		}
+	}
+	
+	// Similar to Breath First Search for Binary Tree
+	public static void levelOrderTraversal(NodeB focus) {
+		if(focus == null) return;
+		MQueue2 q = new MQueue2();
+		visitNode(focus);
+		q.enqueue(focus);
+		
+		while(!q.isEmpty()){
+			
+			int levelCount = q.size();
+
+			// get neighbors in the same level
+			while(levelCount > 0){
+				
+				NodeB r = (NodeB) q.dequeue();
+
+				visitNode(r);
+				if(r.leftChild != null) q.enqueue(r.leftChild);	
+				if(r.rightChild != null) q.enqueue(r.rightChild);
+				
+				levelCount--;
+			}
+			
+			System.out.println("...new level...");
+		}
+		
+		
 	}
 	// END - Traverse
 

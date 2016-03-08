@@ -3,6 +3,7 @@ public class NodeB<T> {
 
 	public NodeB leftChild, rightChild, parent;
 	public Object data;
+	public boolean visited;
 	int key;
 
 	public NodeB(Object data) {

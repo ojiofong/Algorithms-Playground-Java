@@ -53,9 +53,8 @@ public class Problems {
 		String intToBinary = Integer.toBinaryString(5);
 		System.out.println("binary print " + intToBinary);
 		String s = "10";
-		int b = Integer.parseInt(s, 2); // Throws NumberFormatException if not
-										// binary
-		System.out.println("binary addition " + Integer.toString(b + b, 2));
+		int b = Integer.parseInt(s, 2); // converts binary string to int - Throws NumberFormatException if not binary
+		System.out.println("binary addition " + Integer.toString(b, 2));
 		print("is_power_of_3Slow " + is_power_of_3Slow(27));
 		print("is_power_of_3Fast " + is_power_of_3Fast(27));
 		print("findDuplicateInArray " + findDuplicateInArray());
@@ -699,4 +698,6 @@ public class Problems {
 		
 		return buffer.toString();
 	}
+	
+
 }

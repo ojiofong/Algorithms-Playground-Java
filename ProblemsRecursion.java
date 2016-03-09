@@ -8,6 +8,7 @@ public class ProblemsRecursion {
 		println("testing");
 		print("nthFibonnaci: " + nthFibonnaci(3) +"\n");
 		printFibonnaci(0, 1, 2);
+		println("\nsumRecursing: " + sumRecursing(4, 7));
 	}
 
 	public static void println(String s) {
@@ -41,5 +42,13 @@ public class ProblemsRecursion {
 		
 		printFibonnaci(b, b + a, --limit);
 	}
-
+	
+	// Write a recursive function: that calculates the sum of the numbers from x to max (inclusive). 
+	// For example, sum (4, 7) would compute 4 + 5 + 6 + 7 and return the value 22. 
+	// The function must be recursive so you are not allowed to use any conventional loop constructs
+	public static int sumRecursing( int x, int max ) { 
+		if(x ==  max) return max;
+		
+		return x + sumRecursing(x + 1, max);
+	} 
 }

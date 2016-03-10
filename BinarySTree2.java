@@ -15,6 +15,14 @@ public class BinarySTree2 {
 		bst.add(1, "1");
 		bst.add(4, "4");
 		bst.add(17, "17");
+		
+//		NodeB root = new NodeB(5);
+//		root.leftChild = new NodeB(10);
+//		root.rightChild = new NodeB(15);
+//		root.leftChild.leftChild = new NodeB(20);
+//		root.leftChild.rightChild = new NodeB(25);
+//		root.rightChild.leftChild = new NodeB(30);
+//		root.rightChild.rightChild = new NodeB(35);
 
 //		 NodeB root = new NodeB(5);
 //		 root.leftChild = new NodeB(10);
@@ -175,7 +183,6 @@ public class BinarySTree2 {
 
 			System.out.println("...new level...");
 		}
-
 	}
 	// END - Traverse
 

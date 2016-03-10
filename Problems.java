@@ -53,18 +53,22 @@ public class Problems {
 		String intToBinary = Integer.toBinaryString(5);
 		System.out.println("binary print " + intToBinary);
 		String s = "10";
-		int b = Integer.parseInt(s, 2); // converts binary string to int - Throws NumberFormatException if not binary
+		int b = Integer.parseInt(s, 2); // converts binary string to int -
+										// Throws NumberFormatException if not
+										// binary
 		System.out.println("binary addition " + Integer.toString(b, 2));
-		print("is_power_of_3Slow " + is_power_of_3Slow(27));
-		print("is_power_of_3Fast " + is_power_of_3Fast(27));
-		print("findDuplicateInArray " + findDuplicateInArray());
-		print("findDuplicateInArrayBetter " + findDuplicateInArrayBetter());
-		print("joinTwoSortedArrays " + joinTwoSortedArrays());
-		print("combinationsofString " + combinationsofString("abc"));
-		print("removeDuplicates " + removeDuplicates("cutcopypaste"));
+		println("is_power_of_3Slow " + is_power_of_3Slow(27));
+		println("is_power_of_3Fast " + is_power_of_3Fast(27));
+		println("findDuplicateInArray " + findDuplicateInArray());
+		println("findDuplicateInArrayBetter " + findDuplicateInArrayBetter());
+		println("joinTwoSortedArrays " + joinTwoSortedArrays());
+		println("combinationsofString " + combinationsofString("abc"));
+		println("removeDuplicates " + removeDuplicates("cutcopypaste"));
+		println("canSuffleWithoutRepeatingChar: " + canSuffleWithoutRepeatingChar("apple"));
+		println("" + (int)'a');
 	}
 
-	public static void print(String s) {
+	public static void println(String s) {
 		System.out.println(s);
 	}
 
@@ -599,7 +603,7 @@ public class Problems {
 		// int literal is out range for int so use long
 		long largestPowerOf3ForUint32 = (long) Math.pow(3, 20); // 3^20
 		// long largestPowerOf3ForUint32 = Long.valueOf(("3486784401")); //3^20
-		print("finally largetst " + largestPowerOf3ForUint32);
+		println("finally largetst " + largestPowerOf3ForUint32);
 		return largestPowerOf3ForUint32 % n == 0 ? 1 : 0;
 	}
 
@@ -678,14 +682,14 @@ public class Problems {
 		}
 		return mList.toString();
 	}
-	
+
 	// Remove duplicates from string given " cutcopypaste " Return "uoyase"
-	public static String removeDuplicates(String str){
-		
+	public static String removeDuplicates(String str) {
+
 		Set<Character> set = new HashSet<>();
-		
-		for(char c : str.toCharArray()){
-			if(!set.add(c)){
+
+		for (char c : str.toCharArray()) {
+			if (!set.add(c)) {
 				set.remove(c);
 			}
 		}
@@ -695,9 +699,61 @@ public class Problems {
 		while (iterator.hasNext()) {
 			buffer.append(iterator.next());
 		}
-		
+
 		return buffer.toString();
 	}
+
+	// Define a function that can detect whether the characters of a string can
+	// be shuffled
+	// without repeating same characters as one other's neighbors. E.g. :
+	// apple >> alpep, so valid
+	// a >> a, valid
+	// aa >> aa, invalid/impossible
+	// aab >> aba, valid
+	// aaaabbcc >> acabacab, valid
+	// etc.
+	// You do not have to find one representation, just have to detect if it is
+	// possible or not!
+	public static boolean canSuffleWithoutRepeatingChar(String str) {
+		if (str.length() == 1)
+			return true;
+		int length = str.length();
+		// detect if (length - char count ) >= char count - 1;
+		int[] arr = new int[256]; // unicode
+
+		System.out.println("checkPalindroneAdvanced : " + checkPalindroneAdvanced("101", "101"));
+
+		for (int i = 0; i < length; i++) {
+			arr[str.charAt(i)]++;
+		}
+
+		for (int i = 0; i < length; i++) {
+			if (((length - arr[str.charAt(i)])) >= (arr[str.charAt(i)] - 1)) {
+				return true;
+
+			}
+		}
+
+		return false;
+	}
 	
+	public static boolean checkPalindroneAdvanced(String s1, String s2){
+		
+		int length = s1.length();
+		char[] c2 = s2.toCharArray();
+		char[] c1 = s1.toCharArray();
+		
+		int k = 0;
+		for(int i = length - 1; i >=0; i--){
+			if(c2[i] != c1[k]){
+				//println("yeaaa " + c2[i] + " " + c1[k]);
+				return false;
+			}
+			k++;
+			if(k > i) break;
+		}
+		
+		return true;
+	}
 
 }

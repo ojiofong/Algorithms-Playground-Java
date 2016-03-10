@@ -739,21 +739,23 @@ public class Problems {
 	
 	public static boolean checkPalindroneAdvanced(String s1, String s2){
 		
+		s2 = "201";
+		
 		int length = s1.length();
 		char[] c2 = s2.toCharArray();
 		char[] c1 = s1.toCharArray();
 		
-		int k = 0;
-		for(int i = length - 1; i >=0; i--){
-			if(c2[i] != c1[k]){
-				//println("yeaaa " + c2[i] + " " + c1[k]);
-				return false;
-			}
-			k++;
-			if(k > i) break;
-		}
-		
-		return true;
+        int k = 0;
+        for(int i = length - 1; i >=0; i--){
+            if(c2[i] != c1[k]){
+                return false;
+            }
+            k++;
+        }
+        
+        return true;
 	}
+	
+	
 
 }

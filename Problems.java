@@ -65,7 +65,9 @@ public class Problems {
 		println("combinationsofString " + combinationsofString("abc"));
 		println("removeDuplicates " + removeDuplicates("cutcopypaste"));
 		println("canSuffleWithoutRepeatingChar: " + canSuffleWithoutRepeatingChar("apple"));
-		println("" + (int)'a');
+		System.out.println("checkPalindroneAdvanced : " + checkPalindrone("101", "101"));
+		System.out.println("biggestSumOfConsecutiveIntegers : " + biggestSumOfConsecutiveIntegers());
+		// println("" + (int)'a');
 	}
 
 	public static void println(String s) {
@@ -420,6 +422,7 @@ public class Problems {
 	 * O(n) time O(128) space
 	 */
 	public static boolean isSubStringAnagramBetter(String shortStr, String longStr) {
+		
 		if (shortStr == null || longStr == null)
 			return false;
 		if (shortStr.length() > longStr.length())
@@ -427,19 +430,20 @@ public class Problems {
 		if (shortStr.length() == 0 && longStr.length() == 0)
 			return true;
 
-		int[] arr = new int[128];
+		int[] arr = new int[256];
 		int shortSum = 0;
 		int anagramSum = 0;
 		int count = 0;
 
 		for (int i = 0; i < shortStr.length(); i++) {
 			arr[shortStr.charAt(i)]++;
-			shortSum += (int) shortStr.charAt(i);
+			shortSum += (int) shortStr.charAt(i); // square this Math.pow(a, b)
 		}
 
 		for (int i = 0; i < longStr.length(); i++) {
 			if (arr[longStr.charAt(i)] != 0) {
-				anagramSum += (int) longStr.charAt(i);
+				anagramSum += (int) longStr.charAt(i); // square this Math.pow(a, b)
+				
 				count++;
 
 				if (count == shortStr.length() && anagramSum == shortSum) {
@@ -721,8 +725,6 @@ public class Problems {
 		// detect if (length - char count ) >= char count - 1;
 		int[] arr = new int[256]; // unicode
 
-		System.out.println("checkPalindroneAdvanced : " + checkPalindroneAdvanced("101", "101"));
-
 		for (int i = 0; i < length; i++) {
 			arr[str.charAt(i)]++;
 		}
@@ -736,26 +738,83 @@ public class Problems {
 
 		return false;
 	}
-	
-	public static boolean checkPalindroneAdvanced(String s1, String s2){
-		
-		s2 = "201";
-		
+
+	public static boolean checkPalindrone(String s1, String s2) {
+
 		int length = s1.length();
 		char[] c2 = s2.toCharArray();
 		char[] c1 = s1.toCharArray();
-		
-        int k = 0;
-        for(int i = length - 1; i >=0; i--){
-            if(c2[i] != c1[k]){
-                return false;
-            }
-            k++;
-        }
-        
-        return true;
+
+		int k = 0;
+		for (int i = length - 1; i >= 0; i--) {
+			if (c2[i] != c1[k]) {
+				return false;
+			}
+			k++;
+		}
+
+		return true;
 	}
-	
-	
+
+	// find consecutive integers in a list that give you the biggest sum
+	// Like for -2 5 -1 7 -3 it would be 5 -1 7
+	public static String biggestSumOfConsecutiveIntegers() {
+		// this is Kadane's algorithm
+		// algorithm relies on at least one positive number else
+		// if all negative return the largest negative value
+
+		int[] arr = new int[] { -2, 5, -1, 7, -3, };
+		int length = arr.length;
+
+		int sumCurrent = arr[0];
+		int sumSoFar = arr[0];
+		int minIndex = 0;
+		int maxIndex = 0;
+
+		for (int i = 0; i < length; i++) {
+			sumCurrent += arr[i];
+			if (sumCurrent < arr[i])
+				minIndex = i;
+			
+			// sumCurrent = Math.max(0, sumCurrent); // return zero if negative
+			if (sumCurrent < 0) {
+				sumCurrent = 0;
+			} else {
+				// sumSoFar = Math.max(sumCurrent, sumSoFar); // get the max
+				// only
+				if (sumSoFar < sumCurrent) {
+					sumSoFar = sumCurrent;
+					maxIndex = i;
+				}
+
+			}
+		}
+
+		String ans = "sum of biggest subArray: " + sumSoFar;
+		ans += " min:" + arr[minIndex] + " max;" + arr[maxIndex];
+
+		return ans;
+	}
+
+	public static String biggestSumOfConsecutiveIntegersSumOnly() {
+		// this is Kadane's algorithm
+		// algorithm relies on at least one positive number else
+		// if all negative return the largest negative value
+		// This method assumes there's at least one positive number
+
+		int[] arr = new int[] { -2, 5, -1, 7, -3 };
+		int length = arr.length;
+
+		int sumCurrent = 0;
+		int sumSoFar = 0;
+
+		for (int i = 0; i < length; i++) {
+			sumCurrent += arr[i];
+			sumCurrent = Math.max(0, sumCurrent); // return zero if negative
+			sumSoFar = Math.max(sumCurrent, sumSoFar); // get the max only
+		}
+
+		return "sum of biggest subArray: " + sumSoFar;
+	}
 
 }

@@ -5,8 +5,10 @@ public class ProblemsArrays {
 	public static void main(String[] args) {
 		System.out.println(ProblemsArrays.class.getSimpleName());
 		println("testing");
-		println("reOrderArray " + reOrderArray());
-		println("customSortArray " + customSortArray());
+		println("reOrderArray: " + reOrderArray());
+		println("customSortArray: " + customSortArray());
+		println("reOrderArrayWithoutCopying: " + reOrderArrayWithoutCopying());
+
 	}
 
 	public static void println(String s) {
@@ -51,29 +53,57 @@ public class ProblemsArrays {
 		int positiveCount = 0;
 
 		for (int i = 0; i < length; i++) {
-			if(arr[i] < 0){
+			if (arr[i] < 0) {
 				arrNegative[negativeCount++] = arr[i];
-				 
+
 			}
 		}
-		
+
 		for (int i = 0; i < length; i++) {
-			if(arr[i] >= 0){
+			if (arr[i] >= 0) {
 				arrPositive[positiveCount++] = arr[i];
 			}
 		}
-		
+
 		int k = 0;
 		for (int i = 0; i < length; i++) {
-			if(i <  negativeCount){
+			if (i < negativeCount) {
 				arr[i] = arrNegative[i];
-			}else{
+			} else {
 				arr[i] = arrPositive[k++];
 			}
 		}
-		
+
 		arrNegative = arrPositive = null;
 
 		return Arrays.toString(arr);
 	}
+
+	// input [0,1,3,4,8,2,0,0,0,4,5];
+	// output [1,3,4,8,2,4,5,00000];
+	public static String reOrderArrayWithoutCopying() {
+		int[] arr = { 0, 1, 3, 4, 8, 2, 0, 0, 0, 4, 5 };
+		int zeroIndex = 0;
+		int nonZeroIndex = 0;
+
+		println(Arrays.toString(arr));
+
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] == 0) {
+				// swap with next non-zero
+				zeroIndex = i;
+			}
+		}
+		
+
+		return Arrays.toString(arr);
+	}
+
+
+	private static void swap(int[] array, int i, int j) {
+		int temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	}
+
 }

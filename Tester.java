@@ -71,6 +71,9 @@ public class Tester {
 		breathFirstSearch(nodeA);
 		// printVisited(nodeA);
 
+		 System.out.println(".....");
+		twoDArrayTest();
+
 	}
 
 	private static int binarySearch(int key, int[] arr) {
@@ -119,11 +122,12 @@ public class Tester {
 		}
 	}
 
-	private static void preOrder(NodeG focus) {
-//		if (focus != null) {
-//			printVisited(focus.key);
-//			preOrder(focus);
-//			preOrder(focus);
-//		}
+	private static void twoDArrayTest() {
+		int[][] arr = new int[3][6];
+		
+		int rows = arr.length;
+		int columns = arr[0].length;
+		
+		System.out.println("rows: " + rows + " columns: " + columns);
 	}
 }

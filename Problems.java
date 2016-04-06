@@ -67,7 +67,28 @@ public class Problems {
 		println("canSuffleWithoutRepeatingChar: " + canSuffleWithoutRepeatingChar("apple"));
 		System.out.println("checkPalindroneAdvanced : " + checkPalindrone("101", "101"));
 		System.out.println("biggestSumOfConsecutiveIntegers : " + biggestSumOfConsecutiveIntegers());
+		System.out.println("getModeInArray : " + getModeInArray());
 		// println("" + (int)'a');
+	}
+
+	private static String getModeInArray() {
+		// TODO Auto-generated method stub
+		int[] arr = new int[] { 2, 1, 3, 5, 6, 2, 4, 2, 9 };
+		int length = arr.length;
+		int tempCount = 0;
+		int biggest = 0;
+
+		for (int i = 0; i < length; i++) {
+			for (int k = 0; k < length - 1; k++) {
+				if(arr[i] == arr[k]){
+					tempCount++;
+				}
+			}
+			// reset
+			biggest = Math.max(biggest, tempCount);
+			tempCount = 0;
+		}
+		return null;
 	}
 
 	public static void println(String s) {
@@ -422,7 +443,7 @@ public class Problems {
 	 * O(n) time O(128) space
 	 */
 	public static boolean isSubStringAnagramBetter(String shortStr, String longStr) {
-		
+
 		if (shortStr == null || longStr == null)
 			return false;
 		if (shortStr.length() > longStr.length())
@@ -442,8 +463,9 @@ public class Problems {
 
 		for (int i = 0; i < longStr.length(); i++) {
 			if (arr[longStr.charAt(i)] != 0) {
-				anagramSum += (int) longStr.charAt(i); // square this Math.pow(a, b)
-				
+				anagramSum += (int) longStr.charAt(i); // square this
+														// Math.pow(a, b)
+
 				count++;
 
 				if (count == shortStr.length() && anagramSum == shortSum) {
@@ -775,7 +797,7 @@ public class Problems {
 			sumCurrent += arr[i];
 			if (sumCurrent < arr[i])
 				minIndex = i;
-			
+
 			// sumCurrent = Math.max(0, sumCurrent); // return zero if negative
 			if (sumCurrent < 0) {
 				sumCurrent = 0;

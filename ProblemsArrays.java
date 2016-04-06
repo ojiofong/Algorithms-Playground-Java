@@ -88,10 +88,15 @@ public class ProblemsArrays {
 
 		println(Arrays.toString(arr));
 
-		for (int i = 0; i < arr.length; i++) {
-			if (arr[i] == 0) {
-				// swap with next non-zero
-				zeroIndex = i;
+		for (int i = 0; i <  arr.length -1; i++) {
+			if (arr[i] == 0 && arr[i + 1] != 0) {
+				swap(arr, i, i+1);
+			}
+		}
+		
+		for (int i = arr.length -1; i >= 1  ; i--) {
+			if (arr[i] != 0 && arr[i - 1] == 0) {
+				swap(arr, i, i-1);
 			}
 		}
 		

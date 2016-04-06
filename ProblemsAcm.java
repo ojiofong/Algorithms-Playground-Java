@@ -129,18 +129,18 @@ public class ProblemsAcm {
 			for (int i = 0; i < arr.length - 1; i++) {
 				// sort by first character
 				if (firstChar(arr[i]) < firstChar(arr[i + 1])) {
-					 int temp = arr[i];
-					 arr[i] = arr[i+1];
-					 arr[i+1] = temp;
-					 flag = true;
+					int temp = arr[i];
+					arr[i] = arr[i + 1];
+					arr[i + 1] = temp;
+					flag = true;
 				}
 			}
 		}
 
 		StringBuffer buffer = new StringBuffer();
-		for(int i : arr)
+		for (int i : arr)
 			buffer.append(i);
-		
+
 		return buffer.toString();
 	}
 
@@ -150,6 +150,17 @@ public class ProblemsAcm {
 		return s.charAt(0);
 	}
 
-	// Problem 4 - Start
+	// Problem 4 - End
+	
+
+	// Problem 5 - Start
+	//
+	// Write a program that outputs all possibilities to put + or - or
+	// nothing between the numbers 1, 2, ..., 9 (in this order) such that
+	// the result is always 100. For example: 1 + 2 + 34 – 5 + 67 – 8 + 9 = 100.
+	//
+	
+
+	// Problem 5 - End
 
 }

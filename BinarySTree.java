@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BinarySTree {
 
@@ -185,7 +187,11 @@ public class BinarySTree {
 					//focus left
 					f = f.getLeftChild();
 					if(f!=null){
-						
+//						LinkedList<NodeB> ll = new LinkedList<>();
+//						ll.addLast(new NodeB(23));
+//						ll.removeFirst();
+//						ll.isEmpty();
+//						ll.size();
 					}
 				}
 			}

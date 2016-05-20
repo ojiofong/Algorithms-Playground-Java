@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class BinarySTree2 {
@@ -37,6 +38,7 @@ public class BinarySTree2 {
 		// preOrderTraversal(root);
 		levelOrderTraversal(root);
 		BTreePrinter.printNode(root);
+		levelOrder2(root);
 		findBSTMinimumValueDifference(root);
 		System.out.println("minDiff: " + minDiff);
 		// preOrderTraversal(root);
@@ -160,7 +162,7 @@ public class BinarySTree2 {
 		if (focus == null)
 			return;
 		MQueue2 q = new MQueue2();
-		visitNode(focus);
+		//visitNode(focus);
 		q.enqueue(focus);
 
 		while (!q.isEmpty()) {
@@ -185,5 +187,26 @@ public class BinarySTree2 {
 		}
 	}
 	// END - Traverse
+	
+	
+	private static void levelOrder2(NodeB root){
+		if(root==null) return;
+		
+		Queue<NodeB> queue = new LinkedList<>();
+		queue.add(root);
+		
+		while(!queue.isEmpty()){
+			int level = queue.size();
+			while(level-- > 0){
+				NodeB r = queue.remove();
+				System.out.print(" " + r.key);
+				if(r.leftChild!=null)queue.add(r.leftChild);
+				if(r.rightChild!=null)queue.add(r.rightChild);
+			}
+			System.out.println("*"); // New level
+		}
+		
+		
+	}
 
 }

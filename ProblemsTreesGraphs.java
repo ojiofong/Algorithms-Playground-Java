@@ -23,11 +23,12 @@ public class ProblemsTreesGraphs {
 		return Math.abs(getHeight(root.leftChild) - getHeight(root.rightChild)) < 2;
 	}
 
-	// @params - rootLeft or rootRight
-	// you don't want to count root as 1
+	// Height is no. of edges from root.
+	// One root node only is 0 height
 	public static int getHeight(NodeB node) {
-		if (node == null)
-			return 0;
+		if (node == null) return 0;
+		if (node.leftChild == null && node.rightChild == null) return 0;
+		
 		return 1 + Math.max(getHeight(node.leftChild), getHeight(node.rightChild));
 	}
 

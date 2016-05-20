@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 
 public class BinarySTree3 {
 
@@ -25,6 +26,9 @@ public class BinarySTree3 {
 		System.out.println("....");
 
 		inOrderTraversal(root);
+		
+		LevelOrder(root);
+	
 
 	}
 
@@ -281,5 +285,30 @@ public class BinarySTree3 {
 			return "key: " + key + " Data: " + data;
 		}
 	}
+	
+	
+	   static void LevelOrder(Node root){
+		   
+		   if(root==null)return;
+		      
+	       //System.out.print(root.data + " ");
+	       LinkedList queue = new LinkedList<>();
+	       queue.addLast(root);
+	       
+	       while(!queue.isEmpty()){
+	           int levelCount = queue.size();
+	           
+	           while(levelCount > 0){     
+	               Node r = (Node) queue.removeFirst();
+	               System.out.print(r.data + " ");    
+	               if(r.leftChild != null) queue.addLast(r.leftChild);
+	               if(r.rightChild != null) queue.addLast(r.rightChild);
+	               levelCount--;
+	           }
+	           // New Level
+	           System.out.println("* ");
+	       }
+	      
+	   }
 
 }

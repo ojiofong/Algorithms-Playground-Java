@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Five programming problems every Software Engineer should be able to solve in
@@ -14,6 +16,8 @@ public class ProblemsAcm {
 		System.out.println("combineTwoLists " + combineTwoLists());
 		listFibonnaci(0, 1, 4);
 		System.out.println("\nlargestFormedNumberFromList " + largestFormedNumberFromList());
+		isSubAnagram();
+		reverseString();
 	}
 
 	// Problem 1 - Start
@@ -120,7 +124,8 @@ public class ProblemsAcm {
 	// the largest formed number is 95021.
 
 	private static String largestFormedNumberFromList() {
-		int[] arr = { 50, 2, 1, 9 };
+		// int[] arr = { 50, 2, 1, 9 };
+		int[] arr = { 420, 42, 423 };
 
 		// Special Bubble Sort (Ascending) by largest first character
 		boolean flag = true;
@@ -151,7 +156,6 @@ public class ProblemsAcm {
 	}
 
 	// Problem 4 - End
-	
 
 	// Problem 5 - Start
 	//
@@ -159,8 +163,74 @@ public class ProblemsAcm {
 	// nothing between the numbers 1, 2, ..., 9 (in this order) such that
 	// the result is always 100. For example: 1 + 2 + 34 – 5 + 67 – 8 + 9 = 100.
 	//
-	
 
 	// Problem 5 - End
+
+	private static void isSubAnagram() {
+		String shortString = "shortr";
+		String longString = "whatevorshrtkfll";
+
+		boolean[] shortBool = new boolean[256];
+		int shortSum = 0;
+		int longSum = 0;
+		int count = 0;
+		boolean isSub = false;
+
+		for (int i = 0; i < shortString.length(); i++) {
+			shortBool[shortString.charAt(i)] = true;
+			shortSum += (int) Math.pow(shortString.charAt(i), 2);
+		}
+
+		for (int i = 0; i < longString.length(); i++) {
+			if (shortBool[longString.charAt(i)]) {
+				longSum += (int) Math.pow(longString.charAt(i), 2);
+				count++;
+				if (count == shortString.length() && shortSum == longSum) {
+					// found
+					isSub = true;
+				}
+
+			} else if (count > 0) {
+				// reset
+				count = 0;
+				longSum = 0;
+			}
+		}
+
+		System.out.println("isSubAnagram-> " + isSub);
+	}
+	
+	
+	private static void reverseString(){
+		String str = "foo";
+		String str2 = "ret";
+		char[] c = new char[str.length()];
+		int index = 0;
+		for(int i = str.length() - 1; i >= 0; i--){
+			c[index++] = str.charAt(i);
+		}
+		
+		System.out.println(Arrays.toString(c));
+		Map<Character, Character> map = new HashMap<>();
+		for(int i = 0; i < str.length(); i++){
+			char c1 = str.charAt(i);
+			char c2 = str2.charAt(i);
+			if(map.containsKey(c1) && map.get(c1) != c2){
+				System.out.println("isomorphic: " + false);
+				return;
+			}else{
+				map.put(c1, c2);
+			}
+
+		}
+
+		System.out.println("isomorphic: " + true);
+		
+	}
+	
+	private static void doThing(){
+		int N = 6;
+		
+	}
 
 }

@@ -1,5 +1,7 @@
 package binaryTree;
 
-public class SolutionSwapNodes {
+import java.util.Scanner;
 
+public class SolutionSwapNodes {
+	
 }

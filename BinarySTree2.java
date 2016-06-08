@@ -17,6 +17,8 @@ public class BinarySTree2 {
 		bst.add(4, "4");
 		bst.add(17, "17");
 		
+		
+		
 //		NodeB root = new NodeB(5);
 //		root.leftChild = new NodeB(10);
 //		root.rightChild = new NodeB(15);
@@ -38,7 +40,7 @@ public class BinarySTree2 {
 		// preOrderTraversal(root);
 		levelOrderTraversal(root);
 		BTreePrinter.printNode(root);
-		levelOrder2(root);
+		//levelOrder2()
 		findBSTMinimumValueDifference(root);
 		System.out.println("minDiff: " + minDiff);
 		// preOrderTraversal(root);

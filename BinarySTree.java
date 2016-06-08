@@ -200,6 +200,13 @@ public class BinarySTree {
 	
 	private static void visitNode(Node node){
 		System.out.println(node);
+		Noded dd = new Noded();
 	}
+	
+	 static class Noded {  
+        int data;
+        Node left;
+        Node right;
+     }
 
 }

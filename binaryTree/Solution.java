@@ -2,109 +2,185 @@ package binaryTree;
 
 import java.util.Scanner;
 
-/**
- * https://www.hackerrank.com/challenges/swap-nodes-algo
- * **/
 public class Solution {
-	
-	static int N, T, K;
-	static final int NMAX = 1024; 
-	static final int TMAX = 100; 
-	static int[] left = new int[NMAX + 1];
-	static int[] right = new int[NMAX + 1];
-	static int[] depth = new int[NMAX + 1];
+
+	private static Node root;
 	private static Scanner in;
+
+	public static void main(String[] args) throws Exception {
+		System.out.println(Solution.class.getSimpleName());
+		Solution bst = new Solution();
+//		bst.add(4);
+//		bst.add(2);
+//		bst.add(1);
+//		bst.add(3);
+		
+
+
+//		System.out.println("....");
+//		 bst.inOrder(root);
+//		System.out.println("....");
+		
+		
+		
+		in = new Scanner(System.in);
+		int A = in.nextInt(); // value of first node
+		int B = in.nextInt(); // value of second node
+		int N = in.nextInt(); // Number of nodes in tree
+		boolean foundA = false;
+		boolean foundB = false;
+
+		if(!isNInRange(N)) throw new Exception("All trees must have fewer than 2^20 nodes");  
+		
+		
+		// N integers the node values
+		for (int i = 0; i < N; i++) {
+			int mData = in.nextInt();
+
+			if(!isValueInRange(mData)) throw new Exception("All values must fall in the range [0, 2^32]");
+			
+			bst.add(mData);
+
+			foundA = foundA ? true : mData == A;
+			foundB = foundB ? true : mData == B;
+		}
+		
+		if(!foundA || !foundB){
+			System.out.print("Not found");
+			return;
+		}
+		
+
+		 bst.inOrder(root);
+		 
+		 BTreePrinter.printNode(root);
+		 int v1 = 1;
+		 int v2 = 3;
+		 
+//		int dist =  bst.distanceBetween(root, v1, v2);
+//		System.out.println("** " + dist);
+
+		Node lca = bst.lca(root, v1, v2);
+		int dist2 =  bst.heightDownToV(lca, v1) + bst.heightDownToV(lca, v2);
+		System.out.println("f** " + dist2);
+		
+		
+
+	}
+	
+	public int heightDownToV(Node root, int v) {
+		if(root == null) return 0;
+		if(root.data == v) return 0;
+		if(v < root.data) return heightDownToV(root.left, v) + 1;
+		if(v > root.data) return heightDownToV(root.right, v) + 1;
+		
+		return 0;
+	}
+	
+	 private static boolean isNInRange(int N){
+	        return N < Math.pow(2,20);
+	    }
+
+	     private static boolean isValueInRange(int value){
+	        return value >=0 && value <= Math.pow(2,32);
+	    }
+
+	public void add(int data) {
+		Node newNode = new Node(data);
+
+		if (root == null) {
+			root = newNode;
+		} else {
+			Node focus = root;
+			Node parent = null;
+			while (true) {
+				parent = focus;
+				if (data < focus.data) {
+					// focus left
+					focus = focus.left;
+					if (focus == null) {
+						parent.left = newNode;
+						newNode.parent = parent;
+						return; // Jump out of loop
+					}
+				} else {
+					// focus right
+					focus = focus.right;
+					if (focus == null) {
+						parent.right = newNode;
+						newNode.parent = parent;
+						return; // Jump out of loop
+					}
+				}
+			}
+		}
+	}
+
+	// Traversal
+	public void inOrder(Node focus) {
+		if (focus != null) {
+			inOrder(focus.left);
+			visitNode(focus);
+			inOrder(focus.right);
+		}
+	}
+
+	// VisitNode
+	public void visitNode(Node node) {
+		System.out.println("visited node-> " + node.data);
+	}
 	
 	
-	// Hint. Validate N, T, K
+	public Node lca(Node root,int v1,int v2){
+
+	    if(v1 < root.data && v2 < root.data){
+	        // focus left
+	        return lca(root.left, v1, v2);
+	    }
+	    
+	    if(v1 > root.data && v2 > root.data){
+	        // focus right
+	        return lca(root.right, v1, v2);
+	    }
+	    
+	    // Can't go further down to left or right
+	    // return the lca
+	    return root;
+	    
+	       
+	}
 	
-	 public static void main(String[] args) {
-	        /* Enter your code here. Read input from STDIN. Print output to 
-	         * STDOUT. Your class should be named Solution. */
-		 System.out.println(Solution.class.getSimpleName());
-		 
-		 in = new Scanner(System.in);
-		 
-		 // First line of input contains N, number of nodes in tree
-		 System.out.print("Enter no. of nodes N: ");
-		 N = in.nextInt();
-		 System.out.println(N);
-		 
-		 // Then N lines follow. Here each of ith line (1 <= i <= N) contains two integers, a b, 
-		 // where a is the index of left child, and b is the index of right child of ith node. 
-		 // -1 is used to represent null node.
-		 
-		 for(int i = 1; i <= N; i++){
-			 int a = in.nextInt();
-			 int b = in.nextInt();
-			 left[i] = a;
-			 right[i] = b;
-			 System.out.println("");
-		 }
-		 
+//	public int distanceBetween(Node root, int n1, int n2) {
+//		int l = adjLength(root, n1) - 1;
+//		int r = adjLength(root, n2) - 1;
+//		int mLcaData = lca(root, n1, n2).data;
+//		int lcaDistance = adjLength(root, mLcaData) - 1;
+//		return (l + r) - 2 * lcaDistance;
+//	}
+//	
+//	public int adjLength(Node root, int n1) {
+//		if (root != null) {
+//			int x = 0;
+//			if ((root.data == n1) 
+//					|| (x = adjLength(root.left, n1)) > 0
+//					|| (x = adjLength(root.right, n1)) > 0) {
+//				return x + 1;
+//			}
+//		}
+//		return 0;
+//	}
 
-		 // Next line contain an integer, T. 
-		 // Then again T lines follows. 
-		 // Each of these line contains an integer K.
-		 
-		 // Next line contain an integer, T. 
-		 System.out.print("\nEnter an integer T: ");
-		 T = in.nextInt();
+	
 
-		 
-		 
-		 // Calculate the depths ahead of time starting
-		 // root node 1 = depth 1
-		 getDepth(1, 1);
-		 
-		 // Then again T lines follows. 
-		 for(int i = 1; i <= T; i++){
-			 
-			 // Each of these line contains an integer K. 
-			 // Constraints 1 <= K <= N 
-			 System.out.print("\nEnter an integer K: ");
-			 K = in.nextInt();
-			 
-			 // Swap entire tree at depth h ∈ [K, 2K, 3K,...]
-			 // i.e. depth h that is a multiple of K
-			 
-			 // Search each node's depth in the tree
-			 // swap subtree if necessary
-			 for(int j = 1; j <= N; j++){
-				 int h = depth[j];
-				 if(h % K == 0){
-					 // swap subTree of j	 
-					 swap(j);
-				 }
-			 }
-			 
-			 
+	public class Node {
 
-			 // Output Format - For each K, perform swap operation as mentioned above 
-			 // and print the inorder traversal of the current state of tree.
-			 inOrder(1);
-		 }
-		 
-	 
-	 }
-	 
-	 private static void getDepth(int index, int d){
-		 depth[index] = d;
-		 if(left[index] > 0) getDepth(left[index], depth[index] + 1);
-		 if(right[index] > 0) getDepth(right[index], depth[index] + 1);
-	 }
-	 
-	 private static void inOrder(int index){
-		 if(index > 0){
-			 inOrder(left[index]); 
-			 System.out.print(index + " ");
-			 inOrder(right[index]); 
-		 }
-	 }
-	 
-	 private static void swap(int h){
-		 int temp = left[h];
-		 left[h] = right[h];
-		 right[h] = temp;
-	 }
+		public Node left, right, parent;
+		
+		public int data;
+		
+		public Node(int data) {
+			this.data = data;
+		}
+
+	}
 }

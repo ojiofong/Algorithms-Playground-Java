@@ -1,4 +1,5 @@
 import java.awt.List;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -74,6 +75,10 @@ public class Tester {
 		 System.out.println(".....");
 		twoDArrayTest();
 
+		int[] arr1 = {1,2,3};
+		int[] arr2 = {11,5,6};
+		System.out.println("yelp-> " + Arrays.toString(addNumbers(arr1,arr2)));
+
 	}
 
 	private static int binarySearch(int key, int[] arr) {
@@ -129,5 +134,75 @@ public class Tester {
 		int columns = arr[0].length;
 		
 		System.out.println("rows: " + rows + " columns: " + columns);
+		
+
+		char c = 'A';
+		//String s = "\ndfdf\ngg\n\n";
+		String s = "";
+		StringBuffer buffer = new StringBuffer(s);
+		buffer.insert(0, "*");
+		buffer.append("*");
+		String[] splitter = buffer.toString().split("\n");
+		
+		int count = buffer.toString().split("n").length;
+		for(int i = 0; i < s.length(); i++){
+			 c = s.charAt(i);
+			// if(c)
+		}
+		System.out.println(buffer.toString());
+		System.out.println(count);
+		System.out.println("equivalent " + "a".equals("a"));
+		System.out.println("fiboMod-> " + fibonnaciMod(0,1,10));
+		
+		
 	}
+	
+	 private static BigInteger fibonnaciMod(int a, int b, int N){
+
+	        BigInteger A = BigInteger.valueOf(a);
+	        BigInteger B = BigInteger.valueOf(b);
+	        BigInteger C = BigInteger.valueOf(0);
+	         
+	        if(N == 0) return C; // zero
+	        if(N == 1) return A;
+	        if(N == 2) return B;
+	        
+	        for(int i = 0; i < N-2; i++){
+	        	//(B*B) + A
+	                C = B.multiply(B).add(A);
+	                A = B;
+	                B = C;
+	        }
+	        
+	        return C;
+	    }
+	 
+	 public static int[] addNumbers(int[] arr1, int[] arr2){
+		    
+		    if(arr1 == null || arr2 == null) return null;
+		    
+		    int maxLength = Math.max(arr1.length, arr2.length);
+		    java.util.List<Integer> list = new ArrayList<>();
+		    
+		    for(int i =0; i < maxLength; i++){
+		      
+		      int a = i < arr1.length ? arr1[i] : 0;
+		      int b = i < arr2.length ? arr2[i] : 0;
+		      int sum = a + b;
+		      String str = ""+ sum;
+		      for(char c : str.toCharArray()){
+		        int n = Integer.parseInt(""+c);
+		        list.add(n);
+		      }
+		      
+		    }
+		    
+		    int[] arr3 = new int[list.size()];
+		    for(int i = 0; i < list.size(); i ++){
+		      arr3[i] = list.get(i);
+		    }
+		    
+		    return arr3;
+		    
+		  }
 }

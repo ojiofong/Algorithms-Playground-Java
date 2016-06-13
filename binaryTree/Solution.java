@@ -64,8 +64,6 @@ public class Solution {
 		int dist2 =  bst.heightDownToV(lca, v1) + bst.heightDownToV(lca, v2);
 		System.out.println("f** " + dist2);
 		
-		
-
 	}
 	
 	public int heightDownToV(Node root, int v) {

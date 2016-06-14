@@ -7,7 +7,6 @@ public class Solution {
 			System.out.println(squareRoot(10));
 	}
 	
-	
 	public static double squareRoot(int n){
 		if(n==0) return 0;
 		if(n<0) return 0;

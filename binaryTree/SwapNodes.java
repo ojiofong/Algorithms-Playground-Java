@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * https://www.hackerrank.com/challenges/swap-nodes-algo
  * **/
-public class Solution33 {
+public class SwapNodes {
 	
 	static int N, T, K;
 	static final int NMAX = 1024; 
@@ -21,7 +21,7 @@ public class Solution33 {
 	 public static void main(String[] args) {
 	        /* Enter your code here. Read input from STDIN. Print output to 
 	         * STDOUT. Your class should be named Solution. */
-		 System.out.println(Solution33.class.getSimpleName());
+		 System.out.println(SwapNodes.class.getSimpleName());
 		 
 		 in = new Scanner(System.in);
 		 

@@ -2,14 +2,14 @@ package binaryTree;
 
 import java.util.Scanner;
 
-public class Solution {
+public class DistBtwNodes {
 
 	private static Node root;
 	private static Scanner in;
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(Solution.class.getSimpleName());
-		Solution bst = new Solution();
+		System.out.println(DistBtwNodes.class.getSimpleName());
+		DistBtwNodes bst = new DistBtwNodes();
 //		bst.add(4);
 //		bst.add(2);
 //		bst.add(1);

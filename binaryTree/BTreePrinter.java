@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import binaryTree.Solution.Node;
+import binaryTree.DistBtwNodes.Node;
 
 public class BTreePrinter<T> {
 

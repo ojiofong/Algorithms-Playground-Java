@@ -13,7 +13,44 @@ public class Tester2 {
 		t.dequeue();
 		System.out.println(t.toString()); //12
 		t.peek(); //2
+		fizzbuzz(15);
+		squareRoot(25.0);
 
+	}
+	
+	private static void squareRoot(double n){
+		
+		double sqrt = n/2;
+		double t = 0;
+		
+		do{
+			
+			t = sqrt;
+			sqrt = (t + n/t)/2;
+			
+		}while(t-sqrt!=0);
+
+		System.out.println("sqrt is: " + sqrt);
+		System.out.println("sqrt2 is: " + Math.pow(n, 0.5));
+		System.out.println("sqrt2 is: " + Math.sqrt(n));
+		
+	}
+	
+	private static void fizzbuzz(int n){
+		String s = n%5==0 ? (n%3==0 ? "fizzbuzz" : "fizz") : n%3==0 ? "buzz" : "none";
+		s = "none";
+		String fb = "" + (n%15==0);
+		String f = "" + (n%5==0);
+		String b = "" + (n%3==0);
+		
+		switch(fb+f+b){
+		case "truetruetrue": s = "fizzbuzz"; break;
+		case "falsetruefalse": s = "fizz"; break;
+		case "falsefalsetrue": s = "buzz"; break;
+		}
+		
+		System.out.println(s);
+		
 	}
 	
 	public Tester2(){

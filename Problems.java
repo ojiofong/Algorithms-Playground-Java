@@ -48,6 +48,7 @@ public class Problems {
 		System.out.println("\ntesting substing normal : " + str.substring(0, str.length()));
 		System.out.println("\ntesting substing : " + str.substring(0, i) + ".." + str.substring(i + 1, str.length()));
 		System.out.println("\nisSubStringDuplicate : " + isSubStringDuplicate("foo", "bafoobafoo"));
+		System.out.println("isSubStringDuplicateFast : " + isSubStringDuplicateFast("foo", "bafoobafoo"));
 		System.out.println("addArrayAndNumber  : " + Arrays.toString(addArrayAndNumber(new int[] { 0, 0, 1 }, 4)));
 		System.out.println("lengthOfLargestSubArray  : " + lengthOfLargestSubArray(arr, 2));
 		String intToBinary = Integer.toBinaryString(5);
@@ -556,6 +557,11 @@ public class Problems {
 		}
 
 		return false;
+	}
+	
+	public static boolean isSubStringDuplicateFast(String sub, String str) {
+
+		return str.replaceFirst(sub, "").contains(sub);
 	}
 
 	// Given an array and a number, add it in such a way

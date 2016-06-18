@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
 public class Tester2 {
 	Node top;
@@ -33,6 +36,8 @@ public class Tester2 {
 		System.out.println("sqrt is: " + sqrt);
 		System.out.println("sqrt2 is: " + Math.pow(n, 0.5));
 		System.out.println("sqrt2 is: " + Math.sqrt(n));
+		LinkedList<Integer> s = new LinkedList<>();
+		
 		
 	}
 	

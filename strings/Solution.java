@@ -1,20 +1,16 @@
 package strings;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
-
 public class Solution {
 	public static void main(String[] args) {
 		System.out.println(Solution.class.getSimpleName());
 		Solution solu = new Solution();
-		solu.substringsOfAString("abc");
-		varTest();
+		solu.allSubstringsOfAString("abc");
+		longestDuplicateSub("ababcaabcabcaab");
+		//varTest();
 		
 	}
 	
-	public void substringsOfAString(String s){
+	public void allSubstringsOfAString(String s){
 		//System.out.println(s.substring(0, 2));
 		for(int i=0; i<s.length(); i++){ // normal iteration 0 - N
 			for(int k=1; k<=s.length()-i; k++){ // sub iteration 0 - N+1
@@ -23,26 +19,49 @@ public class Solution {
 			}
 		}
 	}
-
-	static ReentrantLock mObject = new ReentrantLock();
-	static Object mObject2 = new Object();
-	public static void varTest(String... strs){
-		List<Integer> list = new ArrayList<>();
-		list.add(1);
-		list.add(2);
-		list.add(3);
-		Iterator<Integer> mIterator = null;
+	
+	public static void longestDuplicateSub(String str){
+		// Get all substrings of str
+		// check duplicate on the fly
+		// hold the longest if true 
 		
-		synchronized(mObject2){
-			mIterator = list.iterator();
-			while(mIterator.hasNext()){
-				System.out.println("iterator "+ mIterator.next());
+		String longest = "";
+		
+		for(int i=0; i<str.length(); i++){
+			for(int k=1; k<=str.length()-i; k++){
+				String sub = str.substring(i,k+i);
+				boolean isSubDuplicate = str.replaceFirst(sub, "").contains(sub);
+				if(isSubDuplicate){
+					longest = sub.length() > longest.length() ? sub : longest;
+				}
 			}
 		}
 		
-		
-		System.out.println(""+strs.length);
-		mObject.lock();
-		mObject.unlock();
+		System.out.println("\nlongestDuplicateSub-> " + longest);
 	}
+	
+	
+	
+
+//	static ReentrantLock mObject = new ReentrantLock();
+//	static Object mObject2 = new Object();
+//	public static void varTest(String... strs){
+//		List<Integer> list = new ArrayList<>();
+//		list.add(1);
+//		list.add(2);
+//		list.add(3);
+//		Iterator<Integer> mIterator = null;
+//		
+//		synchronized(mObject2){
+//			mIterator = list.iterator();
+//			while(mIterator.hasNext()){
+//				System.out.println("iterator "+ mIterator.next());
+//			}
+//		}
+//		
+//		
+//		System.out.println(""+strs.length);
+//		mObject.lock();
+//		mObject.unlock();
+//	}
 }

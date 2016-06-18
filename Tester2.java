@@ -1,138 +1,59 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
 public class Tester2 {
-	Node top;
-	Node first, last;
 
 	public static void main(String[] args) {
 		//System.out.println(Tester2.class.getSimpleName());
 		Tester2 t = new Tester2();
-		t.enqueue(1);
-		t.enqueue(2);
-		t.enqueue(3);
-		System.out.println(t.toString()); //123
-		t.dequeue();
-		System.out.println(t.toString()); //12
-		t.peek(); //2
-		fizzbuzz(15);
-		squareRoot(25.0);
+		int[] arr = {1,2,3,4,5,6};
+		binarySearchAndInsertAtIndex(arr, 7);
 
 	}
 	
-	private static void squareRoot(double n){
-		
-		double sqrt = n/2;
-		double t = 0;
-		
-		do{
+	private static void binarySearchAndInsertAtIndex(int[] arr, int key){
+		Arrays.sort(arr);
+		int lo = 0;
+		int hi = arr.length-1;
+		int mid = 0;
+		while(lo <= hi){
 			
-			t = sqrt;
-			sqrt = (t + n/t)/2;
+			if(key < arr[0]){
+				mid = 0;
+				break;
+			}
+			if(key > arr[hi]){
+				mid = hi+1;
+				break;
+			}
 			
-		}while(t-sqrt!=0);
+			mid = lo +(hi-lo)/2;
+			if(key < arr[mid]){
+				hi = mid-1;
+			}else if(key > arr[mid]){
+				lo = mid+1;
+			}else{
+				System.out.println("found key at index " + mid);
+				return;
+			}
+		}
+		
+		System.out.println("Not found. Put at index " + mid);
+		
+		arr= Arrays.copyOf(arr, arr.length+1);
+		for(int i=arr.length-1; i>mid; i--){
+			int temp = arr[i];
+			arr[i] = arr[i-1];
+			arr[i-1] = temp;
+		}
+		arr[mid] = key;
+		
+		System.out.println("New Array " + Arrays.toString(arr));
+		
+	}
+	
 
-		System.out.println("sqrt is: " + sqrt);
-		System.out.println("sqrt2 is: " + Math.pow(n, 0.5));
-		System.out.println("sqrt2 is: " + Math.sqrt(n));
-		LinkedList<Integer> s = new LinkedList<>();
-		
-		
-	}
-	
-	private static void fizzbuzz(int n){
-		String s = n%5==0 ? (n%3==0 ? "fizzbuzz" : "fizz") : n%3==0 ? "buzz" : "none";
-		s = "none";
-		String fb = "" + (n%15==0);
-		String f = "" + (n%5==0);
-		String b = "" + (n%3==0);
-		
-		switch(fb+f+b){
-		case "truetruetrue": s = "fizzbuzz"; break;
-		case "falsetruefalse": s = "fizz"; break;
-		case "falsefalsetrue": s = "buzz"; break;
-		}
-		
-		System.out.println(s);
-		
-	}
-	
-	public Tester2(){
-		top = null;
-		first = last = null;
-	}
-	
-	public void enqueue(int data){
-		Node newNode = new Node(data);
-		if(first == null){
-			last = first = newNode;
-		}else{
-			last.next = newNode;
-			last = last.next;
-		}
-	}
-	
-	public int dequeue(){
-		if(first==null) return 0;
-		int item = first.data;
-		first = first.next;
-		return item;
-	}
-	
-	public void push(int data){
-		Node newNode = new Node(data);
-		if(top==null){
-			top = newNode;
-		}else{
-			newNode.next = top;
-			top = newNode;
-		}
-	}
-	
-	public int pop(){
-		if(top==null) return 0;
-		
-		int item = top.data;
-		top = top.next;
-		
-		return item;
-	}
-	
-	public int peek(){
-		return top==null ? 0 : top.data;
-	}
-	
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("[ ");
-		
-		// stack
-		Node cur = top;
-		while(cur!=null){
-			buffer.append("[").append(cur.data).append("]");
-			cur = cur.next;
-		}
-		
-		// queue
-		cur = first;
-		while(cur!=null){
-			buffer.append("[").append(cur.data).append("]");
-			cur = cur.next;
-		}
-
-		buffer.append(" ]");
-		return buffer.toString();
-	}
-	
-	private class Node{
-		int data;
-		Node next;
-		public Node(int data){
-			this.data = data;
-			this.next = null;
-		}
-	}
 
 }

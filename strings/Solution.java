@@ -6,8 +6,7 @@ public class Solution {
 		Solution solu = new Solution();
 		solu.allSubstringsOfAString("abc");
 		longestDuplicateSub("ababcaabcabcaab");
-		//varTest();
-		
+		allCaseComboOfString("", "abc");
 	}
 	
 	public void allSubstringsOfAString(String s){
@@ -38,6 +37,20 @@ public class Solution {
 		}
 		
 		System.out.println("\nlongestDuplicateSub-> " + longest);
+	}
+	
+	private static void allCaseComboOfString(String prefix, String word){
+		if(word.length() == 0){
+			System.out.print(prefix + " ");
+			return;
+		}
+		
+		String first = word.substring(0,1);
+		String last = word.substring(1);
+
+		allCaseComboOfString(prefix + first.toLowerCase(), last);
+		allCaseComboOfString(prefix + first.toUpperCase(), last);
+		
 	}
 	
 	

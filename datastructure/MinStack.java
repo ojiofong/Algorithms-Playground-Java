@@ -1,4 +1,4 @@
-package zzz;
+package datastructure;
 
 public class MinStack {
     

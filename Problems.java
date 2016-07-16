@@ -1,11 +1,14 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 public class Problems {
@@ -69,6 +72,7 @@ public class Problems {
 		System.out.println("checkPalindroneAdvanced : " + checkPalindrone("101", "101"));
 		System.out.println("biggestSumOfConsecutiveIntegers : " + biggestSumOfConsecutiveIntegers());
 		System.out.println("getModeInArray : " + getModeInArray());
+		maxNoOfMeetingRooms();
 		// println("" + (int)'a');
 	}
 
@@ -843,6 +847,87 @@ public class Problems {
 		}
 
 		return "sum of biggest subArray: " + sumSoFar;
+	}
+	
+	// Given a list of meetings and times, find the max number of meeting rooms
+	// Avoid time collisions
+	public static int maxNoOfMeetingRooms(){
+		
+		int max = Integer.MIN_VALUE;
+		
+		List<Meeting> meetingList = new ArrayList<>();
+		meetingList.add(new Meeting("a", 900, 1100));
+		meetingList.add(new Meeting("aa", 900, 1100));
+		meetingList.add(new Meeting("c", 1330, 1500));
+		meetingList.add(new Meeting("b", 730, 1200));
+		meetingList.add(new Meeting("aa", 900, 1100));
+		
+
+		System.out.println("BeforeSort -> " + meetingList.toString());
+		
+		Collections.sort(meetingList, new Comparator<Meeting>() {
+
+			@Override
+			public int compare(Meeting lhs, Meeting rhs) {
+				// sort by end time
+				Integer first = lhs.end;
+				Integer last = rhs.end;
+				return first.compareTo(last);
+			}
+		});
+		
+		System.out.println("AfterSort -> " + meetingList.toString());
+		
+		Queue<Meeting> q = new LinkedList<>();
+		q.add(meetingList.get(0)); // the first
+		
+		// start from index 1. already added index 0;
+		for(int i = 1; i < meetingList.size(); i++){
+			Meeting m = meetingList.get(i);
+			while(!q.isEmpty() && q.peek().end < m.start) q.remove();
+			q.add(m);
+			max = Math.max(max, q.size());
+		}
+		
+		
+		System.out.println("Max no. of rooms -> " + max);
+		
+		return max;
+	}
+	
+	private static class Meeting {
+		public String key;
+		public int start; // e.g. 9:30 = 930
+		public int end; // e.g. 14:00 = 1400 (24 hour clock)
+		
+		public Meeting(String key, int start, int end){
+			this.key = key;
+			this.start = start;
+			this.end = end;
+		}
+		
+		public String toString(){
+			return key + "*" + start + "*" + end;
+			
+		}
+		
+//		public boolean timeClash(Meeting meeting){
+//			return (meeting.start >= this.start && meeting.start <= this.end) || 
+//					(meeting.end >= this.start && meeting.end <= this.end );
+//		}
+		
+	}
+	
+	// Adding Meetings to Room;
+	private static class Room {
+		public String key;
+		public List<Meeting> meetings = new ArrayList<>();
+		
+		public Room(List<Meeting> meetings){
+			this.key = key;
+			this.meetings.addAll(meetings);
+		}
+		
 	}
 
 }

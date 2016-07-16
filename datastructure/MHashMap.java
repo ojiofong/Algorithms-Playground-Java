@@ -1,3 +1,4 @@
+package datastructure;
 
 /**
  * Main class- to test HashMap functionality.

@@ -1,6 +1,10 @@
 import java.util.Stack;
 
 public class MStack2 {
+	
+
+	Node top;
+	int size;
 
 	public static void main(String[] args) {
 		// System.out.println("good");
@@ -21,8 +25,6 @@ public class MStack2 {
 		sortStack();
 	}
 
-	Node top;
-	int size;
 
 	public MStack2() {
 		top = null;

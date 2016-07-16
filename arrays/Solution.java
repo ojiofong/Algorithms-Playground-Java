@@ -14,7 +14,7 @@ public class Solution {
 		int numRows = arr2d.length;
 		int numCols = arr2d[0].length;
 		spiralPrint(numRows, numCols, arr2d);
-		spiralPrint2(numRows, numCols, arr2d);
+		spiralPrint2(arr2d);
 	}
 
 	/**
@@ -158,13 +158,15 @@ public class Solution {
 	    }
 	}
 	
-	static void spiralPrint2(int rows, int cols, int[][] arr){
+	static void spiralPrint2(int[][] arr){
 		
 
 		System.out.print("\n....spiralPrint2....\n");
 		
 		int r = 0; // row start
 		int c = 0; // col start
+		int rows = arr.length;
+		int cols = arr[0].length;
 		
 		while(r < rows && c < cols){
 			//right

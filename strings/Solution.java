@@ -7,12 +7,13 @@ public class Solution {
 		solu.allSubstringsOfAString("abc");
 		longestDuplicateSub("ababcaabcabcaab");
 		allCaseComboOfString("", "abc");
+		permutation("", "abc");
 	}
 	
 	public void allSubstringsOfAString(String s){
 		//System.out.println(s.substring(0, 2));
 		for(int i=0; i<s.length(); i++){ // normal iteration 0 - N
-			for(int k=1; k<=s.length()-i; k++){ // sub iteration 0 - N+1
+			for(int k=1; k<=s.length()-i; k++){ // sub iteration 1 - N-i
 				String sub = s.substring(i, i+k);
 				System.out.println(sub + " " + i + " " + (i+k));
 			}
@@ -51,6 +52,16 @@ public class Solution {
 		allCaseComboOfString(prefix + first.toLowerCase(), last);
 		allCaseComboOfString(prefix + first.toUpperCase(), last);
 		
+	}
+	
+	private static void permutation(String prefix, String str) {
+		int n = str.length();
+		if (n == 0)
+			System.out.print(prefix + ", ");
+		else {
+			for (int i = 0; i < n; i++)
+				permutation(prefix + str.charAt(i), str.substring(0, i) + str.substring(i + 1, n));
+		}
 	}
 	
 	

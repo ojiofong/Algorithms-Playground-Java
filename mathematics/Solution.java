@@ -6,6 +6,8 @@ public class Solution {
 		// TODO Auto-generated method stub
 		System.out.println(squareRoot(10));
 		System.out.println(power(3, 2));
+		
+		
 	}
 	
 	public static double squareRoot(int n){

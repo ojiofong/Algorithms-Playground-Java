@@ -18,6 +18,7 @@ public class Solution {
 		spiralPrint2(arr2d);
 		System.out.println("\nEquilibrium index -> " + equilibriumIndex(new int[]{1,2,3,0,3}));
 		addTwoArraysAsDigits(new int[]{9,9,5}, new int[]{2,7});
+		unitsOfWaterOnIsland(new int[]{});
 	}
 
 	/**
@@ -274,6 +275,47 @@ public class Solution {
     	
     	return arr1;
     	
+    }
+    
+    /**
+     *      x o x
+     *	  x x x x o x
+ 	 *	x x x x x x x x    
+	 *	1,2,3,2,3,1,2,1 -> 2 units of water
+	 *
+	 *   	x o x
+   	 *		x o x
+ 	 *	  x x x x     
+ 	 *    1,3,1,3 -> 2 units of water
+	 *
+	 *	Find number of units of water on an island
+	 *
+	 *  Time O(n)  Space O(1)
+     * 
+     * */
+    private static int unitsOfWaterOnIsland(int[] arr){
+
+    	//arr = new int[]{1,2,3,2,3,1,2,1};
+    	arr = new int[]{1, 3, 1, 3};
+
+    	int peak = 0; 
+    	int left = 0;
+    	int right = arr.length - 1;
+    	int ans = 0;
+    	
+    	while(left < right){
+    		if(arr[left] < arr[right]){
+    			peak = Math.max(peak, arr[left]);
+    			ans += peak - arr[left++];
+    		}else{
+    			peak = Math.max(peak, arr[right]);
+    			ans += peak - arr[right--];
+    		}
+    	}
+    	
+    	System.out.println("max units of water -> " + ans);
+    	
+    	return ans;
     }
 
 }// End of class

@@ -2,6 +2,7 @@ package arrays;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Solution {
@@ -16,6 +17,7 @@ public class Solution {
 		spiralPrint(numRows, numCols, arr2d);
 		spiralPrint2(arr2d);
 		System.out.println("\nEquilibrium index -> " + equilibriumIndex(new int[]{1,2,3,0,3}));
+		addTwoArraysAsDigits(new int[]{9,9,5}, new int[]{2,7});
 	}
 
 	/**
@@ -219,5 +221,59 @@ public class Solution {
         } 
         return -1; 
     } 
+    
+    
+    /**
+     * Add two arrays of digits at each index. Carry over if needed.
+     * Returns array as digits only.
+     * For e.g. [9,9,5] and [2,7] returns [1,0,2,2] i.e. 995+27=1022
+     * */
+    private static int[] addTwoArraysAsDigits(int[] arr1, int[] arr2){
+
+//    	arr1 = new int[]{9,9,5};
+//    	arr2 = new int[]{2,7};
+
+    	int carry = 0;
+    	LinkedList<Integer> linkedList = new LinkedList<>();
+    	
+    	// start addition from right to left
+    	int indexOfArr1 = arr1.length - 1;
+    	int indexOfArr2 = arr2.length - 1;
+    	
+    	while(indexOfArr1 >= 0 || indexOfArr2 >= 0){
+    		
+    		// Avoid indexOutOfBoundsException
+    		int v1 = indexOfArr1 >= 0 ? arr1[indexOfArr1--] : 0;
+    		int v2 = indexOfArr2 >= 0 ? arr2[indexOfArr2--] : 0;
+    		int sum = v1 + v2 + carry;
+    		
+    		// if nothing to carry over
+    		if(sum < 10){
+    			carry = 0;
+    			linkedList.addFirst(sum);
+    		}else{
+    			int a = Integer.parseInt(String.valueOf(sum).charAt(0)+"");
+    			int b = Integer.parseInt(String.valueOf(sum).charAt(1)+"");
+    			carry = a;
+    			linkedList.addFirst(b);
+    		}
+    		
+    	}
+    	
+    	if(carry > 0) linkedList.addFirst(carry);
+    	
+    	System.out.println(linkedList.toString());
+    	
+    	// Just return array, let's reuse arr1 object.
+    	arr1 = new int[linkedList.size()];
+    	for(int i=0 ; i < linkedList.size(); i++){
+    		arr1[i] = linkedList.get(i);
+    	}
+    	
+    	System.out.println(Arrays.toString(arr1));
+    	
+    	return arr1;
+    	
+    }
 
 }// End of class

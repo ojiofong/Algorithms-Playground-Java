@@ -908,24 +908,6 @@ public class Problems {
 		
 		public String toString(){
 			return key + "*" + start + "*" + end;
-			
-		}
-		
-//		public boolean timeClash(Meeting meeting){
-//			return (meeting.start >= this.start && meeting.start <= this.end) || 
-//					(meeting.end >= this.start && meeting.end <= this.end );
-//		}
-		
-	}
-	
-	// Adding Meetings to Room;
-	private static class Room {
-		public String key;
-		public List<Meeting> meetings = new ArrayList<>();
-		
-		public Room(List<Meeting> meetings){
-			this.key = key;
-			this.meetings.addAll(meetings);
 		}
 		
 	}

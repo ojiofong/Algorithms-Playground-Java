@@ -15,6 +15,7 @@ public class Solution {
 		int numCols = arr2d[0].length;
 		spiralPrint(numRows, numCols, arr2d);
 		spiralPrint2(arr2d);
+		System.out.println("\nEquilibrium index -> " + equilibriumIndex(new int[]{1,2,3,0,3}));
 	}
 
 	/**
@@ -198,5 +199,25 @@ public class Solution {
 			}
 		}
 	}
+	
+	// Equilibrium index i has sum of left side values = sum of right side values
+	// Returns the first equilibrium index i.
+	// e.g. [1,2,3,0,3] returns index 2 because 1+2->3<-0+3
+	// Time O(n)
+    private static int equilibriumIndex(int[] arr) {
+        int n = arr.length;
+        if (n==0) return -1; 
+        long sum = 0;
+        
+        for(int i=0;i<n;i++) sum += arr[i]; 
+    
+        long sum_left = 0;    
+        for(int i=0;i<n;i++) {
+            long sum_right = sum - sum_left - arr[i];
+            if (sum_left == sum_right) return i;
+            sum_left += arr[i];
+        } 
+        return -1; 
+    } 
 
 }// End of class

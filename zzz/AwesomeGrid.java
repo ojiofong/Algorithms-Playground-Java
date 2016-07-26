@@ -44,7 +44,7 @@ public class AwesomeGrid {
 	static final char BLOCKED = 'X';
 
 	public static void main(String[] args) {
-		int n = 11; // n x n matrix
+		int n = 5; // n x n matrix
 		int rows = n;
 		int cols = n;
 		initializeGrid(rows, cols);

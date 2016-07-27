@@ -6,38 +6,85 @@ public class Solution {
 		// TODO Auto-generated method stub
 		System.out.println(squareRoot(10));
 		System.out.println(power(3, 2));
-		
-		
+		System.out.println("multiply -> " + multiply(1, 6));
+		System.out.println("divide -> " + divide(5, 2));
+
 	}
-	
-	public static double squareRoot(int n){
-		if(n==0) return 0;
-		if(n<0) return 0;
-		
-		double sqrt = n/2;
+
+	public static double squareRoot(int n) {
+		if (n == 0)
+			return 0;
+		if (n < 0)
+			return 0;
+
+		double sqrt = n / 2;
 		double t = 0;
-		do{
+		do {
 			t = sqrt;
-			sqrt = (t + n/t)/2.0;
-		}while(t-sqrt != 0);
-		
+			sqrt = (t + n / t) / 2.0;
+		} while (t - sqrt != 0);
+
 		return sqrt;
 	}
-	
-	public static double power(double base, double exponent){
+
+	public static double power(double base, double exponent) {
 		double ans = 1;
-		if(exponent == 0) return ans;
-		if(base == 0) return 0;
-		
-		for(int i=0; i< Math.abs(exponent); i++){
+
+		if (exponent == 0)
+			return ans;
+
+		if (base == 0)
+			return 0;
+
+		for (int i = 0; i < Math.abs(exponent); i++) {
 			ans *= base;
 		}
-		
-		if(exponent < 0){
-			ans = 1.0/ans; //invert
+
+		if (exponent < 0) {
+			ans = 1.0 / ans; // invert
 		}
-		
+
 		return ans;
+	}
+
+	private static double multiply(double a, double b) {
+
+		double sum = 0;
+
+		for (int i = 0; i < b; i++) {
+			sum += a;
+		}
+
+		return sum;
+	}
+
+	/*
+	 * Integer division
+	 */
+	private static double divide(double a, double b) {
+
+		if (b == 0)
+			throw new ArithmeticException("Division by zero not allowed");
+
+		double result = -1;
+		int sign = 1;
+
+		if (a < 0) {
+			a = -a;
+			sign = -sign;
+		}
+
+		if (b < 0) {
+			b = -b;
+			sign = -sign;
+		}
+
+		while (a >= 0) {
+			a -= b;
+			result++;
+		}
+
+		return result * sign;
 	}
 
 }

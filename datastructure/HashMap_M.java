@@ -3,7 +3,7 @@ package datastructure;
 /**
  * Main class- to test HashMap functionality.
  */
-public class MHashMap {
+public class HashMap_M {
      
     public static void main(String[] args) {
            HashMapCustom<Integer, Integer> hashMapCustom = new HashMapCustom<Integer, Integer>();

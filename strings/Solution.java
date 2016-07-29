@@ -1,5 +1,10 @@
 package strings;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+
 /**
  * Strings
  */
@@ -12,6 +17,9 @@ public class Solution {
 		allCaseComboOfString("", "abc");
 		permutation("", "abc");
 		firstNonRepeatingCharInString("abracadabra");
+		Set<String> dict = new HashSet<>();
+		dict.add("hot"); dict.add("dot");  dict.add("dog");  dict.add("lat");  dict.add("log"); 
+		System.out.println("wordLadder -> "+ wordLadder("hit", "cog", dict));
 	}
 
 	public void allSubstringsOfAString(String s) {
@@ -69,26 +77,24 @@ public class Solution {
 	}
 
 	/**
-	 * Returns the first non repeating character in a string
-	 * Time 0(2n). Space 0(256) or 0(1)
+	 * Returns the first non repeating character in a string Time 0(2n). Space
+	 * 0(256) or 0(1)
 	 */
 	private static Character firstNonRepeatingCharInString(String str) {
 
 		System.out.println("");
-		
+
 		str = "abcda";
 
 		// 0(n^2)
-//		for (int i = 0; i < str.length(); i++) { // 0(n)
-//			char c = str.charAt(i);
-//			int lastindex = str.lastIndexOf(c); // 0(n) 
-//			if (lastindex == str.indexOf(c)) {
-//				System.out.println("1st non repeating char -> " + c);
-//				return c;
-//			}
-//		}
-
-
+		// for (int i = 0; i < str.length(); i++) { // 0(n)
+		// char c = str.charAt(i);
+		// int lastindex = str.lastIndexOf(c); // 0(n)
+		// if (lastindex == str.indexOf(c)) {
+		// System.out.println("1st non repeating char -> " + c);
+		// return c;
+		// }
+		// }
 
 		if (str == null || str.isEmpty())
 			return null;
@@ -114,6 +120,49 @@ public class Solution {
 		System.out.println("no non repeating char detected");
 
 		return null;
+	}
+
+	/**
+	 * Returns the shortest number of steps to build a word ladder from String
+	 * begin - end given a dictionary of words Given start = "hit" & end = "cog"
+	 * dict = ["hot","dot","dog","lot","log"] Shortest transformation is "hit"
+	 * --->"hot"->"dot"->"dog"---> "cog" The program should return its length 5.
+	 */
+	private static int wordLadder(String startWord, String endWord, Set<String> dict) {
+		int count = 0;
+		Queue<String> q = new LinkedList<>();
+		q.add(startWord);
+		dict.add(endWord); // Make sure end word is in dictionary
+
+		while (!q.isEmpty()) {
+			String word = q.remove();
+
+			if (word.equals(endWord)) // terminate here
+				return count;
+
+			char[] arr = word.toCharArray();
+			for (int i = 0; i < arr.length; i++) {
+				char temp = arr[i];
+
+				for (char c='a'; c <= 'z'; c++) {
+					if (arr[i] != c) {
+						arr[i] = c;
+					}
+					
+					String newWord = new String(arr);
+					if (dict.contains(newWord)) { // check if newWord is in dict
+						count++; // found a ladder increment count
+						q.add(newWord); // Add the next new word to check
+						dict.remove(newWord); // remove the new word we already checked
+						System.out.print(newWord + "->");
+					}
+				}
+
+				arr[i] = temp; // reverse any changes to word
+			}
+		}
+
+		return count;
 	}
 
 	// static ReentrantLock mObject = new ReentrantLock();

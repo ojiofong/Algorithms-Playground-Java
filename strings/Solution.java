@@ -20,6 +20,7 @@ public class Solution {
 		Set<String> dict = new HashSet<>();
 		dict.add("hot"); dict.add("dot");  dict.add("dog");  dict.add("lat");  dict.add("log"); 
 		System.out.println("wordLadder -> "+ wordLadder("hit", "cog", dict));
+		printOpenCloseParenthesis(2);
 	}
 
 	public void allSubstringsOfAString(String s) {
@@ -163,6 +164,41 @@ public class Solution {
 		}
 
 		return count;
+	}
+	
+	/**
+	 * Implement an algorithm to print all valid 
+	 * (e.g., properly opened and closed)
+	 *  combinations of n-pairs of parentheses
+	 *  1 => ()
+	 *  2 => ()(), (())
+	 * */
+	private static void printOpenCloseParenthesis(int n){
+		if(n<=0) return; // throw exception
+		char[] arr = new char[n*2]; // need n*2 space
+		printOpenCloseParenthesis(n, 0, 0, 0, arr);
+	}
+	
+	private static void printOpenCloseParenthesis(int n, int pos, int open, int close, char[] arr){
+		
+		if(n == close){ // at the end of length n
+			System.out.println(new String(arr));
+			return;
+		}else{
+			// if we need to close i.e. if we incremented open last 
+			// then it will be greater than close
+			if(open > close){
+				arr[pos] = ')';
+				// increment pos and close - notify we closed at pos index
+				printOpenCloseParenthesis(n, pos+1, open, close+1, arr);
+			}
+			
+			// if we have space to open
+			if(open < n){
+				arr[pos] = '(';
+				printOpenCloseParenthesis(n, pos+1, open+1, close, arr);
+			}
+		}
 	}
 
 	// static ReentrantLock mObject = new ReentrantLock();

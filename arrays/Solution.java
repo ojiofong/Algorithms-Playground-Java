@@ -1,26 +1,60 @@
 package arrays;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Predicate;
 
 public class Solution {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println(doRange100());
-		System.out.println(incrementArrayAsNumberBy1());
-		int[][] arr2d = get2dArray();
-		int numRows = arr2d.length;
-		int numCols = arr2d[0].length;
-		spiralPrint(numRows, numCols, arr2d);
-		spiralPrint2(arr2d);
+		appendRange100(new int[3]);
+		System.out.println("doRange100 -> " + doRange100());
+		System.out.println("incrementArrayAsNumberBy1 -> " + incrementArrayAsNumberBy1(new int[2]));
 		System.out.println("\nEquilibrium index -> " + equilibriumIndex(new int[] { 1, 2, 3, 0, 3 }));
 		addTwoArraysAsDigits(new int[] { 9, 9, 5 }, new int[] { 2, 7 });
 		unitsOfWaterOnIsland(new int[] {});
-		visitAdjacentIndicesOf2dArray(get2dArray(), 1, 1);
+	}
+
+	/**
+	 * Array of Integer 1-100 Return string with ranges that does not exist e.g.
+	 * {5,6,80,90} -> "1-4,7-79,81-89,91-100"
+	 **/
+	private static String appendRange100(int[] arr) {
+		// test input
+		arr = new int[] { 5, 6, 80, 90 };
+		StringBuffer buffer = new StringBuffer();
+		int prev = 0; // current value starts at zero
+
+		for (int i = 0; i < arr.length; i++) {
+
+			int value = arr[i];
+			int diff = Math.abs(value - prev);
+
+			if (diff == 2) {
+				buffer.append(String.format("%s,", value - 1));
+			} else if (diff > 2) {
+				buffer.append(String.format("%s-%s,", prev + 1, value - 1));
+			}
+
+			// finally if at last index
+			if (i == arr.length - 1 && value != 100) {
+				int diff100 = Math.abs(value - 100);
+				if (diff100 == 2) {
+					buffer.append(String.format("%s,", 100 - 1));
+				} else if (diff100 > 2) {
+					buffer.append(String.format("%s-%s,", value + 1, 100));
+				}
+			}
+
+			prev = value;
+		}
+
+		String s = buffer.toString();
+		s = s.substring(0, s.length() - 1); // remove last comma
+
+		System.out.println("appendRange100 -> " + s);
+
+		return buffer.toString();
 	}
 
 	/**
@@ -62,159 +96,61 @@ public class Solution {
 	 * increment it by 1. return an integer array e.g. [9,8,8,4]. No zeros in
 	 * the first position like [0,1,2,3]. No String conversion
 	 */
-	private static String incrementArrayAsNumberBy1() {
-		int[] arr = { 8, 9, 9, 9 };
-		List<Integer> list = new ArrayList<>();
-		boolean flag = true;
+	private static String incrementArrayAsNumberBy1(int[] arr) {
+		arr = new int[] { 8, 9, 9, 9 };
 
-		for (int i = arr.length - 1; i >= 0; i--) {
-			int a = arr[i];
-			int v = flag ? a + 1 : a;
-			flag = v == 10;
-			if (i == 0 && flag) {
-				list.add(0);
-				list.add(1);
-			} else if (flag) {
-				list.add(0);
-			} else if (!flag) {
-				list.add(v);
+		// LinkedList 0(1) insertion
+		// Be sure to add to first or queue to top
+		LinkedList<Integer> linkedList = new LinkedList<>();
+		int carry = 0; // holds the value to carry over
+		int lastIndex = arr.length - 1;
+		// start from last index length-1;
+		for (int i = lastIndex; i >= 0; i--) {
+			// add one at last index only
+			int sum = (i == lastIndex) ? arr[i] + 1 + carry : arr[i] + carry;
+
+			if (sum < 10) {
+				linkedList.addFirst(sum);
+				carry = 0;
+			} else {
+				// incrementing digit of ONLY LAST INDEX by 1 guarantees sum
+				// can't be > 10 i.e. 9+1 = 10, so add zero and carry one
+				carry = 1;
+				linkedList.addFirst(0);
 			}
 		}
 
-		int index = 0;
-		arr = new int[list.size()];
-		for (int i = list.size() - 1; i >= 0; i--) {
-			arr[index++] = list.get(i);
-		}
+		// if we have something carried then add it
+		if (carry > 0)
+			linkedList.addFirst(carry);
 
-		return Arrays.toString(arr);
-	}
+		return linkedList.toString();
 
-	private static int[][] get2dArray() {
-
-		System.out.println("...Fetching Input Array........");
-		int arr[][] = new int[3][6];
-		int rows = arr.length;
-		int cols = arr[0].length;
-		int data = 1;
-		for (int r = 0; r < rows; r++) {
-			for (int c = 0; c < cols; c++) {
-				arr[r][c] = data++;
-				System.out.print(arr[r][c] + " ");
-			}
-			System.out.println("");
-		}
-
-		System.out.println("...Done Fetching Array...");
-
-		return arr;
 	}
 
 	/**
-	 * print2DArraySpiral Input: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 Output:
-	 * 1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10
-	 * {@linkplain http://www.geeksforgeeks.org/print-a-given-matrix-in-spiral-form/}
+	 * Equilibrium index i has sum of left side values = sum of right side
+	 * values Returns the first equilibrium index i. e.g. [1,2,3,0,3] returns
+	 * index 2 because 1+2->3<-0+3 Time O(n)
 	 */
-	static void spiralPrint(int m, int n, int a[][]) {
-		int i, k = 0, l = 0;
-
-		/*
-		 * k - starting row index m - ending row index l - starting column index
-		 * n - ending column index i - iterator
-		 */
-
-		while (k < m && l < n) {
-			/* Print the first row from the remaining rows */
-			for (i = l; i < n; i++) {
-				System.out.print(" " + a[k][i]);
-			}
-			k++;
-
-			/* Print the last column from the remaining columns */
-			for (i = k; i < m; i++) {
-				System.out.print(" " + a[i][n - 1]);
-			}
-			n--;
-
-			/* Print the last row from the remaining rows */
-			if (k < m) {
-				for (i = n - 1; i >= l; i--) {
-					System.out.print(" " + a[m - 1][i]);
-				}
-				m--;
-			}
-
-			/* Print the first column from the remaining columns */
-			if (l < n) {
-				for (i = m - 1; i >= k; i--) {
-					System.out.print(" " + a[i][l]);
-				}
-				l++;
-			}
-		}
-	}
-
-	static void spiralPrint2(int[][] arr) {
-
-		System.out.print("\n....spiralPrint2....\n");
-
-		int r = 0; // row start
-		int c = 0; // col start
-		int rows = arr.length;
-		int cols = arr[0].length;
-
-		while (r < rows && c < cols) {
-			// right
-			for (int i = c; i < cols; i++) {
-				System.out.print(" " + arr[r][i]);
-			}
-			r++; // done with this row
-
-			// down
-			for (int i = r; i < rows; i++) {
-				System.out.print(" " + arr[i][cols - 1]);
-			}
-			cols--; // done with this column
-
-			// left
-			if (r < rows) {
-				for (int i = cols - 1; i >= c; i--) {
-					System.out.print(" " + arr[rows - 1][i]);
-				}
-				rows--; // done with this end row
-			}
-
-			// up
-			if (c < cols) {
-				for (int i = rows - 1; i >= r; i--) {
-					System.out.print(" " + arr[i][c]);
-				}
-				c++; // done with this start column
-			}
-		}
-	}
-
-	// Equilibrium index i has sum of left side values = sum of right side
-	// values
-	// Returns the first equilibrium index i.
-	// e.g. [1,2,3,0,3] returns index 2 because 1+2->3<-0+3
-	// Time O(n)
 	private static int equilibriumIndex(int[] arr) {
 		int n = arr.length;
-		if (n == 0)
-			return -1;
-		long sum = 0;
+		if (n <= 0)
+			throw new IllegalArgumentException();
+		;
+		long totalSum = 0;
 
 		for (int i = 0; i < n; i++)
-			sum += arr[i];
+			totalSum += arr[i];
 
-		long sum_left = 0;
+		long sumLeft = 0;
 		for (int i = 0; i < n; i++) {
-			long sum_right = sum - sum_left - arr[i];
-			if (sum_left == sum_right)
+			long sumRight = totalSum - sumLeft - arr[i];
+			if (sumLeft == sumRight)
 				return i;
-			sum_left += arr[i];
+			sumLeft += arr[i];
 		}
+
 		return -1;
 	}
 
@@ -223,10 +159,10 @@ public class Solution {
 	 * array as digits only. For e.g. [9,9,5] and [2,7] returns [1,0,2,2] i.e.
 	 * 995+27=1022
 	 */
-	private static int[] addTwoArraysAsDigits(int[] arr1, int[] arr2) {
+	private static String addTwoArraysAsDigits(int[] arr1, int[] arr2) {
 
 		// arr1 = new int[]{9,9,5};
-		// arr2 = new int[]{2,7};
+		// arr2 = new int[] { 2, 2 };
 
 		int carry = 0;
 		LinkedList<Integer> linkedList = new LinkedList<>();
@@ -247,10 +183,8 @@ public class Solution {
 				carry = 0;
 				linkedList.addFirst(sum);
 			} else {
-				int a = Integer.parseInt(String.valueOf(sum).charAt(0) + "");
-				int b = Integer.parseInt(String.valueOf(sum).charAt(1) + "");
-				carry = a;
-				linkedList.addFirst(b);
+				carry = 1;
+				linkedList.addFirst(sum - 10);
 			}
 
 		}
@@ -258,30 +192,24 @@ public class Solution {
 		if (carry > 0)
 			linkedList.addFirst(carry);
 
-		System.out.println(linkedList.toString());
+		System.out.println("addTwoArraysAsDigits-> " + linkedList.toString());
 
-		// Just return array, let's reuse arr1 object.
-		arr1 = new int[linkedList.size()];
-		for (int i = 0; i < linkedList.size(); i++) {
-			arr1[i] = linkedList.get(i);
-		}
-
-		System.out.println(Arrays.toString(arr1));
-
-		return arr1;
+		return linkedList.toString();
 
 	}
 
-	/**
-	 * x o x x x x x o x x x x x x x x x 1,2,3,2,3,1,2,1 -> 2 units of water
-	 *
-	 * x o x x o x x x x x 1,3,1,3 -> 2 units of water
-	 *
-	 * Find number of units of water on an island
-	 *
-	 * Time O(n) Space O(1)
-	 * 
-	 */
+	// x o x
+	// x x x x o x
+	// x x x x x x x x
+	// 1,2,3,2,3,1,2,1 -> 2 units of water
+	// =================
+	// x o x
+	// x o x
+	// x x x x
+	// 1,3,1,3 -> 2 units of water
+	// ==================
+	// Find number of units of water on an island
+	// Time O(n) Space O(1)
 	private static int unitsOfWaterOnIsland(int[] arr) {
 
 		// arr = new int[]{1,2,3,2,3,1,2,1};
@@ -305,31 +233,6 @@ public class Solution {
 		System.out.println("max units of water -> " + ans);
 
 		return ans;
-	}
-	
-	private static boolean isIndexInBounds(int index, int length){
-		return index >=0 && index <= length-1;
-	}
-	
-
-	
-	private static void visitAdjacentIndicesOf2dArray(int[][] arr2d, int r, int c) {
-		
-		int rows = arr2d.length;
-		int cols = arr2d[0].length;
-
-		// left
-		if (isIndexInBounds(c-1, cols))
-			System.out.println("left -> " + arr2d[r][c - 1]);
-		// right
-		if (isIndexInBounds(c+1, cols))
-			System.out.println("right -> " + arr2d[r][c + 1]);
-		// up
-		if(isIndexInBounds(r-1, rows))
-			System.out.println("up -> "+ arr2d[r - 1][c]);
-		// down
-		if(isIndexInBounds(r+1, rows))
-			System.out.println("down -> " + arr2d[r + 1][c]);
 	}
 
 }// End of class

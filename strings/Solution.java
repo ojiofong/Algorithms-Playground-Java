@@ -1,9 +1,12 @@
 package strings;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * Strings
@@ -18,8 +21,12 @@ public class Solution {
 		permutation("", "abc");
 		firstNonRepeatingCharInString("abracadabra");
 		Set<String> dict = new HashSet<>();
-		dict.add("hot"); dict.add("dot");  dict.add("dog");  dict.add("lat");  dict.add("log"); 
-		System.out.println("wordLadder -> "+ wordLadder("hit", "cog", dict));
+		dict.add("hot");
+		dict.add("dot");
+		dict.add("dog");
+		dict.add("lat");
+		dict.add("log");
+		System.out.println("wordLadder -> " + wordLadder("hit", "cog", dict));
 		printOpenCloseParenthesis(2);
 	}
 
@@ -145,16 +152,17 @@ public class Solution {
 			for (int i = 0; i < arr.length; i++) {
 				char temp = arr[i];
 
-				for (char c='a'; c <= 'z'; c++) {
+				for (char c = 'a'; c <= 'z'; c++) {
 					if (arr[i] != c) {
 						arr[i] = c;
 					}
-					
+
 					String newWord = new String(arr);
 					if (dict.contains(newWord)) { // check if newWord is in dict
 						count++; // found a ladder increment count
 						q.add(newWord); // Add the next new word to check
-						dict.remove(newWord); // remove the new word we already checked
+						dict.remove(newWord); // remove the new word we already
+												// checked
 						System.out.print(newWord + "->");
 					}
 				}
@@ -165,41 +173,87 @@ public class Solution {
 
 		return count;
 	}
-	
+
 	/**
-	 * Implement an algorithm to print all valid 
-	 * (e.g., properly opened and closed)
-	 *  combinations of n-pairs of parentheses
-	 *  1 => ()
-	 *  2 => ()(), (())
-	 * */
-	private static void printOpenCloseParenthesis(int n){
-		if(n<=0) return; // throw exception
-		char[] arr = new char[n*2]; // need n*2 space
+	 * Implement an algorithm to print all valid (e.g., properly opened and
+	 * closed) combinations of n-pairs of parentheses 1 => () 2 => ()(), (())
+	 */
+	private static void printOpenCloseParenthesis(int n) {
+		if (n <= 0)
+			return; // throw exception
+		char[] arr = new char[n * 2]; // need n*2 space
 		printOpenCloseParenthesis(n, 0, 0, 0, arr);
 	}
-	
-	private static void printOpenCloseParenthesis(int n, int pos, int open, int close, char[] arr){
-		
-		if(n == close){ // at the end of length n
+
+	private static void printOpenCloseParenthesis(int n, int pos, int open, int close, char[] arr) {
+
+		if (n == close) { // at the end of length n
 			System.out.println(new String(arr));
 			return;
-		}else{
-			// if we need to close i.e. if we incremented open last 
+		} else {
+			// if we need to close i.e. if we incremented open last
 			// then it will be greater than close
-			if(open > close){
+			if (open > close) {
 				arr[pos] = ')';
 				// increment pos and close - notify we closed at pos index
-				printOpenCloseParenthesis(n, pos+1, open, close+1, arr);
+				printOpenCloseParenthesis(n, pos + 1, open, close + 1, arr);
 			}
-			
+
 			// if we have space to open
-			if(open < n){
+			if (open < n) {
 				arr[pos] = '(';
-				printOpenCloseParenthesis(n, pos+1, open+1, close, arr);
+				printOpenCloseParenthesis(n, pos + 1, open + 1, close, arr);
 			}
 		}
 	}
+
+	/**
+	 * Return number of chars to delete to form anagram between two Strings
+	 */
+	public static int makeAnagramByDeletingChars(String a, String b) {
+
+		// Match all like characters and frequency - the difference should be
+		// deleted
+		int count = 0; // num of chars to delete to form anagram
+		int[] ascii = new int[256];
+
+		for (char c : a.toCharArray()) {
+			ascii[c]++; // frequency addition
+		}
+
+		for (char c : b.toCharArray()) {
+			ascii[c]--; // frequency subtraction
+		}
+
+		for (int i : ascii) {
+			count += Math.abs(i);
+		}
+
+		return count; // num of chars to delete to form anagram
+	}
+	
+	public static String isBracketBalanced(String s){
+        if(s == null || s.isEmpty()) return "NO";
+        
+        Map<Character, Character> map = new HashMap<>();
+        map.put('(', ')');
+        map.put('{', '}');
+        map.put('[', ']');
+        
+        Stack<Character> stack = new Stack<>();
+        
+        for(char c : s.toCharArray()){
+            if(map.containsKey(c)){
+                stack.push(map.get(c)); // push the closing tag to match later
+            }else{
+               if(stack.isEmpty()) return "NO";
+               if(stack.pop() != c) return "NO";
+            }     
+        }
+        
+        return stack.isEmpty() ? "YES" : "NO";
+        
+    }
 
 	// static ReentrantLock mObject = new ReentrantLock();
 	// static Object mObject2 = new Object();

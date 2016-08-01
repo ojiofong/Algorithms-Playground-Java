@@ -234,5 +234,42 @@ public class Solution {
 
 		return ans;
 	}
+	
+
+	// Kadane's algorithm algorithm relies on at least one positive number
+	// if all negative return the max negative value
+	// This method assumes there's at least one positive number
+    public static int maxSubArray(int[] arr) {
+    	
+        int negativeMax = Integer.MIN_VALUE;
+        if(isAllNegative(arr)){
+            // return the largest negative
+            for(int i : arr){
+                negativeMax = Math.max(negativeMax, i);
+            }
+            return negativeMax;
+        }
+        
+		int length = arr.length;
+
+		int sumCurrent = 0;
+		int sumMaxSub = 0;
+
+		for (int i = 0; i < length; i++) {
+			sumCurrent += arr[i];
+			sumCurrent = Math.max(0, sumCurrent); // return zero if negative
+			sumMaxSub = Math.max(sumCurrent, sumMaxSub); // get the max only
+            
+		}
+
+		return sumMaxSub;
+	}
+    
+    private static boolean isAllNegative(int[] arr){
+        for(int i : arr){
+            if(i > 0) return false;
+        }
+        return true;
+    }
 
 }// End of class

@@ -19,6 +19,7 @@ public class Solution {
 		getMaxMemory(null);
 		maxNoOfMeetingRooms(null);
 		maxNoOfMeetingRooms2(null);
+		maxNoOfMeetingRooms3(null);
 	}
 
 	static class Node {
@@ -211,6 +212,52 @@ public class Solution {
 
 		// returns 4
 		return roomCount;
+	}
+
+	public static int maxNoOfMeetingRooms3(List<Node> list) {
+		// test list data
+		list = new ArrayList<>();
+		list.add(new Node(900, 1100, 0));
+		list.add(new Node(900, 1100, 0));
+		list.add(new Node(1330, 1500, 0));
+		list.add(new Node(730, 1200, 0));
+		list.add(new Node(900, 1100, 0)); // expect 4
+
+		if (list == null || list.isEmpty())
+			return 0;
+
+		// Sort by end times
+		Collections.sort(list, new Comparator<Node>() {
+			public int compare(Node l, Node r) {
+				Long first = l.end;
+				Long last = r.end;
+				return first.compareTo(last);
+			}
+		});
+
+		int rooms = 1;
+		int count = 1;
+
+		for (int i = 0; i < list.size() - 1; i++) {
+			// if no collision reset count
+			if (list.get(i).end < list.get(i + 1).start) {
+				count = 1;
+				System.out.println("no collison");
+			} else {
+				count++;
+				rooms = Math.max(rooms, count);
+				System.out.println("yes collison");
+			}
+		}
+
+
+		for (Node node : list)
+			System.out.print(node.start + "-" + node.end + ", ");
+
+		System.out.println("\nMax no. of rooms3 -> " + rooms);
+
+		// returns 4
+		return rooms;
 	}
 
 }

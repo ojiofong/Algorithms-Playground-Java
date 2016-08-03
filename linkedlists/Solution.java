@@ -10,7 +10,10 @@ public class Solution {
 
 		Node head = getLinkedNodes();
 		printLinkedNodes(head);
+		printLinkedNodes(reverseLL(head));
+		// reversePrint(head);
 		System.out.println("\nnth last node -> " + nthLastNode(head, 2).data);
+		getIntersect(getLinkedNodes(), getLinkedNodes2());
 
 	}
 
@@ -20,11 +23,18 @@ public class Solution {
 			System.out.print("[" + cur.data + "]");
 			cur = cur.next;
 		}
+		System.out.println("");
 	}
 
 	private static Node getLinkedNodes() {
 		Node head = new Node(1);
 		head.next(new Node(2)).next(new Node(3)).next(new Node(4)).next(new Node(5));
+		return head;
+	}
+
+	private static Node getLinkedNodes2() {
+		Node head = new Node(7);
+		head.next(new Node(7)).next(new Node(3)).next(new Node(4)).next(new Node(5));
 		return head;
 	}
 
@@ -119,7 +129,7 @@ public class Solution {
 	public static void reversePrint(Node head) {
 		if (head != null) {
 			reversePrint(head.next);
-			System.out.println(head.data);
+			System.out.print("[" + head.data + "]");
 		}
 
 	}
@@ -159,6 +169,53 @@ public class Solution {
 		}
 
 		return head;
+	}
+
+	public static Node reverseLL(Node head) {
+		Node cur = head;
+		Node prev = null;
+		while (cur != null) {
+			Node temp = cur.next;
+			cur.next = prev;
+			prev = cur;
+			cur = temp;
+		}
+		// very important
+		head = prev;
+
+		return head;
+	}
+
+	public static Node getIntersect(Node head1, Node head2) {
+		// Reverse both LinkedLists and traverse backwards stopping when both
+		// dont match
+		printLinkedNodes(head1);
+		printLinkedNodes(head2);
+
+		Node revHead1 = reverseLinkedList(head1);
+		Node revHead2 = reverseLinkedList(head2);
+		Node prev1 = null;
+
+		while (revHead1 != null || revHead2 != null) {
+
+			if (revHead1.data != revHead2.data) {
+				// println Will throw NullPointerException if no intersection
+				System.out.println("Intersect at " + prev1.data);
+				return prev1;
+			}
+
+			if (revHead1 != null) {
+				prev1 = revHead1;
+				revHead1 = revHead1.next;
+			}
+
+			if (revHead2 != null) {
+				revHead2 = revHead2.next;
+			}
+
+		}
+
+		return null;
 	}
 
 }// End of class

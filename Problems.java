@@ -1,14 +1,11 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 
 public class Problems {
@@ -22,58 +19,73 @@ public class Problems {
 		String s2 = "dbca";
 		String s3 = "aaabcdaaaaa";
 
-		System.out.println("length: " + s1.length());
-		System.out.println("first char: " + s1.charAt(0));
-		System.out.println("last char: " + s1.charAt(s1.length() - 1));
-		System.out.println("Has all unique char: " + allUniqueChar(s1));
-		System.out.println("permutation of other: " + permutationOfOther(s1, s2));
-		System.out.println("compress string: " + s3 + " to " + compress(s3));
-		System.out.println("compress string better: " + s3 + " to " + compressBetter(s3));
-		System.out.println("compress string Remix: " + s3 + " to " + compressRemix(s3));
-
-		String textString = "abcNjhgAhGjhfhAljhRkhgRbhjbevfhO";
-		String sample = "NAGARRO";
-		System.out.println("nagarro : " + nagarro(textString, sample));
+		// System.out.println("length: " + s1.length());
+		// System.out.println("first char: " + s1.charAt(0));
+		// System.out.println("last char: " + s1.charAt(s1.length() - 1));
+		// System.out.println("Has all unique char: " + allUniqueChar(s1));
+		// System.out.println("permutation of other: " + permutationOfOther(s1,
+		// s2));
+		// System.out.println("compress string: " + s3 + " to " + compress(s3));
+		// System.out.println("compress string better: " + s3 + " to " +
+		// compressBetter(s3));
+		// System.out.println("compress string Remix: " + s3 + " to " +
+		// compressRemix(s3));
+		//
+		// String textString = "abcNjhgAhGjhfhAljhRkhgRbhjbevfhO";
+		// String sample = "NAGARRO";
+		// System.out.println("nagarro : " + nagarro(textString, sample));
 		mergeLinkedList();
-		System.out.println("isIsomorphic : " + isIsomorphic("foo", "bar"));
-		duplicateAtIndex("abc", 2);
-		deleteArrayAtIndex("abc", 0);
-		System.out.println("isAnagram : " + isAnagram(s1, s2));
-		System.out.println("isAnagram2 : " + isAnagram2(s1, s2));
-		String shortStr = "xyz";
-		String longStr = "longlonglongxzyfoo";
-		System.out.println("isSubStringAnagram : " + isSubStringAnagram(shortStr, longStr));
-		System.out.println("isSubStringAnagramBetter  : " + isSubStringAnagramBetter(shortStr, longStr));
-		// twoDArray();
-		permutationz("", "abc");
-		String str = "abc";
-		int i = 2;
-		System.out.println("\ntesting substing normal : " + str.substring(0, str.length()));
-		System.out.println("\ntesting substing : " + str.substring(0, i) + ".." + str.substring(i + 1, str.length()));
-		System.out.println("\nisSubStringDuplicate : " + isSubStringDuplicate("foo", "bafoobafoo"));
-		System.out.println("isSubStringDuplicateFast : " + isSubStringDuplicateFast("foo", "bafoobafoo"));
-		System.out.println("addArrayAndNumber  : " + Arrays.toString(addArrayAndNumber(new int[] { 0, 0, 1 }, 4)));
-		System.out.println("lengthOfLargestSubArray  : " + lengthOfLargestSubArray(arr, 2));
-		String intToBinary = Integer.toBinaryString(5);
-		System.out.println("binary print " + intToBinary);
-		String s = "10";
-		int b = Integer.parseInt(s, 2); // converts binary string to int -
-										// Throws NumberFormatException if not
-										// binary
-		System.out.println("binary addition " + Integer.toString(b, 2));
-		println("is_power_of_3Slow " + is_power_of_3Slow(27));
-		println("is_power_of_3Fast " + is_power_of_3Fast(27));
-		println("findDuplicateInArray " + findDuplicateInArray());
-		println("findDuplicateInArrayBetter " + findDuplicateInArrayBetter());
-		println("joinTwoSortedArrays " + joinTwoSortedArrays());
-		println("combinationsofString " + combinationsofString("abc"));
-		println("removeDuplicates " + removeDuplicates("cutcopypaste"));
-		println("canSuffleWithoutRepeatingChar: " + canSuffleWithoutRepeatingChar("apple"));
-		System.out.println("checkPalindroneAdvanced : " + checkPalindrone("101", "101"));
-		System.out.println("biggestSumOfConsecutiveIntegers : " + biggestSumOfConsecutiveIntegers());
-		System.out.println("getModeInArray : " + getModeInArray());
-		maxNoOfMeetingRooms();
-		// println("" + (int)'a');
+		// System.out.println("isIsomorphic : " + isIsomorphic("foo", "bar"));
+		// duplicateAtIndex("abc", 2);
+		// deleteArrayAtIndex("abc", 0);
+		// System.out.println("isAnagram : " + isAnagram(s1, s2));
+		// System.out.println("isAnagram2 : " + isAnagram2(s1, s2));
+		// String shortStr = "xyz";
+		// String longStr = "longlonglongxzyfoo";
+		// System.out.println("isSubStringAnagram : " +
+		// isSubStringAnagram(shortStr, longStr));
+		// System.out.println("isSubStringAnagramBetter : " +
+		// isSubStringAnagramBetter(shortStr, longStr));
+		// // twoDArray();
+		// permutationz("", "abc");
+		// String str = "abc";
+		// int i = 2;
+		// System.out.println("\ntesting substing normal : " + str.substring(0,
+		// str.length()));
+		// System.out.println("\ntesting substing : " + str.substring(0, i) +
+		// ".." + str.substring(i + 1, str.length()));
+		// System.out.println("\nisSubStringDuplicate : " +
+		// isSubStringDuplicate("foo", "bafoobafoo"));
+		// System.out.println("isSubStringDuplicateFast : " +
+		// isSubStringDuplicateFast("foo", "bafoobafoo"));
+		// System.out.println("addArrayAndNumber : " +
+		// Arrays.toString(addArrayAndNumber(new int[] { 0, 0, 1 }, 4)));
+		// System.out.println("lengthOfLargestSubArray : " +
+		// lengthOfLargestSubArray(arr, 2));
+		// String intToBinary = Integer.toBinaryString(5);
+		// System.out.println("binary print " + intToBinary);
+		// String s = "10";
+		// int b = Integer.parseInt(s, 2); // converts binary string to int -
+		// // Throws NumberFormatException if not
+		// // binary
+		// System.out.println("binary addition " + Integer.toString(b, 2));
+		// println("is_power_of_3Slow " + is_power_of_3Slow(27));
+		// println("is_power_of_3Fast " + is_power_of_3Fast(27));
+		// println("findDuplicateInArray " + findDuplicateInArray());
+		// println("findDuplicateInArrayBetter " +
+		// findDuplicateInArrayBetter());
+		// println("joinTwoSortedArrays " + joinTwoSortedArrays());
+		// println("combinationsofString " + combinationsofString("abc"));
+		// println("removeDuplicates " + removeDuplicates("cutcopypaste"));
+		// println("canSuffleWithoutRepeatingChar: " +
+		// canSuffleWithoutRepeatingChar("apple"));
+		// System.out.println("checkPalindroneAdvanced : " +
+		// checkPalindrone("101", "101"));
+		// System.out.println("biggestSumOfConsecutiveIntegers : " +
+		// biggestSumOfConsecutiveIntegers());
+		// System.out.println("getModeInArray : " + getModeInArray());
+		//
+		// // println("" + (int)'a');
 	}
 
 	private static String getModeInArray() {
@@ -85,7 +97,7 @@ public class Problems {
 
 		for (int i = 0; i < length; i++) {
 			for (int k = 0; k < length - 1; k++) {
-				if(arr[i] == arr[k]){
+				if (arr[i] == arr[k]) {
 					tempCount++;
 				}
 			}
@@ -153,43 +165,51 @@ public class Problems {
 	// space].
 	public static void mergeLinkedList() {
 
-		// Not working
+		//  working now using merge from quick sort
 
-		LinkedList<Integer> first = new LinkedList<>();
-		first.addLast(3);
-		first.addLast(6);
-		first.addLast(9);
-		first.addLast(1);
-		first.addLast(2);
-		first.addLast(4);
+		LinkedList<Integer> list = new LinkedList<>();
+		list.addLast(3);
+		list.addLast(5);
+		list.addLast(6);
+		// ----second half-----
+		list.addLast(1);
+		list.addLast(2);
+		list.addLast(4);
 
-		int lo = 0;
-		int hi = first.size() - 1;
-		int mid = lo + (hi - lo) / 2;
+		// Quick Sort
 
+		System.out.println("mergeLinkedList -> " + list.toString());
+		
+		quickSortMerge(list, 0, list.size()-1);
+
+		System.out.println("mergeLinkedList -> " + list.toString());
+
+	}
+
+	private static void quickSortMerge(LinkedList<Integer> list, int lo, int hi){
+		
 		int i = lo;
-		int j = lo;
-		int k = lo;
-
-		while (i < mid && j < hi) {
-			if (first.get(i) < first.get(j)) {
-				first.add(i, first.get(i));
-				i++;
-			} else {
-				first.add(j, first.get(j));
-				j++;
-			}
-			k++;
+		int j = hi;
+		//int mid = lo + (hi -lo)/2;
+		
+		while(i <= j){
+			//while(list.get(i) < list.get(mid)) i++;
+			//while(list.get(j) > list.get(mid)) j--;
+			if(i<= j) swap(list,  i++,  j--);
 		}
 
-		while (i < mid) {
-			first.add(i, first.get(i));
-			i++;
-			k++;
+		if(i <= hi)quickSortMerge(list, i, hi);
+		if(lo <= j)quickSortMerge(list, lo, j);
+	}
 
-		}
-
-		System.out.println(first.toString());
+	private static void swap(LinkedList<Integer> list, int i, int j) {
+		// TODO Auto-generated method stub
+		int temp1 = list.get(i);
+		int temp2 = list.get(j);
+		list.remove(i);
+		list.add(i, temp2);
+		list.remove(j);
+		list.add(j, temp1);
 
 	}
 
@@ -562,7 +582,7 @@ public class Problems {
 
 		return false;
 	}
-	
+
 	public static boolean isSubStringDuplicateFast(String sub, String str) {
 
 		return str.replaceFirst(sub, "").contains(sub);
@@ -847,71 +867,6 @@ public class Problems {
 		}
 
 		return "sum of biggest subArray: " + sumSoFar;
-	}
-	
-	// Given a list of meetings and times, find the max number of meeting rooms
-	// Avoid time collisions
-	public static int maxNoOfMeetingRooms(){
-		
-		int max = Integer.MIN_VALUE;
-		
-		List<Meeting> meetingList = new ArrayList<>();
-		meetingList.add(new Meeting("a", 900, 1100));
-		meetingList.add(new Meeting("aa", 900, 1100));
-		meetingList.add(new Meeting("c", 1330, 1500));
-		meetingList.add(new Meeting("b", 730, 1200));
-		meetingList.add(new Meeting("aa", 900, 1100));
-		
-		// returns 4
-		
-
-		System.out.println("BeforeSort -> " + meetingList.toString());
-		
-		Collections.sort(meetingList, new Comparator<Meeting>() {
-
-			@Override
-			public int compare(Meeting lhs, Meeting rhs) {
-				// sort by end time
-				Integer first = lhs.end;
-				Integer last = rhs.end;
-				return first.compareTo(last);
-			}
-		});
-		
-		System.out.println("AfterSort -> " + meetingList.toString());
-		
-		Queue<Meeting> q = new LinkedList<>();
-		q.add(meetingList.get(0)); // the first
-		
-		// start from index 1. already added index 0;
-		for(int i = 1; i < meetingList.size(); i++){
-			Meeting m = meetingList.get(i);
-			while(!q.isEmpty() && q.peek().end < m.start) q.remove();
-			q.add(m);
-			max = Math.max(max, q.size());
-		}
-		
-		
-		System.out.println("Max no. of rooms -> " + max);
-		
-		return max;
-	}
-	
-	private static class Meeting {
-		public String key;
-		public int start; // e.g. 9:30 = 930
-		public int end; // e.g. 14:00 = 1400 (24 hour clock)
-		
-		public Meeting(String key, int start, int end){
-			this.key = key;
-			this.start = start;
-			this.end = end;
-		}
-		
-		public String toString(){
-			return key + "*" + start + "*" + end;
-		}
-		
 	}
 
 }

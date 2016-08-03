@@ -1,10 +1,24 @@
 package binaryTree;
+
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class BinarySTree {
 
 	static Node root;
+
+	// private class Node {
+	// Node left, right, parent;
+	// public Object data;
+	// public boolean visited;
+	// int key;
+	//
+	// public Node(int key, Object data) {
+	// this.key = key;
+	// this.data = data;
+	// }
+	// }
 
 	public static void main(String[] args) {
 		System.out.println("yes");
@@ -16,48 +30,51 @@ public class BinarySTree {
 		bst.add(1, "1");
 		bst.add(4, "4");
 		bst.add(17, "17");
-		
-		
-//		NodeB root = new NodeB(5);
-//		root.leftChild = new NodeB(10);
-//		root.rightChild = new NodeB(15);
-//		root.leftChild.leftChild = new NodeB(20);
-//		root.leftChild.rightChild = new NodeB(25);
-//		root.rightChild.leftChild = new NodeB(30);
-//		root.rightChild.rightChild = new NodeB(35);
 
-//		 NodeB root = new NodeB(5);
-//		 root.leftChild = new NodeB(10);
-//		 root.rightChild = new NodeB(15);
-//		 root.leftChild.leftChild = new NodeB(20);
-//		 root.leftChild.rightChild = new NodeB(25);
-//		 root.rightChild.leftChild = new NodeB(30);
-//		 root.rightChild.rightChild = new NodeB(35);
+		// NodeB root = new NodeB(5);
+		// root.leftChild = new NodeB(10);
+		// root.rightChild = new NodeB(15);
+		// root.leftChild.leftChild = new NodeB(20);
+		// root.leftChild.rightChild = new NodeB(25);
+		// root.rightChild.leftChild = new NodeB(30);
+		// root.rightChild.rightChild = new NodeB(35);
+
+		// NodeB root = new NodeB(5);
+		// root.leftChild = new NodeB(10);
+		// root.rightChild = new NodeB(15);
+		// root.leftChild.leftChild = new NodeB(20);
+		// root.leftChild.rightChild = new NodeB(25);
+		// root.rightChild.leftChild = new NodeB(30);
+		// root.rightChild.rightChild = new NodeB(35);
 
 		// visitNode(root);
 		// inOrderTraversal(root);
 		// preOrderTraversal(root);
 		levelOrder(root);
-		//BTreePrinter.printNode(root);
-		//levelOrder2()
+		BTreePrinter.printNode(root);
+		serialize(root);
+		// levelOrder2()
 		findBSTMinimumValueDifference(root);
 		System.out.println("minDiff: " + minDiff);
 		// preOrderTraversal(root);
 		// System.out.println("found: " + bst.findNode(7));
-//		System.out.println("height left: " + ProblemsTreesGraphs.getHeight(root.leftChild));
-//		System.out.println("height right: " + ProblemsTreesGraphs.getHeight(root.rightChild));
-//		System.out.println("isTreeBalanced: " + ProblemsTreesGraphs.isTreeBalanced(root));
+		// System.out.println("height left: " +
+		// ProblemsTreesGraphs.getHeight(root.leftChild));
+		// System.out.println("height right: " +
+		// ProblemsTreesGraphs.getHeight(root.rightChild));
+		// System.out.println("isTreeBalanced: " +
+		// ProblemsTreesGraphs.isTreeBalanced(root));
 
 	}
 
 	static void findBSTMinimumValueDifference(Node root) {
 		if (root != null) {
-			findBSTMinimumValueDifference(root.leftChild);
+			findBSTMinimumValueDifference(root.left);
 			if (previous != null && minDiff > root.key - previous.key) {
 				minDiff = root.key - previous.key;
 			}
 			previous = root;
-			findBSTMinimumValueDifference(root.rightChild);
+			findBSTMinimumValueDifference(root.right);
 		}
 	}
 
@@ -80,18 +97,18 @@ public class BinarySTree {
 				parent = focus;
 				if (key < parent.key) {
 					// focus on left child
-					focus = parent.leftChild;
+					focus = parent.left;
 					// if there's nothing on the left
 					if (focus == null) {
-						parent.leftChild = newNode;
+						parent.left = newNode;
 						return; // done;
 					}
 				} else {
 					// focus on the right child
-					focus = parent.rightChild;
+					focus = parent.right;
 					// if there's no right child
 					if (focus == null) {
-						parent.rightChild = newNode;
+						parent.right = newNode;
 						return; // done
 					}
 				}
@@ -115,10 +132,10 @@ public class BinarySTree {
 
 			if (key < focus.key) {
 				// focus on the left
-				focus = focus.leftChild;
+				focus = focus.left;
 			} else {
 				// focus on the right
-				focus = focus.rightChild;
+				focus = focus.right;
 			}
 		}
 
@@ -136,59 +153,107 @@ public class BinarySTree {
 	// START - Traverse
 	public static void inOrderTraversal(Node focus) {
 		if (focus != null) {
-			inOrderTraversal(focus.leftChild);
+			inOrderTraversal(focus.left);
 			visitNode(focus);
-			inOrderTraversal(focus.rightChild);
+			inOrderTraversal(focus.right);
 		}
 	}
 
 	public static void preOrderTraversal(Node focus) {
 		if (focus != null) {
 			visitNode(focus);
-			inOrderTraversal(focus.leftChild);
-			inOrderTraversal(focus.rightChild);
+			inOrderTraversal(focus.left);
+			inOrderTraversal(focus.right);
 		}
 	}
 
 	public static void postOrderTraversal(Node focus) {
 		if (focus != null) {
-			inOrderTraversal(focus.leftChild);
-			inOrderTraversal(focus.rightChild);
+			inOrderTraversal(focus.left);
+			inOrderTraversal(focus.right);
 			visitNode(focus);
 		}
 	}
 
 	// Similar to Breath First Search for Binary Tree
-	private static void levelOrder(Node root){
-		if(root==null) return;
-		
+	public static void levelOrder(Node root) {
+		if (root == null)
+			return;
+
 		Queue<Node> queue = new LinkedList<>();
 		queue.add(root);
-		
-		while(!queue.isEmpty()){
+
+		while (!queue.isEmpty()) {
 			int level = queue.size();
-			while(level-- > 0){
+			while (level-- > 0) {
 				Node r = queue.remove();
 				System.out.print(" " + r.key);
-				if(r.leftChild!=null)queue.add(r.leftChild);
-				if(r.rightChild!=null)queue.add(r.rightChild);
+				if (r.left != null)
+					queue.add(r.left);
+				if (r.right != null)
+					queue.add(r.right);
 			}
 			System.out.println("*"); // New level
 		}
-		
-		
+
 	}
-	
-	private class Node {
-		public Node leftChild, rightChild, parent;
-		public Object data;
-		public boolean visited;
-		int key;
-		
-		public Node(int key, Object data) {
-			this.key = key;
-			this.data = data;
+
+	public static String serialize(Node root) {
+		if (root == null)
+			return null;
+		StringBuffer buffer = new StringBuffer();
+		Queue<Node> q = new LinkedList<>();
+		q.add(root);
+
+		while (!q.isEmpty()) {
+			Node r = q.remove();
+			if (r != null) {
+				buffer.append(r.data).append(",");
+				q.add(r.left);
+				q.add(r.right);
+			} else {
+				buffer.append("#").append(",");
+			}
 		}
+		String s = buffer.deleteCharAt(buffer.length() - 1).toString();
+		System.out.println("serialized -> " + s);
+		deSerialize(s);
+		return s;
+	}
+
+	public static Node deSerialize(String str) {
+		if (str == null || str.isEmpty())
+			return null;
+
+		String[] arr = str.split(",");
+		System.out.println(Arrays.toString(arr));
+		Node root = new Node(Integer.parseInt(arr[0]));
+		Queue<Node> q = new LinkedList<>();
+		q.add(root);
+
+		int i = 1;
+		while (!q.isEmpty()) {
+
+			Node r = q.remove();
+
+			if (r != null) {
+				// left
+				r.left = arr[i].equals("#") ? null : new Node(Integer.parseInt(arr[i]));
+				q.add(r.left);
+				i++;
+
+				// right
+				r.right = arr[i].equals("#") ? null : new Node(Integer.parseInt(arr[i]));
+				q.add(r.right);
+				i++;
+			}
+
+		}
+
+		BTreePrinter.printNode(root);
+		// System.out.println("root yep " );
+
+		return root;
 	}
 
 }

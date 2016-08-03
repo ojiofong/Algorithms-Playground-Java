@@ -3,8 +3,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import binaryTree.DistBtwNodes.Node;
-
 public class BTreePrinter<T> {
 
     public static <T extends Comparable<?>> void printNode(Node root) {

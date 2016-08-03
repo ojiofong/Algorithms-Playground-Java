@@ -170,15 +170,15 @@ public class DistBtwNodes {
 
 	
 
-	public class Node {
-
-		public Node left, right, parent;
-		
-		public int data;
-		
-		public Node(int data) {
-			this.data = data;
-		}
-
-	}
+//	public class Node {
+//
+//		public Node left, right, parent;
+//		
+//		public int data;
+//		
+//		public Node(int data) {
+//			this.data = data;
+//		}
+//
+//	}
 }

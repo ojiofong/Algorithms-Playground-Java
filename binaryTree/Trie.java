@@ -13,10 +13,22 @@ import java.util.TreeMap;
  * Search 0(l)
  * */
 class Trie{
+	
+	class Node{
+	    char letter;
+	    boolean isTerminal=false; // flag for English word
+	    Map<Character,Node> children=new TreeMap<>();
+	    List<Integer> positions = new ArrayList<>();
+	    public Node(){}
+	    public Node(char letter){
+	        this.letter=letter;
+	    }
+	}
     
     
      Node root = new Node();
 
+     // Search 0(l)
      boolean contains(String word){
          Node current = root;
          char[] word_ = word.toCharArray();
@@ -28,8 +40,8 @@ class Trie{
          return current.isTerminal;
      }
     
-
-     List<Integer> getItem(String word){
+     // Insertion/Deletion - 0(l*n) 
+     List<Integer> insertOrGetItem(String word){
          Node current = root;
          char[] word_ = word.toCharArray();
          for(Character c:word_){
@@ -68,16 +80,8 @@ class Trie{
          }
      }
 
-}
+} // End of class
 
-class Node{
-    char letter;
-    boolean isTerminal=false;
-    Map<Character,Node> children=new TreeMap<>();
-    List<Integer> positions = new ArrayList<>();
-    public Node(){}
-    public Node(char letter){
-        this.letter=letter;
-    }
-}
+
+
 

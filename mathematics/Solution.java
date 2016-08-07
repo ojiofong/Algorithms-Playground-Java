@@ -88,15 +88,10 @@ public class Solution {
 	}
 
 	public static boolean checkPrime(int num) {
-		if (num == 1)
+		if (num <= 2 || num % 2 == 0)
 			return false;
-		if (num == 2)
-			return true;
-		if (num % 2 == 0)
-			return false; // Even
-
+		// check prime numbers only up to square root
 		for (int i = 3; i <= Math.sqrt(num); i += 2) {
-			// check prime only up to square root
 			if (num % i == 0)
 				return false;
 		}

@@ -141,6 +141,7 @@ public class Problems {
 	// Give a simple algo.. Eg..
 	// TextString: abcNjhgAhGjhfhAljhRkhgRbhjbevfhO
 	// Sample string :NAGARRO
+	// checks for subsequence
 	public static boolean nagarro(String textString, String sample) {
 		// check for evil inputs later
 
@@ -165,7 +166,7 @@ public class Problems {
 	// space].
 	public static void mergeLinkedList() {
 
-		//  working now using merge from quick sort
+		// working now using merge from quick sort
 
 		LinkedList<Integer> list = new LinkedList<>();
 		list.addLast(3);
@@ -179,27 +180,30 @@ public class Problems {
 		// Quick Sort
 
 		System.out.println("mergeLinkedList -> " + list.toString());
-		
-		quickSortMerge(list, 0, list.size()-1);
+
+		quickSortMerge(list, 0, list.size() - 1);
 
 		System.out.println("mergeLinkedList -> " + list.toString());
 
 	}
 
-	private static void quickSortMerge(LinkedList<Integer> list, int lo, int hi){
-		
+	private static void quickSortMerge(LinkedList<Integer> list, int lo, int hi) {
+
 		int i = lo;
 		int j = hi;
-		//int mid = lo + (hi -lo)/2;
-		
-		while(i <= j){
-			//while(list.get(i) < list.get(mid)) i++;
-			//while(list.get(j) > list.get(mid)) j--;
-			if(i<= j) swap(list,  i++,  j--);
+		// int mid = lo + (hi -lo)/2;
+
+		while (i <= j) {
+			// while(list.get(i) < list.get(mid)) i++;
+			// while(list.get(j) > list.get(mid)) j--;
+			if (i <= j)
+				swap(list, i++, j--);
 		}
 
-		if(i <= hi)quickSortMerge(list, i, hi);
-		if(lo <= j)quickSortMerge(list, lo, j);
+		if (i <= hi)
+			quickSortMerge(list, i, hi);
+		if (lo <= j)
+			quickSortMerge(list, lo, j);
 	}
 
 	private static void swap(LinkedList<Integer> list, int i, int j) {
@@ -247,58 +251,6 @@ public class Problems {
 		return str;
 	}
 
-	public static String compress(String str) {
-		char last = str.charAt(0);
-		int count = 1;
-		String comp = "";
-		// char[] arr = new char[length];
-		for (int i = 1; i < str.length(); i++) {
-			// char c = str.charAt(i);
-			if (str.charAt(i) == last) {
-				count++;
-			} else {
-				comp += last + "" + count;
-				last = str.charAt(i);
-				count = 1;
-			}
-		}
-
-		if (comp.length() < str.length()) {
-			return comp + last + count;
-		}
-
-		return str;
-	}
-
-	public static String compressRemix(String str) {
-		String ss = "";
-		char[] c = str.toCharArray();
-		int length = c.length;
-		char last = c[0];
-		int count = 1;
-
-		for (int i = 1; i < length; i++) {
-			if (c[i] == last) {
-				count++;
-			} else {
-				ss += "" + c[i] + count;
-				last = c[i];
-				count = 1;
-			}
-		}
-
-		if (ss.length() < str.length()) {
-			return ss + last + count;
-		}
-
-		return str;
-	}
-
-	private static void setString(char[] arr, char prev, int count) {
-		// TODO Auto-generated method stub
-
-	}
-
 	// Given two strings, write a method to decide if one is a permutation of
 	// the other
 	public static boolean permutationOfOther(String str1, String str2) {
@@ -319,6 +271,18 @@ public class Problems {
 	// Implement an algorithm to determine if a string has all unique
 	// characters.
 	// What if you cannot use additional data structures?
+	public static boolean allUniqueCharSlow(String str) {
+
+		for (int i = 0; i < str.length(); i++) {
+			for (int k = i + 1; k < str.length(); k++) {
+				if (str.charAt(i) == str.charAt(k)) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public static boolean allUniqueChar(String str) {
 
 		// Assume ASCII string
@@ -335,18 +299,6 @@ public class Problems {
 			arr[str.charAt(i)] = true;
 		}
 
-		return true;
-	}
-
-	public static boolean allUniqueCharSlow(String str) {
-
-		for (int i = 0; i < str.length(); i++) {
-			for (int k = i + 1; k < str.length(); k++) {
-				if (str.charAt(i) == str.charAt(k)) {
-					return false;
-				}
-			}
-		}
 		return true;
 	}
 
@@ -448,15 +400,15 @@ public class Problems {
 		if (s1.length() == 0)
 			return true;
 
-		int[] arr = new int[256]; // unicode, ascii = 128
+		int[] ascii = new int[256]; 
 
 		for (int i = 0; i < s1.length(); i++) {
-			arr[s1.charAt(i)]++;
-			arr[s2.charAt(i)]--;
+			ascii[s1.charAt(i)]++;
+			ascii[s2.charAt(i)]--;
 		}
 
 		for (int i = 0; i < s1.length(); i++) {
-			if (arr[s1.charAt(i)] != 0) {
+			if (ascii[s1.charAt(i)] != 0) {
 				return false;
 			}
 		}
@@ -465,7 +417,41 @@ public class Problems {
 	}
 
 	/**
-	 * O(n) time O(128) space
+	 * Time O(n^2) Space O(1)
+	 */
+	public static boolean isSubStringAnagramNew(String sub, String word) {
+
+		if (sub == null || word == null)
+			throw new IllegalArgumentException();
+		if (sub.length() > word.length())
+			return false;
+
+		int subSum = 0;
+		int subLength = sub.length();
+
+		for (int i = 0; i < subLength; i++) {
+			char c = sub.charAt(i);
+			subSum += Math.pow(c, 2);
+		}
+
+		for (int i = 0; i < word.length(); i++) {
+			int index = i;
+			int curSum = 0;
+			// subLength number of times starting from index i
+			for (int k = 0; k < subLength && index < word.length(); k++) {
+				char c = word.charAt(index);
+				curSum += Math.pow(c, 2);
+			}
+
+			if (curSum == subSum)
+				return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * O(n) time O(256) space
 	 */
 	public static boolean isSubStringAnagramBetter(String shortStr, String longStr) {
 

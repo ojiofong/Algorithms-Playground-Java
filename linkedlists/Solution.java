@@ -14,7 +14,23 @@ public class Solution {
 		// reversePrint(head);
 		System.out.println("\nnth last node -> " + nthLastNode(head, 2).data);
 		getIntersect(getLinkedNodes(), getLinkedNodes2());
+		Node m = merge(getLinkedNodes(), getLinkedNodes2());
+		printLinkedNodes(m);
 
+	}
+	
+	private static Node merge(Node a, Node b){
+		
+		if(a==null)return b;
+		if(b==null)return a;
+		
+		if(a.data > b.data){
+			a.next = merge(a.next, b);
+			return a;
+		}else{
+			b.next = merge(a, b.next);
+			return b;
+		}
 	}
 
 	private static void printLinkedNodes(Node head) {
@@ -57,7 +73,8 @@ public class Solution {
 	}
 
 	private static class Node {
-		public Node next, behind;
+		public Node next;
+		public Node behind;
 		int data;
 
 		public Node(int data) {

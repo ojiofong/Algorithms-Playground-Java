@@ -2,6 +2,7 @@ package arrays;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Solution {
 
@@ -234,22 +235,21 @@ public class Solution {
 
 		return ans;
 	}
-	
 
 	// Kadane's algorithm algorithm relies on at least one positive number
 	// if all negative return the max negative value
 	// This method assumes there's at least one positive number
-    public static int maxSubArray(int[] arr) {
-    	
-        int negativeMax = Integer.MIN_VALUE;
-        if(isAllNegative(arr)){
-            // return the largest negative
-            for(int i : arr){
-                negativeMax = Math.max(negativeMax, i);
-            }
-            return negativeMax;
-        }
-        
+	public static int maxSubArray(int[] arr) {
+
+		int negativeMax = Integer.MIN_VALUE;
+		if (isAllNegative(arr)) {
+			// return the largest negative
+			for (int i : arr) {
+				negativeMax = Math.max(negativeMax, i);
+			}
+			return negativeMax;
+		}
+
 		int length = arr.length;
 
 		int sumCurrent = 0;
@@ -259,17 +259,40 @@ public class Solution {
 			sumCurrent += arr[i];
 			sumCurrent = Math.max(0, sumCurrent); // return zero if negative
 			sumMaxSub = Math.max(sumCurrent, sumMaxSub); // get the max only
-            
+
 		}
 
 		return sumMaxSub;
 	}
-    
-    private static boolean isAllNegative(int[] arr){
-        for(int i : arr){
-            if(i > 0) return false;
-        }
-        return true;
-    }
+
+	private static boolean isAllNegative(int[] arr) {
+		for (int i : arr) {
+			if (i > 0)
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * For N number of input arrays. Find the intersection of N-integer arrays.
+	 */
+	public static Integer intersectionOfNIntegerArrays(List<Integer[]> list) {
+		if (list == null || list.isEmpty())
+			return 0;
+
+		int listIndex = 0;
+		int i = 0;
+		Integer prev = null;
+		while (listIndex < list.size()) {
+			int t = list.size()-1;
+			while (t-- >= 0) {
+				Integer[] arr = list.get(t);
+				
+			}
+
+		}
+
+		return 0;
+	}
 
 }// End of class

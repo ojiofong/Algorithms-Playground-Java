@@ -200,7 +200,7 @@ class HashMapCustom<K, V> {
     }
 
 
-//    The % operator returns a non-positive integer if its first 
+//    The % operator returns a negative integer if its first 
 //    argument is negative, and this would create an array index 
 //    out-of-bounds error. Surprisingly, the absolute value function 
 //    can even return a negative integer. This happens if its argument 

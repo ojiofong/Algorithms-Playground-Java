@@ -1,5 +1,6 @@
 package strings;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ public class Solution {
 		solu.allSubstringsOfAString("abc");
 		longestDuplicateSub("ababcaabcabcaab");
 		allCaseComboOfString("", "abc");
+		System.out.println("");
 		permutation("", "abc");
 		firstNonRepeatingCharInString("abracadabra");
 		Set<String> dict = new HashSet<>();
@@ -28,16 +30,19 @@ public class Solution {
 		dict.add("log");
 		System.out.println("wordLadder -> " + wordLadder("hit", "cog", dict));
 		printOpenCloseParenthesis(2);
+		reverseStringWordsOnly("one two three");
 	}
 
-	public void allSubstringsOfAString(String s) {
-		// System.out.println(s.substring(0, 2));
-		for (int i = 0; i < s.length(); i++) { // normal iteration 0 - N
-			for (int k = 1; k <= s.length() - i; k++) { // sub iteration 1 - N-i
-				String sub = s.substring(i, i + k);
-				System.out.println(sub + " " + i + " " + (i + k));
+	public void allSubstringsOfAString(String str) {
+		int N = str.length();
+		for (int i = 0; i < N; i++) {
+			int t = N;
+			while (t > i) {
+				String sub = str.substring(i, t--);
+				System.out.print("[" + sub + "]");
 			}
 		}
+		System.out.println("");
 	}
 
 	public static void longestDuplicateSub(String str) {
@@ -77,7 +82,7 @@ public class Solution {
 	private static void permutation(String prefix, String str) {
 		int n = str.length();
 		if (n == 0)
-			System.out.print(prefix + ", ");
+			System.out.print(prefix + "* ");
 		else {
 			for (int i = 0; i < n; i++)
 				permutation(prefix + str.charAt(i), str.substring(0, i) + str.substring(i + 1, n));
@@ -231,29 +236,131 @@ public class Solution {
 
 		return count; // num of chars to delete to form anagram
 	}
-	
-	public static String isBracketBalanced(String s){
-        if(s == null || s.isEmpty()) return "NO";
-        
-        Map<Character, Character> map = new HashMap<>();
-        map.put('(', ')');
-        map.put('{', '}');
-        map.put('[', ']');
-        
-        Stack<Character> stack = new Stack<>();
-        
-        for(char c : s.toCharArray()){
-            if(map.containsKey(c)){
-                stack.push(map.get(c)); // push the closing tag to match later
-            }else{
-               if(stack.isEmpty()) return "NO";
-               if(stack.pop() != c) return "NO";
-            }     
-        }
-        
-        return stack.isEmpty() ? "YES" : "NO";
-        
-    }
+
+	public static String isBracketBalanced(String s) {
+		if (s == null || s.isEmpty())
+			return "NO";
+
+		Map<Character, Character> map = new HashMap<>();
+		map.put('(', ')');
+		map.put('{', '}');
+		map.put('[', ']');
+
+		Stack<Character> stack = new Stack<>();
+
+		for (char c : s.toCharArray()) {
+			if (map.containsKey(c)) {
+				stack.push(map.get(c)); // push the closing tag to match later
+			} else {
+				if (stack.isEmpty())
+					return "NO";
+				if (stack.pop() != c)
+					return "NO";
+			}
+		}
+
+		return stack.isEmpty() ? "YES" : "NO";
+
+	}
+
+	public static boolean isSubAnagram(String sub, String word) {
+		if (sub == null || word == null)
+			throw new IllegalArgumentException();
+
+		int subLength = sub.length();
+		int wordLength = word.length();
+		int subSum = 0;
+
+		if (subLength > wordLength)
+			return false;
+
+		for (int i = 0; i < subLength; i++) {
+			char c = sub.charAt(i);
+			subSum += Math.pow(c, 2);
+		}
+
+		for (int i = 0; i < wordLength; i++) {
+			int index = i;
+			int wordSum = 0;
+			for (int k = 0; k < subLength && index < wordLength; k++) {
+				char c = word.charAt(index++);
+				wordSum += Math.pow(c, 2);
+			}
+
+			if (subSum == wordSum)
+				return true;
+
+		}
+
+		return false;
+	}
+
+	/**
+	 * Given any array of +ve integers e.g { 0, 3, 0, 0, 5, 6, 0 } put zeros
+	 * behind ==> Expected 0,0,0,0,3,5,6
+	 * 
+	 */
+	private static void moveZerosBehind() {
+		int[] arr = new int[] { 0, 3, 0, 0, 5, 6, 0 };
+		System.out.println(Arrays.toString(arr));
+
+		int N = arr.length;
+		int k = N - 1;
+
+		// Assigning K index from right to left
+		for (int i = N - 1; i >= 0; i--) {
+			if (arr[i] != 0)
+				arr[k--] = arr[i];
+		}
+
+		// Fill up other spaces with zero
+		while (k >= 0) {
+			arr[k--] = 0;
+		}
+
+		System.out.println(Arrays.toString(arr));
+
+	}
+
+	/**
+	 * Reverse String words only Given: "one two three" Expected: "three two
+	 * one" Note - No extra copy or String.split()
+	 * Time O(n^2)  Space O(1)
+	 */
+	public static void reverseStringWordsOnly(String str) {
+
+		// String equivalent - no extra copy;
+		char[] arr = str.toCharArray();
+		int N = arr.length;
+		int i = 0;
+		int j = N - 1;
+		
+		reverseChars(arr, i, j);
+		
+		for (int k = 0; k < N; k++) {
+			if (String.valueOf(arr[k]).equals(" ")) {
+				reverseChars(arr, i, k - 1); // use k-1
+				i = k + 1;
+			} else if (k == N - 1) {
+				reverseChars(arr, i, k); // use k
+			}
+		}
+
+		System.out.println(new String(arr));
+
+	}
+
+	private static void reverseChars(char[] arr, int lo, int hi) {
+		int i = lo;
+		int j = hi;
+		while (i < j) {
+			char temp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = temp;
+			i++;
+			j--;
+		}
+	}
 
 	// static ReentrantLock mObject = new ReentrantLock();
 	// static Object mObject2 = new Object();
@@ -276,4 +383,4 @@ public class Solution {
 	// mObject.lock();
 	// mObject.unlock();
 	// }
-}
+} // End of class - Strings

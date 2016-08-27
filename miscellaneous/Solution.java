@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Miscellaneous
@@ -20,6 +22,8 @@ public class Solution {
 		maxNoOfMeetingRooms(null);
 		maxNoOfMeetingRooms2(null);
 		maxNoOfMeetingRooms3(null);
+		getValuesRandomlyByWeight(null);
+		performAutoComplete(null, null);
 	}
 
 	static class Node {
@@ -250,7 +254,6 @@ public class Solution {
 			}
 		}
 
-
 		for (Node node : list)
 			System.out.print(node.start + "-" + node.end + ", ");
 
@@ -260,4 +263,129 @@ public class Solution {
 		return rooms;
 	}
 
+	private class NodeRandom {
+		String value;
+		int weight;
+
+		public NodeRandom(String value, int weight) {
+			this.value = value;
+			this.weight = weight;
+		}
+	}
+
+	/*
+	 * Write a function that returns values randomly, according to their weight.
+	 */
+	public static String getValuesRandomlyByWeight(NodeRandom[] inputArr) {
+		// Start - Creating sample input
+		Solution solu = new Solution();
+		NodeRandom n1 = solu.new NodeRandom("Apple", 4);
+		NodeRandom n2 = solu.new NodeRandom("Orange", 2);
+		NodeRandom n3 = solu.new NodeRandom("Grape", 7);
+		inputArr = new NodeRandom[] { n1, n2, n3 };
+		// End - Creating sample input
+
+		int sum = 0;
+		int prev = 0;
+		int[] arr = new int[inputArr.length];
+		for (int i = 0; i < inputArr.length; i++) {
+			arr[i] = inputArr[i].weight + prev;
+			prev = arr[i];
+			sum += arr[i];
+		}
+
+		// now arr = {4, 6, 17}
+		// sum = 4 + 6 + 17
+
+		int key = new Random().nextInt(sum) + 1;
+
+		for (int i = 0; i < arr.length; i++) {
+			//
+			if (key <= arr[i]) {
+				String retValue = inputArr[i].value;
+				System.out.println("Random value by weight -> " + retValue);
+				return retValue;
+			}
+		}
+
+		String retValue = inputArr[arr.length - 1].value;
+		System.out.println("Random value by weight -> " + retValue);
+		return retValue;
+	}
+
+	/*
+	 * Implement Autocomplete.
+	 */
+	public static void performAutoComplete(List<String> listOfString, String sub) {
+		// Start - Creating sample input
+		sub = "subs";
+		listOfString = new ArrayList<>();
+		listOfString.add("substance");
+		listOfString.add("sublet");
+		listOfString.add("subconcious");
+		listOfString.add("substandard");
+		listOfString.add("subordinate");
+		// End - Creating sample input
+
+		List<String> mList = new ArrayList<>();
+		for (String s : listOfString) {
+			if (s.contains(sub)) {
+				mList.add(s);
+			}
+		}
+
+		System.out.println("Autocomplete -> " + mList.toString());
+	}
+
+	private class TrieNode {
+		Map<Character, TrieNode> children;
+		Set<String> words;
+		boolean isTerminal;
+		char c;
+
+		public TrieNode(char c, Map next) {
+			this.c = c;
+			this.children = next;
+		}
+	}
+
+	/*
+	 * Implement Autocomplete with Trie.
+	 */
+	public static void performAutoCompleteWithTrie(TrieNode root, String sub) {
+		// Start - Creating sample input
+		sub = "subs";
+		// End - Creating sample input
+		TrieNode cur = root;
+
+		for (char c : sub.toCharArray()) {
+			TrieNode next = cur.children.get(c);
+			if (next == null)
+				return;
+			cur = next;
+		}
+
+		// Got to the last sub node
+		// Now BFS to print all strings or Add to List<String>
+		List<String> mList = new ArrayList<>();
+
+		Queue<TrieNode> q = new LinkedList<>();
+		q.add(cur);
+
+		while (!q.isEmpty()) {
+			TrieNode r = q.remove();
+			if (r != null) {
+				// print sub
+				if(r.isTerminal )
+				// add next
+				for (char c = 'a'; c <= 'z'; c++) {
+					if (r.children.get(c) != null) {
+						q.add(r.children.get(c));
+					}
+				}
+			}
+		}
+
+		System.out.println("Autocomplete Trie -> ");
+	}
 }

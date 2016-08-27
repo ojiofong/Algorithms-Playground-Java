@@ -1,59 +1,43 @@
 package zzz;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println(Test.class.getSimpleName());
-		// reverseString("12345");
-		// printReverse(1);
-		// isBinaryPalindrome(17);
-		// appendItemToArray(new String[] { "a", "b", "c" }, 3, "#");
-		// isPrime(81);
-		System.out.println("prob -> " + prob());
+		flibBinary(73, 30, 31);
+		
+		LinkedHashMap<String, String> map = new LinkedHashMap<>();
+		
 
 	}
 
-	private static double prob() {
+	private static int flibBinary(int num, int i, int j){
 
-		// delete at pos
-		String s = "one two three";
-		char[] arr = s.toCharArray();
-		int N = s.length();
-		System.out.println("before -> " + s);
-		int i = 0;
-		int j = N - 1;
-		reverseA(arr, i, j);
+		if(i < 0 || i > 31) throw new IndexOutOfBoundsException();
+		if(j < 0 || j > 31) throw new IndexOutOfBoundsException();
 		
-		for (int k = 0; k < N; k++) {
-			char c = arr[k];
-			if (String.valueOf(c).equals(" ")) {
-				reverseA(arr, i, k - 1);
-				i = k + 1;
-			} else if (k == N - 1) {
-				reverseA(arr, i, k);
-			}
-		}
-
-		System.out.println("after -> " + new String(arr));
-		// Expected: three two one.. no space
-
+		String binary = Integer.toBinaryString(num);
+		binary = String.format("%32s", binary).replace(" ", "0");
+		System.out.println(binary);
+		
+		
+		
+		char[] arr = binary.toCharArray();
+		char temp = arr[i];
+		temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+		
+		binary = new String(arr);
+		System.out.println(binary);
+		
+		
+		System.out.println(Integer.parseInt(binary, 2));
 		return 0;
 	}
 
-	private static void reverseA(char[] arr, int lo, int hi) {
-		int i = lo;
-		int j = hi;
-		while (i < j) {
-			char temp = arr[i];
-			arr[i] = arr[j];
-			arr[j] = temp;
-			i++;
-			j--;
-		}
-	}
+
 }

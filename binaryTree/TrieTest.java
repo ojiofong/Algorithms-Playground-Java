@@ -1,4 +1,4 @@
-package binaryTree;
+ package binaryTree;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,7 +14,7 @@ public class TrieTest {
 		Trie t = createIndex(words);
 		// t.print();
 
-		printPositions(t, "at");
+		printPositions(t, "and");
 	}
 
 	static void printPositions(Trie t, String s) {

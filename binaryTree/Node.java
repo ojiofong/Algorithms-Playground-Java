@@ -2,6 +2,7 @@ package binaryTree;
 
 public class Node {
 
+	// usage 1
 	public Node left, right, parent;
 	public int data;
 	
@@ -10,6 +11,7 @@ public class Node {
 	}
 	
 
+	// usage 2
 	public Object objectData;
 	public int key;
 

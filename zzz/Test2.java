@@ -1,56 +1,110 @@
 package zzz;
 
+import java.util.Stack;
+
+import datastructure.MinStack.Node;
+
 public class Test2 {
 
 	public static void main(String[] args) {
-		int x1 = 0;
-		int y1 = 0;
-		int x2 = 1;
-		int y2 = 1;
-		System.out.println(dynamicPaths(x1, y1, x2, y2, 2));
-		int[] arr = {0,3,5,6};
-		//while(arr[i])
+		Node head = getLinkedNodes();
+		Node head2 = getLinkedNodes2();
+		print(head);
+		print(head2);
+		System.out.println("nthlast " + nthLastNode(head).data);
+		// print(reverseLinkedList(head));
+		// print(head);
+		// print(removeDuplicate(head2));
+
 	}
- 
-	public static int dynamicPaths(int x1, int y1, int x2, int y2, int n) {
-		//int[][] array = new int[x2 - x1 + 1][y2 - y1 + 1];
-		int[][] array = new int[n][n];
-		array[0][0] = 0;
- 
-		for (int i = 0; i < x2 - x1; i++) {
-			array[i][0] = 1;
-		}
- 
-		for (int i = 0; i < y2 - y1; i++) {
-			array[0][i] = 1;
-		}
- 
-		for (int i = 1; i < x2 - x1 + 1; i++) {
-			for (int j = 1; j < y2 - y1 + 1; j++) {
-				array[i][j] = array[i][j - 1] + array[i - 1][j];
+
+	private static Node nthLastNode(Node head) {
+		int n = 2;
+		n = n-1;
+		Node cur = head;
+		Node behind = head;
+		
+		while(cur.next != null && cur.next != head){
+			if(n > 0){
+				n--;
+			}else{
+				behind = behind.next;
 			}
+
+			cur = cur.next;
 		}
-		return array[x2 - x1 ][y2 - y1 ];
+		
+		if(n > 0) return null;
+		
+		return behind;
 	}
-	
-	public static int dynamicPaths22(int x1, int y1, int x2, int y2) {
-		int[][] array = new int[x2 - x1 + 1][y2 - y1 + 1];
-		//int[][] array = new int[11][11];
-		array[0][0] = 0;
- 
-		for (int i = 1; i < x2 - x1 + 1; i++) {
-			array[i][0] = 1;
+
+	private static Node getIntersect(Node head1, Node head2) {
+
+		Node cur1 = reverseLinkedList(head1);
+		Node cur2 = reverseLinkedList(head2);
+		Node prev = null;
+		while (cur1 != null && cur2 != null) {
+
+			if (cur1.data != cur2.data)
+				return prev;
+
+			prev = cur1;
+			cur1 = cur1.next;
+			cur2 = cur2.next;
 		}
- 
-		for (int i = 1; i < y2 - y1 + 1; i++) {
-			array[0][i] = 1;
+
+		return prev;
+	}
+
+
+	private static Node reverseLinkedList(Node head) {
+		Node cur = head;
+		Node prev = null;
+		while (cur != null) {
+			Node next = cur.next;
+			cur.next = prev;
+			prev = cur;
+			cur = next;
 		}
- 
-		for (int i = 1; i < x2 - x1 + 1; i++) {
-			for (int j = 1; j < y2 - y1 + 1; j++) {
-				array[i][j] = array[i][j - 1] + array[i - 1][j];
-			}
+		head = prev;
+		return head;
+	}
+
+	private static void print(Node head) {
+		Node cur = head;
+		StringBuilder builder = new StringBuilder();
+		while (cur != null) {
+			builder.append("[" + cur.data + "]");
+			cur = cur.next;
 		}
-		return array[x2 - x1 ][y2 - y1 ];
+		System.out.println(builder.toString());
+	}
+
+	private static Node getLinkedNodes() {
+		Node head = new Node(1);
+		head.next(new Node(2)).next(new Node(3)).next(new Node(4)).next(new Node(5));
+		return head;
+	}
+
+	private static Node getLinkedNodes2() {
+		Node head = new Node(7);
+		head.next(new Node(7)).next(new Node(8)).next(new Node(3)).next(new Node(4)).next(new Node(5));
+		return head;
+	}
+
+	private static class Node {
+		public Node next;
+		public Node behind;
+		int data;
+
+		public Node(int data) {
+			this.data = data;
+		}
+
+		public Node next(Node n) {
+			this.next = n;
+			return n;
+		}
 	}
 }

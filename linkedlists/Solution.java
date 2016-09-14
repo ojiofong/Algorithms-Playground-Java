@@ -211,28 +211,23 @@ public class Solution {
 
 		Node revHead1 = reverseLinkedList(head1);
 		Node revHead2 = reverseLinkedList(head2);
-		Node prev1 = null;
+		Node prev = null;
 
-		while (revHead1 != null || revHead2 != null) {
+		while (revHead1 != null && revHead2 != null) {
 
 			if (revHead1.data != revHead2.data) {
 				// println Will throw NullPointerException if no intersection
-				System.out.println("Intersect at " + prev1.data);
-				return prev1;
+				System.out.println("Intersect at " + prev.data);
+				return prev;
 			}
 
-			if (revHead1 != null) {
-				prev1 = revHead1;
-				revHead1 = revHead1.next;
-			}
-
-			if (revHead2 != null) {
-				revHead2 = revHead2.next;
-			}
+			prev = revHead1;
+			revHead1 = revHead1.next;
+			revHead2 = revHead2.next;
 
 		}
 
-		return null;
+		return prev;
 	}
 
 }// End of class

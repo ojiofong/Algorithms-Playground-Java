@@ -1,110 +1,96 @@
 package zzz;
 
-import java.util.Stack;
-
-import datastructure.MinStack.Node;
+import java.util.Arrays;
 
 public class Test2 {
 
 	public static void main(String[] args) {
-		Node head = getLinkedNodes();
-		Node head2 = getLinkedNodes2();
-		print(head);
-		print(head2);
-		System.out.println("nthlast " + nthLastNode(head).data);
-		// print(reverseLinkedList(head));
-		// print(head);
-		// print(removeDuplicate(head2));
+		directorySolution(getSampleListing());
 
 	}
 
-	private static Node nthLastNode(Node head) {
-		int n = 2;
-		n = n-1;
-		Node cur = head;
-		Node behind = head;
-		
-		while(cur.next != null && cur.next != head){
-			if(n > 0){
-				n--;
-			}else{
-				behind = behind.next;
+	/*-
+	 * Given a listing of files and directories in a file system
+	 * as a String separated by new lines and space indentation
+	 * 
+	 * dir1
+	 *  dir11
+	 *  dir12
+	 *   picture.jpg
+	 *   dir121
+	 *   file1.txt
+	 * dir2
+	 *  file2.gif
+	 *  
+	 * Find the longest absolute path to an image file (.jpg or .gif)
+	 * From sample /dir1/dir12/picture.jpg is 24 characters long
+	 * 
+	 * */
+	private static int directorySolution(String str) {
+		int max = 0;
+		String[] arr = str.split("\n");
+
+		System.out.println(str);
+		System.out.println(Arrays.toString(arr));
+		System.out.println(isImage("test.jpg"));
+
+		// Algorithm is to read from reverse once we find an image
+		for (int i = 0; i < arr.length; i++) {
+			String s = arr[i];
+			if (isImage(s)) {
+				int indentCount = indentCount(s);
+				int loopTime = indentCount;
+				int index = i;
+				StringBuilder sb = new StringBuilder();
+				sb.append(s.trim());
+				while (loopTime > 0) {
+					index--;
+					int parentIndent = indentCount(arr[index]);
+					if (parentIndent == indentCount)
+						continue;
+
+					sb.append("/").append(arr[index].trim());
+
+					loopTime--;
+				}
+				sb.append("/");
+				System.out.println(sb.toString());
+
+				max = Math.max(max, sb.length());
+
+				System.out.println("Max Directory " + max);
 			}
-
-			cur = cur.next;
-		}
-		
-		if(n > 0) return null;
-		
-		return behind;
-	}
-
-	private static Node getIntersect(Node head1, Node head2) {
-
-		Node cur1 = reverseLinkedList(head1);
-		Node cur2 = reverseLinkedList(head2);
-		Node prev = null;
-		while (cur1 != null && cur2 != null) {
-
-			if (cur1.data != cur2.data)
-				return prev;
-
-			prev = cur1;
-			cur1 = cur1.next;
-			cur2 = cur2.next;
 		}
 
-		return prev;
+		return max;
 	}
 
+	private static String getSampleListing() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("dir1").append("\n");
+		sb.append(" dir11").append("\n");
+		sb.append(" dir12").append("\n");
+		sb.append("  picture.jpg").append("\n");
+		sb.append("  dir121").append("\n");
+		sb.append("  file1.txt").append("\n");
+		sb.append("dir2").append("\n");
+		sb.append(" file2.gif");
 
-	private static Node reverseLinkedList(Node head) {
-		Node cur = head;
-		Node prev = null;
-		while (cur != null) {
-			Node next = cur.next;
-			cur.next = prev;
-			prev = cur;
-			cur = next;
-		}
-		head = prev;
-		return head;
+		return sb.toString();
 	}
 
-	private static void print(Node head) {
-		Node cur = head;
-		StringBuilder builder = new StringBuilder();
-		while (cur != null) {
-			builder.append("[" + cur.data + "]");
-			cur = cur.next;
-		}
-		System.out.println(builder.toString());
+	private static int indentCount(String str) {
+		return str.length() - str.replace(" ", "").length();
 	}
 
-	private static Node getLinkedNodes() {
-		Node head = new Node(1);
-		head.next(new Node(2)).next(new Node(3)).next(new Node(4)).next(new Node(5));
-		return head;
+	private static String ext(String str) {
+		if (!str.contains("."))
+			return null;
+		return str.substring(str.lastIndexOf("."), str.length());
 	}
 
-	private static Node getLinkedNodes2() {
-		Node head = new Node(7);
-		head.next(new Node(7)).next(new Node(8)).next(new Node(3)).next(new Node(4)).next(new Node(5));
-		return head;
+	private static boolean isImage(String str) {
+		return ".jpg".equals(ext(str)) || ".gif".equals(ext(str));
 	}
 
-	private static class Node {
-		public Node next;
-		public Node behind;
-		int data;
-
-		public Node(int data) {
-			this.data = data;
-		}
-
-		public Node next(Node n) {
-			this.next = n;
-			return n;
-		}
-	}
 }

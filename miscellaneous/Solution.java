@@ -20,8 +20,6 @@ public class Solution {
 	public static void main(String[] args) {
 		getMaxMemory(null);
 		maxNoOfMeetingRooms(null);
-		maxNoOfMeetingRooms2(null);
-		maxNoOfMeetingRooms3(null);
 		getValuesRandomlyByWeight(null);
 		performAutoComplete(null, null);
 		directorySolution(getSampleListing());
@@ -121,6 +119,7 @@ public class Solution {
 		return maxRam;
 	}
 
+
 	/*
 	 * Given a list of meetings and times, find the max number of meeting rooms
 	 * Request additional room if there's a time collision
@@ -137,128 +136,26 @@ public class Solution {
 		if (list == null || list.isEmpty())
 			return 0;
 
-		int roomCount = 0;
-
-		Collections.sort(list, new Comparator<Node>() {
-			public int compare(Node lhs, Node rhs) {
-				Long first = lhs.end;
-				Long last = rhs.end;
-				return first.compareTo(last);
-			}
-		});
-
-		for (Node n : list)
-			System.out.print(n.start + "-" + n.end + ", ");
-
-		Queue<Node> q = new LinkedList<>();
-		q.add(list.get(0));
-
-		for (int i = 1; i < list.size(); i++) {
-			Node curr = list.get(i);
-			while (!q.isEmpty() && curr.start > q.peek().end) {
-				q.remove();
-			}
-			q.add(curr);
-			roomCount = Math.max(roomCount, q.size());
-
-		}
-
-		System.out.println("\nMax no. of rooms -> " + roomCount);
-
-		// returns 4
-		return roomCount;
-	}
-
-	public static int maxNoOfMeetingRooms2(List<Node> list) {
-		// test list data
-		list = new ArrayList<>();
-		list.add(new Node(900, 1100, 0));
-		list.add(new Node(900, 1100, 0));
-		list.add(new Node(1330, 1500, 0));
-		list.add(new Node(730, 1200, 0));
-		list.add(new Node(900, 1100, 0)); // expect 4
-
-		if (list == null || list.isEmpty())
-			return 0;
-
-		long[] start = new long[list.size()];
-		long[] end = new long[list.size()];
-		for (int i = 0; i < list.size(); i++) {
-			start[i] = list.get(i).start;
-			end[i] = list.get(i).end;
-		}
-
-		// Sort O(n log n)
-		Arrays.sort(start);
-		Arrays.sort(end);
-
-		int roomCount = 1; // At least one room
-		int i = 0; // index curr
-		int j = 1; // index curr + 1
-		int roomNeeded = 0;
-		int n = list.size();
-
-		while (i < n && j < n) {
-			// collision
-			if (start[i] < end[j]) {
-				roomNeeded++;
-				i++;
-				roomCount = Math.max(roomCount, roomNeeded);
-			} else {
-				roomNeeded--;
-				j++;
-			}
-		}
-
-		for (Node node : list)
-			System.out.print(node.start + "-" + node.end + ", ");
-
-		System.out.println("\nMax no. of rooms2 -> " + roomCount);
-
-		// returns 4
-		return roomCount;
-	}
-
-	public static int maxNoOfMeetingRooms3(List<Node> list) {
-		// test list data
-		list = new ArrayList<>();
-		list.add(new Node(900, 1100, 0));
-		list.add(new Node(900, 1100, 0));
-		list.add(new Node(1330, 1500, 0));
-		list.add(new Node(730, 1200, 0));
-		list.add(new Node(900, 1100, 0)); // expect 4
-
-		if (list == null || list.isEmpty())
-			return 0;
-
 		// Sort by end times
 		Collections.sort(list, new Comparator<Node>() {
-			public int compare(Node l, Node r) {
-				Long first = l.end;
-				Long last = r.end;
-				return first.compareTo(last);
+			public int compare(Node lhs, Node rhs) {
+				return Long.compare(lhs.end, rhs.end);
 			}
 		});
 
-		int rooms = 1;
-		int count = 1;
+		int rooms = list.isEmpty() ? 0 : 1;
 
 		for (int i = 0; i < list.size() - 1; i++) {
-			// if no collision reset count
-			if (list.get(i).end < list.get(i + 1).start) {
-				count = 1;
-				System.out.println("no collison");
-			} else {
-				count++;
-				rooms = Math.max(rooms, count);
-				System.out.println("yes collison");
+			// if there's collision, increment rooms
+			if (list.get(i).end >= list.get(i + 1).start) {
+				rooms++;
 			}
 		}
 
 		for (Node node : list)
 			System.out.print(node.start + "-" + node.end + ", ");
 
-		System.out.println("\nMax no. of rooms3 -> " + rooms);
+		System.out.println("\nMax no. of rooms4 -> " + rooms);
 
 		// returns 4
 		return rooms;

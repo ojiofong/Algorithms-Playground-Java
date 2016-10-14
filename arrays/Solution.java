@@ -284,15 +284,45 @@ public class Solution {
 		int i = 0;
 		Integer prev = null;
 		while (listIndex < list.size()) {
-			int t = list.size()-1;
+			int t = list.size() - 1;
 			while (t-- >= 0) {
 				Integer[] arr = list.get(t);
-				
+
 			}
 
 		}
 
 		return 0;
+	}
+
+	/*-
+	 * Generate all combinations of size r in arr[] of size n:
+	 * 
+	    int[] arr = new int[] { 1, 2, 3, 4, 5 };
+	    int r = 3;
+	    int n = arr.length;
+	    int data[] = new int[r];
+	    
+	 *  outputs: 123, 124, 125, 134...345
+	 */
+	static void combinationsOfSizeR(int arr[], int n, int r, int index, int data[], int i) {
+		// Current combination is ready to be printed, print it
+		if (index == r) {
+			System.out.println(Arrays.toString(data));
+			return;
+		}
+
+		// When no more elements are there to put in data[]
+		if (i >= n)
+			return;
+
+		// current is included, put next at next location
+		data[index] = arr[i];
+		combinationsOfSizeR(arr, n, r, index + 1, data, i + 1);
+
+		// current is excluded, replace it with next (Note that i+1 is passed,
+		// but index is not changed)
+		combinationsOfSizeR(arr, n, r, index, data, i + 1);
 	}
 
 }// End of class

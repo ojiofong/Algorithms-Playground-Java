@@ -71,28 +71,28 @@ public class AVLTree {
 
     private static Node rotateWithLeft(Node root){
        
-        Node n1 = root.left;
-        root.left = n1.right;
-        n1.right = root;
+        Node n = root.left;
+        root.left = n.right;
+        n.right = root;
         
         //update heights
         root.ht = height(root);
-        n1.ht = height(n1);
+        n.ht = height(n);
         
-        return n1;
+        return n;
    }
 
     private static Node rotateWithRight(Node root){
 
-            Node n1 = root.right;
-            root.right = n1.left;
-            n1.left = root;
+            Node n = root.right;
+            root.right = n.left;
+            n.left = root;
 
             //update heights
             root.ht = height(root);
-            n1.ht = height(n1);
+            n.ht = height(n);
 
-            return n1;
+            return n;
     }
 
     private static Node doubleWithLeft(Node root){

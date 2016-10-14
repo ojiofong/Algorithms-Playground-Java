@@ -304,6 +304,8 @@ public class Solution {
 	    int data[] = new int[r];
 	    
 	 *  outputs: 123, 124, 125, 134...345
+	 *  
+	 *  Complexity O(n choose k) = O(n!/k!(n-k)!) = O(n!) since k is constant
 	 */
 	static void combinationsOfSizeR(int arr[], int n, int r, int index, int data[], int i) {
 		// Current combination is ready to be printed, print it

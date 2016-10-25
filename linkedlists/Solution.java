@@ -17,6 +17,7 @@ public class Solution {
 		Node m = merge(getLinkedNodes(), getLinkedNodes2());
 		printLinkedNodes(m);
 		seperateEvenOdd(head);
+		deepCopyLinkedList(getLinkedNodes());
 
 	}
 
@@ -239,7 +240,10 @@ public class Solution {
 	**/
 	private static void seperateEvenOdd(Node head) {
 		System.out.println("seperateEvenOdd");
-		head = getLinkedNodes();
+		 head = new Node(17);
+		head.next(new Node(15)).next(new Node(8)).next(new Node(12)).next(new Node(10))
+		.next(new Node(5)).next(new Node(4)).next(new Node(1)).next(new Node(7))
+		.next(new Node(6));
 
 		printLinkedNodes(head);
 
@@ -279,6 +283,34 @@ public class Solution {
 
 		printLinkedNodes(head);
 
+	}
+	
+	private static void deepCopyLinkedList(Node head){
+		if(head == null) return;
+		
+		System.out.println("deepCopyLinkedList");
+		printLinkedNodes(head);
+		
+		Node cur = head;
+		Node copyHead = null;
+		Node last = null;
+		
+		while(cur!=null){
+
+			Node newNode = new Node(cur.data);
+			
+			if(last == null){
+				copyHead = newNode;
+				last = copyHead;
+			}else{
+				last.next = newNode;
+				last = newNode;
+			}
+			
+			cur = cur.next;
+		}
+		
+		printLinkedNodes(copyHead);
 	}
 
 }// End of class

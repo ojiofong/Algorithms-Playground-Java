@@ -14,6 +14,8 @@ public class Solution {
 		System.out.println("\nEquilibrium index -> " + equilibriumIndex(new int[] { 1, 2, 3, 0, 3 }));
 		addTwoArraysAsDigits(new int[] { 9, 9, 5 }, new int[] { 2, 7 });
 		unitsOfWaterOnIsland(new int[] {});
+		combinationsOfSizeR(null, 0, 0, null, 0);
+		seperateEvenOdd(null);
 	}
 
 	/**
@@ -325,6 +327,50 @@ public class Solution {
 		// current is excluded, replace it with next (Note that i+1 is passed,
 		// but index is not changed)
 		combinationsOfSizeR(arr, n, r, index, data, i + 1);
+	}
+
+	// Second solution one less argument
+	static void combinationsOfSizeR(int arr[], int r, int count, int data[], int i) {
+		// Current combination is ready to be printed, print it
+		if (count == r) {
+			System.out.println(Arrays.toString(data));
+			return;
+		}
+
+		// When no more elements are there to put in data[]
+		if (i >= arr.length)
+			return;
+
+		data[count] = arr[i];
+		combinationsOfSizeR(arr, r, count + 1, data, i + 1);
+		combinationsOfSizeR(arr, r, count, data, i + 1);
+	}
+
+	/*-
+	Input: 17->15->8->12->10->5->4->1->7->6->NULL
+	Output: 8->12->10->4->6->17->15->5->1->7->NULL
+	**/
+	private static void seperateEvenOdd(int[] arr) {
+
+		arr = new int[] { 17, 15, 8, 12, 10, 5, 4, 1, 7, 6 };
+		System.out.println("input: " + Arrays.toString(arr));
+
+		int index = 0;
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] % 2 == 0) {
+				moveToIndex(arr, i, index++);
+			}
+		}
+		System.out.println("output: " + Arrays.toString(arr));
+
+	}
+
+	private static void moveToIndex(int[] arr, int i, int index) {
+		int temp = arr[i];
+		for (int k = i; k >= index + 1; k--) {
+			arr[k] = arr[k - 1];
+		}
+		arr[index] = temp;
 	}
 
 }// End of class

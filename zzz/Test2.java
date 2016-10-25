@@ -1,69 +1,44 @@
 package zzz;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.regex.Pattern;
 
 public class Test2 {
 
 	public static void main(String[] args) {
 		// solve(null, null);
-		System.out.println("ans " + solve(null, null));
-		int[] arr = new int[] { 1, 2, 3, 4, 5 };
-        int r = 3;
-        int n = arr.length;
-        int data[] = new int[r];
-        combinationsOfSizeR(arr, n, r, 0, data, 0);
+		// System.out.println("ans " + solve(null, null));
+
+		System.out.println("ans " + Pattern.matches("a.b", "adb"));
+		seperateEvenOdd(null);
 
 	}
 
+	/*-
+	  	Input: 17->15->8->12->10->5->4->1->7->6->NULL
+		Output: 8->12->10->4->6->17->15->5->1->7->NULL
+	 **/
+	private static void seperateEvenOdd(int[] arr) {
 
-	/**
-	 * determine if a given word is comprised of two words within a given list.
-	 * e.g. Given list: ["test", "hello", "world"] e.g. Given word:
-	 * "abcHellomyWorldstar" Returns true - not case sensitive
-	 */
-	private static boolean solve(String word, List<String> list) {
-		// Test input start
-		word = "abcHellomyWorldstar";
-		word = word.toLowerCase();
-		list = Arrays.asList(new String[] { "test", "hello", "world" });
-		// Test input end
+		arr = new int[] { 17, 15, 8, 12, 10, 5, 4, 1, 7, 6 };
+		System.out.println("input: " + Arrays.toString(arr));
 
-		int count = 0;
-		for (String s : list) {
-			if (word.contains(s.toLowerCase()))
-				count++;
-			if (count >= 2)
-				return true;
+		int index = 0;
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] % 2 == 0) {
+				moveToIndex(arr, i, index++);
+			}
 		}
-
-		return false;
+		System.out.println("output: " + Arrays.toString(arr));
 
 	}
 
-	// The main function that prints all combinations of size r in arr[] of size n.
-	/**
-	 * Generate all combinations of size r in arr[] of size n:
-	 * e.g. arr= { 1, 2,3, 4, 5 } and r = 3 prints = 123, 124, 125, 134...345
-	 */
-	static void combinationsOfSizeR(int arr[], int n, int r, int index, int data[], int i) {
-		// Current combination is ready to be printed, print it
-		if (index == r) {
-			System.out.println(Arrays.toString(data));
-			return;
+	private static void moveToIndex(int[] arr, int i, int index) {
+		int temp = arr[i];
+		for (int k = i; k >= index + 1; k--) {
+			arr[k] = arr[k - 1];
 		}
-
-		// When no more elements are there to put in data[]
-		if (i >= n)
-			return;
-
-		// current is included, put next at next location
-		data[index] = arr[i];
-		combinationsOfSizeR(arr, n, r, index + 1, data, i + 1);
-
-		// current is excluded, replace it with next (Note that i+1 is passed, but index is not changed)
-		combinationsOfSizeR(arr, n, r, index, data, i + 1);
+		arr[index] = temp;
 	}
 
 }

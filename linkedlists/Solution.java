@@ -16,18 +16,21 @@ public class Solution {
 		getIntersect(getLinkedNodes(), getLinkedNodes2());
 		Node m = merge(getLinkedNodes(), getLinkedNodes2());
 		printLinkedNodes(m);
+		seperateEvenOdd(head);
 
 	}
-	
-	private static Node merge(Node a, Node b){
-		
-		if(a==null)return b;
-		if(b==null)return a;
-		
-		if(a.data > b.data){
+
+	private static Node merge(Node a, Node b) {
+
+		if (a == null)
+			return b;
+		if (b == null)
+			return a;
+
+		if (a.data > b.data) {
 			a.next = merge(a.next, b);
 			return a;
-		}else{
+		} else {
 			b.next = merge(a, b.next);
 			return b;
 		}
@@ -228,6 +231,54 @@ public class Solution {
 		}
 
 		return prev;
+	}
+
+	/*-
+	Input: 17->15->8->12->10->5->4->1->7->6->NULL
+	Output: 8->12->10->4->6->17->15->5->1->7->NULL
+	**/
+	private static void seperateEvenOdd(Node head) {
+		System.out.println("seperateEvenOdd");
+		head = getLinkedNodes();
+
+		printLinkedNodes(head);
+
+		boolean foundN = false;
+		Node cur = head;
+		Node prevCur = null;
+		Node lastEven = null;
+		Node n = head; // pivot odd number
+
+		while (cur != null) {
+
+			// Find n pivot stop point. i.e. first odd number
+			// Keep going until odd no. is found
+			if (!foundN && n.data % 2 == 0) {
+				foundN = true;
+				n = cur;
+			}
+
+			// if even number.. swap
+			if (cur.data % 2 == 0) {
+				
+				prevCur.next = prevCur.next.next; // erase cur
+				
+				if (n == head) {
+					cur.next = n;
+					head = cur;
+				}else{
+					cur.next = lastEven.next;
+					lastEven.next = cur;
+				}
+				lastEven = cur; // must be at the end
+			}
+
+			prevCur = cur;
+			cur = cur.next;
+		}
+
+		printLinkedNodes(head);
+
 	}
 
 }// End of class

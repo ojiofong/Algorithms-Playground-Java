@@ -249,23 +249,29 @@ public class Solution {
 
 		boolean foundN = false;
 		Node cur = head;
-		Node prevCur = null;
+		Node prev = null;
 		Node lastEven = null;
-		Node n = head; // pivot odd number
+		Node n = null; // holds first odd number
 
 		while (cur != null) {
 
 			// Find n pivot stop point. i.e. first odd number
-			// Keep going until odd no. is found
-			if (!foundN && n.data % 2 == 0) {
-				foundN = true;
-				n = cur;
+			if (!foundN) { 
+				n = cur; // Keep going until odd no. is found
+				if (n.data % 2 != 0) { // stop at first odd no.
+					foundN = true;
+					System.out.println("n found: " + n.data);
+				}
+			}
+			
+			if(cur.data % 2 ==0 && !foundN){
+				lastEven = cur; // know the lastEven no. if not foundN
 			}
 
-			// if even number.. swap
-			if (cur.data % 2 == 0) {
+			// if even number and foundN
+			if (cur.data % 2 == 0 && foundN) {
 				
-				prevCur.next = prevCur.next.next; // erase cur
+				prev.next = cur.next; // erase cur
 				
 				if (n == head) {
 					cur.next = n;
@@ -274,10 +280,10 @@ public class Solution {
 					cur.next = lastEven.next;
 					lastEven.next = cur;
 				}
-				lastEven = cur; // must be at the end
+				lastEven = cur; // update lastEven..must be at the end
 			}
 
-			prevCur = cur;
+			prev = cur;
 			cur = cur.next;
 		}
 

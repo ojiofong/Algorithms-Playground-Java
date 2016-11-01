@@ -14,6 +14,8 @@ public class HashMap_M<K, V> {
 		System.out.println("" + map.get("1") + " " + map.containsKey("1"));
 		System.out.println("" + map.get("2") + " " + map.containsKey("2"));
 		System.out.println("" + map.get("3") + " " + map.containsKey("3"));
+
+		System.out.println(map.toString());
 		
 		
 
@@ -110,6 +112,20 @@ public class HashMap_M<K, V> {
 
 	public int size() {
 		return size;
+	}
+	
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		for(int i=0; i<capacity; i++){
+			Entry<K,V> entry = table[i];
+			Entry<K,V> cur = entry;
+			while(cur!=null){
+				sb.append(String.format("[%s=%s]", cur.key, cur.value));
+				cur= cur.next;
+			}
+		}
+		
+		return sb.toString();
 	}
 
 	private int hash(K key) {

@@ -5,7 +5,9 @@ import java.util.Arrays;
 public class HashMap_M<K, V> {
 
 	public static void main(String[] args) {
+		
 		System.out.println(HashMap_M.class.getSimpleName());
+		
 		HashMap_M<String, String> map = new HashMap_M<>();
 		map.put("1", "one");
 		map.put("2", "two");
@@ -14,10 +16,7 @@ public class HashMap_M<K, V> {
 		System.out.println("" + map.get("1") + " " + map.containsKey("1"));
 		System.out.println("" + map.get("2") + " " + map.containsKey("2"));
 		System.out.println("" + map.get("3") + " " + map.containsKey("3"));
-
 		System.out.println(map.toString());
-		
-		
 
 	}
 
@@ -38,6 +37,7 @@ public class HashMap_M<K, V> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public HashMap_M() {
 		table = new Entry[capacity];
 		size = 0;
@@ -74,6 +74,7 @@ public class HashMap_M<K, V> {
 
 		while (cur != null) {
 			if (cur.key.equals(key)) {
+				value = cur.value;
 				if (prev == null) {
 					table[hash] = null;
 				} else {
@@ -86,7 +87,7 @@ public class HashMap_M<K, V> {
 
 		size--;
 
-		return null;
+		return value;
 	}
 
 	public V get(K key) {

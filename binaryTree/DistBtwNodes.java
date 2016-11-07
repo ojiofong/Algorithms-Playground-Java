@@ -147,38 +147,5 @@ public class DistBtwNodes {
 	    
 	       
 	}
-	
-//	public int distanceBetween(Node root, int n1, int n2) {
-//		int l = adjLength(root, n1) - 1;
-//		int r = adjLength(root, n2) - 1;
-//		int mLcaData = lca(root, n1, n2).data;
-//		int lcaDistance = adjLength(root, mLcaData) - 1;
-//		return (l + r) - 2 * lcaDistance;
-//	}
-//	
-//	public int adjLength(Node root, int n1) {
-//		if (root != null) {
-//			int x = 0;
-//			if ((root.data == n1) 
-//					|| (x = adjLength(root.left, n1)) > 0
-//					|| (x = adjLength(root.right, n1)) > 0) {
-//				return x + 1;
-//			}
-//		}
-//		return 0;
-//	}
 
-	
-
-//	public class Node {
-//
-//		public Node left, right, parent;
-//		
-//		public int data;
-//		
-//		public Node(int data) {
-//			this.data = data;
-//		}
-//
-//	}
 }

@@ -1,6 +1,8 @@
 package sort;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class QuickSort {
 	
@@ -10,6 +12,16 @@ public class QuickSort {
 		int[] a = {5,3,1,2,6,4};
 		QuickSort.sort(a);
 		System.out.println(Arrays.toString(a));
+		
+		Map<String, String> lhm = new LinkedHashMap<>();
+		lhm.put("1", "one");
+		lhm.put("2", "two");
+		lhm.put("3", "three");
+		System.out.println(lhm.toString());
+		//System.out.println("removed " + lhm.remove("2"));
+		lhm.put("2", "two");
+		//lhm.get
+		System.out.println(lhm.toString());
 	}
 	
 	public static void sort(int[] inputArr){

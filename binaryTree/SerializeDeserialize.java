@@ -4,9 +4,13 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
+/*-
  * Serialize and Deserialize any binary Tree to/from a String
  * This solution uses Level Order traversal
+ * 		  1
+ *     5    7
+ *    4    8 9
+ * output => 1,5,7, 5,4,#, 7,8,9, 4,#,#, 8,#,#, 9,#,#
  * */
 public class SerializeDeserialize {
 

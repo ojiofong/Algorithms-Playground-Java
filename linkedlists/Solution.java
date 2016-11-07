@@ -1,5 +1,7 @@
 package linkedlists;
 
+import linkedlists.Solution.Node;
+
 /**
  * LinkedList
  */
@@ -37,7 +39,7 @@ public class Solution {
 		}
 	}
 
-	private static void printLinkedNodes(Node head) {
+	public static void printLinkedNodes(Node head) {
 		Node cur = head;
 		while (cur != null) {
 			System.out.print("[" + cur.data + "]");
@@ -46,13 +48,13 @@ public class Solution {
 		System.out.println("");
 	}
 
-	private static Node getLinkedNodes() {
+	public static Node getLinkedNodes() {
 		Node head = new Node(1);
 		head.next(new Node(2)).next(new Node(3)).next(new Node(4)).next(new Node(5));
 		return head;
 	}
 
-	private static Node getLinkedNodes2() {
+	public static Node getLinkedNodes2() {
 		Node head = new Node(7);
 		head.next(new Node(7)).next(new Node(3)).next(new Node(4)).next(new Node(5));
 		return head;
@@ -76,10 +78,10 @@ public class Solution {
 
 	}
 
-	private static class Node {
+	public static class Node {
 		public Node next;
 		public Node behind;
-		int data;
+		public int data;
 
 		public Node(int data) {
 			this.data = data;
@@ -244,52 +246,57 @@ public class Solution {
 		head.next(new Node(15)).next(new Node(8)).next(new Node(12)).next(new Node(10))
 		.next(new Node(5)).next(new Node(4)).next(new Node(1)).next(new Node(7))
 		.next(new Node(6));
+		
+		head = getLinkedNodes();
 
 		printLinkedNodes(head);
 
-		boolean foundN = false;
 		Node cur = head;
-		Node prev = null;
 		Node lastEven = null;
-		Node n = null; // holds first odd number
-
-		while (cur != null) {
-
-			// Find n pivot stop point. i.e. first odd number
-			if (!foundN) { 
-				n = cur; // Keep going until odd no. is found
-				if (n.data % 2 != 0) { // stop at first odd no.
-					foundN = true;
-					System.out.println("n found: " + n.data);
+		Node prev = null;
+		Node firstOdd = null;
+		boolean foundOdd = false;
+		
+		while(cur!=null){
+			
+			Node next = cur.next;
+			
+			if(!foundOdd){
+				if(isOdd(cur.data)){
+					foundOdd = true;
+					firstOdd = cur;
 				}
 			}
 			
-			if(cur.data % 2 ==0 && !foundN){
-				lastEven = cur; // know the lastEven no. if not foundN
-			}
-
-			// if even number and foundN
-			if (cur.data % 2 == 0 && foundN) {
-				
-				prev.next = cur.next; // erase cur
-				
-				if (n == head) {
-					cur.next = n;
+			if(foundOdd && isEven(cur.data)){
+				prev.next = prev.next.next; //erase cur 
+				if(lastEven == null){
+					cur.next = firstOdd;
 					head = cur;
 				}else{
-					cur.next = lastEven.next;
+					cur.next = firstOdd;
 					lastEven.next = cur;
 				}
-				lastEven = cur; // update lastEven..must be at the end
 			}
-
+			
+			if(isEven(cur.data))lastEven = cur;
+			
 			prev = cur;
-			cur = cur.next;
+			cur = next;
 		}
 
 		printLinkedNodes(head);
 
 	}
+	
+	private static boolean isOdd(int n){
+		return n%2!=0;
+	}
+
+	private static boolean isEven(int n){
+		return n%2==0;
+	}
+	
 	
 	private static void deepCopyLinkedList(Node head){
 		if(head == null) return;

@@ -65,7 +65,6 @@ public class Trie_M {
 
 	private void insert(Node trieRoot, String word) {
 		// check input
-
 		Node cur = trieRoot;
 		for (int i = 0; i < word.length(); i++) {
 			char c = word.charAt(i);

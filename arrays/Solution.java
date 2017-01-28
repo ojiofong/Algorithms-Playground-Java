@@ -8,89 +8,71 @@ public class Solution {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		appendRange100(new int[3]);
 		System.out.println("doRange100 -> " + doRange100());
-		System.out.println("incrementArrayAsNumberBy1 -> " + incrementArrayAsNumberBy1(new int[2]));
-		System.out.println("\nEquilibrium index -> " + equilibriumIndex(new int[] { 1, 2, 3, 0, 3 }));
-		addTwoArraysAsDigits(new int[] { 9, 9, 5 }, new int[] { 2, 7 });
-		unitsOfWaterOnIsland(new int[] {});
-		combinationsOfSizeR(null, 0, 0, null, 0);
-		seperateEvenOdd(null);
+		// System.out.println("incrementArrayAsNumberBy1 -> " +
+		// incrementArrayAsNumberBy1(new int[2]));
+		// System.out.println("\nEquilibrium index -> " + equilibriumIndex(new
+		// int[] { 1, 2, 3, 0, 3 }));
+		// addTwoArraysAsDigits(new int[] { 9, 9, 5 }, new int[] { 2, 7 });
+		// unitsOfWaterOnIsland(new int[] {});
+		// combinationsOfSizeR(null, 0, 0, null, 0);
+		// seperateEvenOdd(null);
+		// reverseWithoutSpecialChar(null);
 	}
 
-	/**
-	 * Array of Integer 1-100 Return string with ranges that does not exist e.g.
+	/*-
+	 * Given an Array of Integer 1-100. 
+	 * Return individual numbers or ranges that do not exist e.g.
 	 * {5,6,80,90} -> "1-4,7-79,81-89,91-100"
-	 **/
-	private static String appendRange100(int[] arr) {
-		// test input
-		arr = new int[] { 5, 6, 80, 90 };
-		StringBuffer buffer = new StringBuffer();
-		int prev = 0; // current value starts at zero
-
-		for (int i = 0; i < arr.length; i++) {
-
-			int value = arr[i];
-			int diff = Math.abs(value - prev);
-
-			if (diff == 2) {
-				buffer.append(String.format("%s,", value - 1));
-			} else if (diff > 2) {
-				buffer.append(String.format("%s-%s,", prev + 1, value - 1));
-			}
-
-			// finally if at last index
-			if (i == arr.length - 1 && value != 100) {
-				int diff100 = Math.abs(value - 100);
-				if (diff100 == 2) {
-					buffer.append(String.format("%s,", 100 - 1));
-				} else if (diff100 > 2) {
-					buffer.append(String.format("%s-%s,", value + 1, 100));
-				}
-			}
-
-			prev = value;
-		}
-
-		String s = buffer.toString();
-		s = s.substring(0, s.length() - 1); // remove last comma
-
-		System.out.println("appendRange100 -> " + s);
-
-		return buffer.toString();
-	}
-
-	/**
-	 * Array of Integer 1-100 Return string with ranges that does not exist e.g.
-	 * {5,6,80,90} -> "1-4,7-79,81-89,91-100"
+	 * {1,3,99} -> "2,4-98,100"
 	 **/
 	private static String doRange100() {
 		int[] arr = { 5, 6, 80, 90 };
 		Arrays.sort(arr);
-		boolean flag = false;
-		int prev = 1;
-		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < arr.length; i++) {
+
+		StringBuilder sb = new StringBuilder();
+		int size = arr.length;
+		int prev = 0;
+
+		for (int i = 0; i < size; i++) {
+
 			int a = arr[i];
-			flag = (a - prev) > 1;
-			if (i == 0 && a != 1) {
-				buffer.append((a == 2 ? "1" : "1-" + (a - 1)));
-			} else if (flag) {
-				int x = prev + 1;
-				int y = a - 1;
-				buffer.append(",").append(x - y == 0 ? "" + x : x + "-" + y);
+			boolean isFirstIndex = i == 0;
+			boolean isLastIndex = i == size - 1;
+
+			if (isFirstIndex) {
+				int diff = a - 1;
+				if (diff == 2) {
+					sb.append(String.format("%d,", a - 1));
+				} else if (diff > 2) {
+					sb.append(String.format("1-%d,", a - 1));
+				}
+			} else {
+				int diff = a - prev;
+				if (diff == 2) {
+					sb.append(String.format("%d,", a - 1));
+				} else if (diff > 2) {
+					sb.append(String.format("%d-%d,", prev + 1, a - 1));
+				}
 			}
 
-			if (i == arr.length - 1 && a < 100) {
-				int x = a + 1;
-				int y = 100;
-				buffer.append(",").append(x - y == 0 ? "" + x : x + "-" + y);
+			if (isLastIndex) {
+				int diff = 100 - a;
+				if (diff == 1) {
+					sb.append(String.format("%d,", 100));
+				} else if (diff == 2) {
+					sb.append(String.format("%d,", 99));
+				} else if (diff > 2) {
+					sb.append(String.format("%d-%d,", a + 1, 100));
+				}
 			}
 
 			prev = a;
 		}
 
-		return buffer.toString();
+		// delete last comma ","
+		return sb.deleteCharAt(sb.length() - 1).toString();
+
 	}
 
 	/**
@@ -371,6 +353,59 @@ public class Solution {
 			arr[k] = arr[k - 1];
 		}
 		arr[index] = temp;
+	}
+
+	/*-
+	 * 	Reverse an array without affecting special characters
+	 * 	Input:   str = "a,b$c"
+	 *	Output:  str = "c,b$a"
+	 *	Note that $ and , are not moved anywhere.  
+	 *	Only subsequence "abc" is reversed
+	 *
+	 *	Input:   str = "Ab,c,de!$"
+	 *	Output:  str = "ed,c,bA!$"
+	 */
+	private static String reverseWithoutSpecialChar(String str) {
+
+		str = "Ab,c,de!$";
+
+		if (str == null || str.isEmpty())
+			return str;
+
+		char[] arr = str.toCharArray();
+		int i = 0;
+		int j = arr.length - 1;
+
+		while (i < j) {
+
+			if (isCharAlphanumeric(arr[i]) && isCharAlphanumeric(arr[j])) {
+				// swap
+				char temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+				i++;
+				j--;
+			}
+
+			if (!isCharAlphanumeric(arr[i]))
+				i++;
+			if (!isCharAlphanumeric(arr[j]))
+				j--;
+
+		}
+
+		String output = new String(arr);
+
+		System.out.println(String.format("reverseWithoutSpecialChar Input: %s Output: %s", str, output));
+
+		return output;
+	}
+
+	private static boolean isCharAlphanumeric(char c) {
+		boolean isAlphaNumeric = (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9');
+		// System.out.println(String.format("isAphanumeric %s->%s", c,
+		// isAlphaNumeric));
+		return isAlphaNumeric;
 	}
 
 }// End of class

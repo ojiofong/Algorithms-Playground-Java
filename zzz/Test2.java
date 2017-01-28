@@ -12,110 +12,136 @@ public class Test2 {
 
 	public static void main(String[] args) {
 		// solve(null, null);
-//		System.out.println(Test2.class.getSimpleName());
-//		allCase("", "abc");
-//		System.out.println("");
-//		permu("", "abc");
-//		System.out.println("");
-//		allSubSequence("abc");
-//		System.out.println("");
-//		combination("abcd");
-//		Node n = merge(Solution.getLinkedNodes(), Solution.getLinkedNodes());
-//		Solution.printLinkedNodes(n);
-//		Solution.printLinkedNodes(removeDuplicates(n));
+		// System.out.println(Test2.class.getSimpleName());
+		// allCase("", "abc");
+		// System.out.println("");
+		// permu("", "abc");
+		// System.out.println("");
+		// allSubSequence("abc");
+		// System.out.println("");
+		// combination("abcd");
+		// Node n = merge(Solution.getLinkedNodes(), Solution.getLinkedNodes());
+		// Solution.printLinkedNodes(n);
+		// Solution.printLinkedNodes(removeDuplicates(n));
 		oddEven(Solution.getLinkedNodes());
-		
+		try {
+			stringToInt("11");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
-	
-	private static void oddEven(Node head){
+
+	// subtracting by char '0'(zero) a char (of digit '0' to '9') 
+	// can be converted into int(0 to 9)
+	private static void stringToInt(String str) throws Exception {
+
+		System.out.println("stringToInt-> " + Integer.valueOf(str));
+
+		char[] arr = str.toCharArray();
+		double n = Math.pow(10, arr.length-1);
+		int ans = 0;
+		int sign = str.charAt(0) == '-' ? -1 : 1;
+		for (char c : arr) {
+			if (c < '0' || c > '9')
+				throw new Exception("Failed to parse string input");
+			ans += (c - '0') * n;
+			n /= 10;
+		}
+
+		System.out.println("stringToInt-> " + ans);
+
+	}
+
+	private static void oddEven(Node head) {
 		System.out.print("oddEven");
 		Solution.printLinkedNodes(head);
-		
+
 		Node cur = head;
 		Node lastEven = null;
 		Node prev = null;
 		Node firstOdd = null;
 		boolean foundOdd = false;
-		
-		while(cur!=null){
-			
+
+		while (cur != null) {
+
 			Node next = cur.next;
-			
-			if(!foundOdd){
-				if(isOdd(cur.data)){
+
+			if (!foundOdd) {
+				if (isOdd(cur.data)) {
 					foundOdd = true;
 					firstOdd = cur;
 				}
 			}
-			
-			if(foundOdd && isEven(cur.data)){
+
+			if (foundOdd && isEven(cur.data)) {
 				prev.next = prev.next.next;
-				if(lastEven == null){
+				if (lastEven == null) {
 					cur.next = firstOdd;
 					head = cur;
-				}else{
+				} else {
 					cur.next = firstOdd;
 					lastEven.next = cur;
 				}
 			}
-			
-			if(isEven(cur.data))lastEven = cur;
-			
+
+			if (isEven(cur.data))
+				lastEven = cur;
+
 			prev = cur;
 			cur = next;
 		}
-		
-	
 
 		System.out.print("oddEven");
 		Solution.printLinkedNodes(head);
-		
+
 	}
 
-	private static boolean isOdd(int n){
-		return n%2!=0;
+	private static boolean isOdd(int n) {
+		return n % 2 != 0;
 	}
 
-	private static boolean isEven(int n){
-		return n%2==0;
+	private static boolean isEven(int n) {
+		return n % 2 == 0;
 	}
-	
-	private static Node removeDuplicates(Node root){
+
+	private static Node removeDuplicates(Node root) {
 		Node cur = root;
-		while(cur.next !=null){
-			if(cur.data == cur.next.data){
+		while (cur.next != null) {
+			if (cur.data == cur.next.data) {
 				cur.next = cur.next.next;
-			}else{
+			} else {
 				cur = cur.next;
 			}
 		}
-		
+
 		return root;
 	}
-	
-	private static Node merge(Node a, Node b){
-//		Solution.printLinkedNodes(a);
-//		Solution.printLinkedNodes(b);
-		
-		if(a==null)return b;
-		if(b==null)return a;
-		
-		if(a.data < b.data){
+
+	private static Node merge(Node a, Node b) {
+		// Solution.printLinkedNodes(a);
+		// Solution.printLinkedNodes(b);
+
+		if (a == null)
+			return b;
+		if (b == null)
+			return a;
+
+		if (a.data < b.data) {
 			a.next = merge(a.next, b);
 			return a;
-		}else{
+		} else {
 			b.next = merge(a, b.next);
 			return b;
 		}
-		
+
 	}
 
 	private static void combination(String str) {
 		char[] arr = str.toCharArray();
 		int N = arr.length;
 		char[] data = new char[N];
-		
+
 		doCombo(arr, data, 0, 0, 3);
 	}
 

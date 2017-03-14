@@ -7,10 +7,12 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.Map.Entry;
 
 /**
  * Miscellaneous
@@ -118,7 +120,6 @@ public class Solution {
 
 		return maxRam;
 	}
-
 
 	/*
 	 * Given a list of meetings and times, find the max number of meeting rooms
@@ -374,4 +375,71 @@ public class Solution {
 	}
 
 	// ---------END directorySolution ----------------//
+
+	/*-
+	 *
+	    Given a nested list of integers, returns the sum of all integers in the list
+	    weighted by their depth  
+	    given the list {{1,1},2,{1,1}} 
+		return 10 (four 1's at depth 2, one 2 at depth 1) 
+		10 = (4*1*2) + (1*2*1)
+	*/
+	public static int sumWeightedByDepth(List<Object> root) {
+		// Get test data to match example - START
+		root = new LinkedList<>();
+		List<Object> twoOnes = new LinkedList<>();
+		twoOnes.add(1);
+		twoOnes.add(1);
+		root.add(twoOnes);
+		root.add(2);
+		root.add(twoOnes);
+		System.out.println("root->" + root);
+		// Get test data to match example - END
+
+		int sum = 0;
+		int depth = -1; //
+		Map<String, Integer> map = new HashMap<>();
+
+		Queue<Object> q = new LinkedList<>();
+		q.add(root);
+
+		while (!q.isEmpty()) {
+
+			int level = q.size();
+			depth++; // depth == 0 i.e. no depth at root level
+
+			while (level-- > 0) {
+
+				Object r = q.remove();
+
+				if (r instanceof Integer) {
+					String key = depth + "," + r;
+					int count = map.containsKey(key) ? map.get(key) : 0;
+					map.put(key, count + 1);
+				}
+
+				if (r instanceof List) {
+					for (Object obj : (List<?>) r) {
+						q.add(obj);
+					}
+				}
+
+			}
+		}
+
+		// Print all results from HashMap
+		for (Entry<String, Integer> entry : map.entrySet()) {
+			String mDepth = entry.getKey().split(",")[0];
+			String num = entry.getKey().split(",")[1];
+			String count = entry.getValue() + "";
+			String output = String.format(Locale.US, "%s %s(s) at depth %s", count, num, mDepth);
+			System.out.println(output);
+
+			sum += Integer.parseInt(mDepth) * Integer.parseInt(num) * Integer.parseInt(count);
+		}
+
+		System.out.println("Total weighted sum->" + sum);
+
+		return sum;
+	}
 }

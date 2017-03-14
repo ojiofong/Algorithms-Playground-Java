@@ -1,10 +1,14 @@
-package binaryTree;
+package tree;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class Node {
 
 	// usage 1
 	public Node left, right, parent;
 	public int data;
+	public List<Node> children = new LinkedList<>();
 	
 	public Node(int data) {
 		this.data = data;

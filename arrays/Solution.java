@@ -18,6 +18,8 @@ public class Solution {
 		// combinationsOfSizeR(null, 0, 0, null, 0);
 		// seperateEvenOdd(null);
 		// reverseWithoutSpecialChar(null);
+		
+		System.out.print("" + (int)'a');
 	}
 
 	/*-

@@ -361,6 +361,27 @@ public class Solution {
 			j--;
 		}
 	}
+	
+	// subtracting by char '0'(zero) a char (of digit '0' to '9')
+	// can be converted into int(0 to 9)
+	public static void stringToInt(String str) throws Exception {
+
+		System.out.println("stringToInt-> " + Integer.valueOf(str));
+
+		char[] arr = str.toCharArray();
+		double n = Math.pow(10, arr.length - 1);
+		int ans = 0;
+		int sign = str.charAt(0) == '-' ? -1 : 1;
+		for (char c : arr) {
+			if (c < '0' || c > '9')
+				throw new Exception("Failed to parse string input");
+			ans += (c - '0') * n;
+			n = n / 10;
+		}
+
+		System.out.println("stringToInt-> " + ans);
+
+	}
 
 	// static ReentrantLock mObject = new ReentrantLock();
 	// static Object mObject2 = new Object();

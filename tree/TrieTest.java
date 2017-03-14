@@ -1,4 +1,4 @@
- package binaryTree;
+ package tree;
 
 import java.io.BufferedReader;
 import java.io.File;

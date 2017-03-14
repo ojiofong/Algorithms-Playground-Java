@@ -1,4 +1,4 @@
-package binaryTree;
+package tree;
 
 /**
  * AVLTree - Self Balancing Binary Search Tree

@@ -11,17 +11,16 @@ public class Solution {
 
 	}
 
-	public static double squareRoot(int n) {
-		if (n == 0)
-			return 0;
-		if (n < 0)
+	public static double squareRoot(int num) {
+		if (num <= 0)
 			return 0;
 
-		double sqrt = n / 2;
+		double sqrt = num / 2;
 		double t = 0;
+
 		do {
 			t = sqrt;
-			sqrt = (t + n / t) / 2.0;
+			sqrt = (t + num / t) / 2.0;
 		} while (t - sqrt != 0);
 
 		return sqrt;
@@ -97,6 +96,18 @@ public class Solution {
 		}
 
 		return true;
+	}
+
+	/*-
+	 *
+	  Given a positive integer, return True if a perfect square else False.
+	  Note: Do not use any built-in library function such as sqrt.
+	*/
+	public static boolean isPerfectSquare(int num) {
+
+		int sqrt = (int) squareRoot(num);
+
+		return (num == (sqrt * sqrt));
 	}
 
 }

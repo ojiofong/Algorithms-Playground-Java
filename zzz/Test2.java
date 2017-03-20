@@ -1,42 +1,40 @@
 package zzz;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Test2 {
 
 	public static void main(String[] args) throws Exception {
 		System.out.println(Test2.class.getSimpleName());
 
-		xor();
+		// String[] arr = {"A","B","C","D","E","F"};
+		String[] arr = { "A", "B", "C", "D" };
+		int len = arr.length - 1;
+		combo(arr, len, 0, new String[len]);
+		print("a bc");
 	}
 
-	static void xor() {
-		int size = 100;
-		int[] arr = new int[size];
-		for (int i = 0; i < 100; i++) {
-			// skip value
-			if (i + 1 == 12)
-				continue;
-			arr[i] = i + 1;
+	static void combo(String[] arr, int len, int startPosition, String[] result) {
+		if (len == 0) {
+			System.out.println(Arrays.toString(result));
+			return;
 		}
-		
-		int ans = 0;
-		
-		int i = 1;
-		for (int value : arr){
-			int x = i^value;
-			if(x != 0){
-				ans = i;
-				System.out.println(String.format("missing-> %s", ans));
-				return;
-			}
-			i++;
+		for (int i = startPosition; i <= arr.length - len; i++) {
+			result[result.length - len] = arr[i];
+			combo(arr, len - 1, i + 1, result);
 		}
+	}
 
-		int a = 5;
-		int b = 5;
-		int xor = a ^ b;
+	static void print(String str) {
+		char[] arr = str.toCharArray();
 
-		System.out.println("Nothing is missing");
-
+		for (char c : arr) {
+			if (!String.valueOf(c).equals(" "))
+				System.out.print(c);
+		}
+		System.out.println("");
 	}
 
 }

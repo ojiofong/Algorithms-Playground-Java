@@ -302,24 +302,24 @@ public class Solution {
 	 */
 	private static void moveZerosBehind() {
 		int[] arr = new int[] { 0, 3, 0, 0, 5, 6, 0 };
-		System.out.println(Arrays.toString(arr));
 
-		int N = arr.length;
-		int k = N - 1;
+		int i = 0;
+		int j = arr.length - 1;
 
-		// Assigning K index from right to left
-		for (int i = N - 1; i >= 0; i--) {
-			if (arr[i] != 0)
-				arr[k--] = arr[i];
+		while (i < j) {
+
+			if (arr[i] == 0) {
+				i++;
+			} else if (arr[j] != 0) {
+				j--;
+			} else {
+				int temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+			}
 		}
 
-		// Fill up other spaces with zero
-		while (k >= 0) {
-			arr[k--] = 0;
-		}
-
 		System.out.println(Arrays.toString(arr));
-
 	}
 
 	/**
@@ -380,6 +380,28 @@ public class Solution {
 		}
 
 		System.out.println("stringToInt-> " + ans);
+
+	}
+	
+	// Start from right to left and apply factor (multiplication) appropriately
+	public static void stringToInt2(String str) throws Exception {
+		
+		int factor = 1;
+		int ans = 0;
+		boolean isNegative = str.charAt(0) == '-';
+		int firstCharIndex = isNegative ? 1 : 0;
+		for (int j=str.length()-1; j >= firstCharIndex; j--){
+			char c = str.charAt(j);
+			if (c < '0' || c > '9'){
+				throw new IllegalArgumentException("numbers only bro");
+			}
+			ans += (c - '0') * factor;
+			factor *= 10;
+		}
+		
+		ans = isNegative ? (ans * -1) : ans;
+		
+		System.out.println("ans-> " + ans);
 
 	}
 

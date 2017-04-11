@@ -13,7 +13,20 @@ public class Test2 {
 		String[] arr = { "A", "B", "C", "D" };
 		int len = arr.length - 1;
 		combo(arr, len, 0, new String[len]);
-		print("a bc");
+		print("abc->" + rotate());
+
+	}
+
+	static String rotate() {
+		int[] arr = { 1, 2, 3, 4, 5 };
+		int n = arr.length;
+		int d = 1;
+		for (int i = 0; i < n; i++) {
+			arr[(i + n - d) % n] = i+1;
+		}
+
+		return Arrays.toString(arr);
+
 	}
 
 	static void combo(String[] arr, int len, int startPosition, String[] result) {

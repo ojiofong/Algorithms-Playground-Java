@@ -409,5 +409,18 @@ public class Solution {
 		// isAlphaNumeric));
 		return isAlphaNumeric;
 	}
+	
+	// Rotate array e.g. 12345->23451->34512
+	static String rotate() {
+		int[] arr = { 1, 2, 3, 4, 5 };
+		int n = arr.length;
+		int d = 1; // number of rotations
+		for (int i = 0; i < n; i++) {
+			arr[(i + n - d) % n] = i+1;
+		}
+
+		return Arrays.toString(arr);
+
+	}
 
 }// End of class

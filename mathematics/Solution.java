@@ -45,6 +45,19 @@ public class Solution {
 
 		return ans;
 	}
+	
+	// Log n time
+	static double powFast(int base, int exponent){
+	    if(base == 0) return 0;
+	    if(exponent == 0) return 1;
+	    if(exponent == 1) return base;
+		
+		  if (exponent % 2 == 0 ){
+		        return powFast(base, exponent/2) * powFast(base, exponent/2);
+		    }else{
+		        return powFast(base, exponent/2) * powFast(base, exponent/2) + base;
+		    }
+	}
 
 	private static double multiply(double a, double b) {
 

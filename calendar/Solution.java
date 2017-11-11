@@ -11,9 +11,10 @@ import java.util.Set;
 public class Solution {
 
 	public static void main(String[] args) {
-		String S = "22:22:21";
-		String T = "22:22:23";
-		noOfSpecialTimesBetweenTwoTimes(S, T);
+		String S = "15:15:00";
+		String T = "15:15:12";
+		int ans = noOfSpecialTimesBetweenTwoTimes(S, T);
+		System.out.print("special count-> " + ans);
 	}
 
 	/**

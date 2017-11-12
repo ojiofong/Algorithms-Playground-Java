@@ -1,118 +1,112 @@
 package zzz;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 public class Test2 {
 
 	public static void main(String[] args) throws Exception {
 
 		System.out.println(Test2.class.getSimpleName());
-		MinHeap<String> mh = new MinHeap<>();
-		mh.add("one");
-		mh.add("two");
-		mh.add("three");
-		mh.add("four");
+		Trie trie = new Trie();
+		trie.add("one");
+		trie.add("two");
+		trie.add("three");
+		trie.add("four");
 
-		mh.preOrder(0);
-		System.out.println("size " + mh.size());
-		mh.remove(1);
-		mh.preOrder(0);
-		System.out.println("size " + mh.size());
-
+		trie.bfs();
+		System.out.println("remove-> " + trie.remove("two"));
+		System.out.println("remove-> " + trie.remove("one"));
+		trie.bfs();
+		// mh.remove("two");
 	}
 
-	static class MinHeap<T extends Comparable<T>> {
-		private T[] heap;
-		private int size;
-		private double loadFactor = 0.9;
-		private int initialCapacity = 31;
+	/**
+	 * Prefix based binary tree l = average length of words & n = number of words
+	 * Insertion/Deletion - 0(l) 
+	 * Search 0(l)
+	 */
+	static class Trie {
+		class Node {
+			Character c;
+			String word;
+			Map<Character, Node> children = new HashMap<>();
+			boolean isTerminal;
 
-		@SuppressWarnings("unchecked")
-		public MinHeap() {
-			heap = (T[]) new Comparable[initialCapacity];
-			size = 0;
-		}
-
-		public void add(T value) {
-			checkInput(value);
-			checkSize();
-			heap[size] = value;
-			heapifyUp(size);
-			size = size + 1;
-		}
-
-		public void remove(int index) {
-			checkIndex(index);
-			heap[index] = heap[size - 1];
-			size = size - 1;
-			heapifyDown(index);
-		}
-
-		private void heapifyUp(int index) {
-			T t = heap[index];
-			while (size > 0 && t.compareTo(heap[parent(index)]) < 0) {
-				heap[index] = heap[parent(index)];
-				index = parent(index);
-			}
-			heap[index] = t;
-		}
-
-		private void heapifyDown(int index) {
-			T t = heap[index];
-			while (left(index) < size && t.compareTo(heap[min(index)]) > 0) {
-				heap[index] = heap[min(index)];
-				index = min(index);
-			}
-			heap[index] = t;
-		}
-
-		private int parent(int index) {
-			return index - 1 / 2;
-		}
-
-		private int left(int index) {
-			return index * 2 + 1;
-		}
-
-		private int right(int index) {
-			return index * 2 + 2;
-		}
-
-		private int min(int index) {
-			int L = left(index);
-			int R = right(index);
-			return heap[L].compareTo(heap[R]) < 0 ? L : R;
-		}
-
-		private void checkInput(T value) {
-			if (value == null)
-				throw new IllegalArgumentException("Null is not allowed");
-		}
-
-		private void checkIndex(int index) {
-			if (!isIndexInBounds(index))
-				throw new IndexOutOfBoundsException("Size is " + size + " Index is " + index);
-		}
-
-		private boolean isIndexInBounds(int index) {
-			return (index >= 0 && index < size);
-		}
-
-		private void checkSize() {
-			if (size > (loadFactor * heap.length)) {
-				heap = Arrays.copyOf(heap, heap.length + initialCapacity);
+			public Node(Character c) {
+				this.c = c;
 			}
 		}
 
-		public int size() {
-			return size;
+		Node root;
+
+		public Trie() {
+			root = new Node(null);
 		}
 
-		public void preOrder(int index) {
-			if (isIndexInBounds(index)) {
-				System.out.println("visited " + heap[index]);
-				preOrder(left(index));
-				preOrder(right(index));
+		public void add(String word) {
+			checkInput(word);
+			Node cur = root;
+			for (char c : word.toCharArray()) {
+				if (cur.children.get(c) == null) {
+					cur.children.put(c, new Node(c));
+				}
+				cur = cur.children.get(c);
+			}
+			cur.isTerminal = true;
+			cur.word = word;
+		}
+
+		public boolean remove(String word) {
+			checkInput(word);
+			Node cur = root;
+
+			// Check if word exists
+			if (!contains(word)) {
+				return false;
+			}
+
+			// Perform deletion
+			for (char c : word.toCharArray()) {
+				if (cur.children.get(c).children.isEmpty()) {
+					cur.children.remove(c);
+					return true;
+				}
+				cur = cur.children.get(c);
+			}
+			return false;
+		}
+
+		public boolean contains(String word) {
+			checkInput(word);
+			Node cur = root;
+			for (char c : word.toCharArray()) {
+				if (cur.children.get(c) == null) {
+					return false; // word does not exist
+				}
+				cur = cur.children.get(c);
+			}
+			return true;
+		}
+
+		private void checkInput(String word) {
+			if (word == null || word.trim().isEmpty())
+				throw new IllegalArgumentException();
+		}
+
+		public void bfs() {
+			Queue<Node> q = new LinkedList<>();
+			q.add(root);
+			while (!q.isEmpty()) {
+				Node r = q.remove();
+				if (r.isTerminal) {
+					System.out.println("visited-> " + r.word);
+				}
+				for (Map.Entry<Character, Node> entry : r.children.entrySet()) {
+					q.add(entry.getValue());
+				}
 			}
 		}
 	}

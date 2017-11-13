@@ -14,19 +14,21 @@ public class Test2 {
 		trie.add("one");
 		trie.add("two");
 		trie.add("three");
-		trie.add("four");
+		trie.add("car");
+		trie.add("carpet");
 
 		trie.bfs();
 		System.out.println("remove-> " + trie.remove("two"));
 		System.out.println("remove-> " + trie.remove("one"));
+		System.out.println("remove-> " + trie.remove("three"));
+		System.out.println("remove-> " + trie.remove("car"));
 		trie.bfs();
 		// mh.remove("two");
 	}
 
 	/**
-	 * Prefix based binary tree l = average length of words & n = number of words
-	 * Insertion/Deletion - 0(l) 
-	 * Search 0(l)
+	 * Prefix based binary tree l = average length of words & n = number of
+	 * words Insertion/Deletion - 0(l) Search 0(l)
 	 */
 	static class Trie {
 		class Node {
@@ -76,7 +78,9 @@ public class Test2 {
 				}
 				cur = cur.children.get(c);
 			}
-			return false;
+			cur.isTerminal = false;
+			cur.word = null;
+			return true;
 		}
 
 		public boolean contains(String word) {

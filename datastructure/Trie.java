@@ -5,15 +5,12 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-import zzz.Test2;
-
 /**
  * Prefix based binary tree l = average length of words & n = number of words
- * Insertion/Deletion - 0(l) 
- * Search 0(l)
+ * Insertion/Deletion - 0(l) Search 0(l)
  */
 class Trie {
-	
+
 	public static void main(String[] args) throws Exception {
 		Trie trie = new Trie();
 		trie.add("one");
@@ -59,7 +56,6 @@ class Trie {
 		checkInput(word);
 		Node cur = root;
 
-		// Check if word exists
 		if (!contains(word)) {
 			return false;
 		}
@@ -72,7 +68,11 @@ class Trie {
 			}
 			cur = cur.children.get(c);
 		}
-		return false;
+
+		cur.isTerminal = false;
+		cur.word = null;
+
+		return true;
 	}
 
 	public boolean contains(String word) {

@@ -8,6 +8,7 @@ public class Node {
 	// usage 1
 	public Node left, right, parent;
 	public int data;
+	public int ht;
 	public List<Node> children = new LinkedList<>();
 	
 	public Node(int data) {

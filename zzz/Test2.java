@@ -1,117 +1,115 @@
 package zzz;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import tree.BTreePrinter;
+import tree.BinarySTree;
+import tree.Node;
 
 public class Test2 {
 
 	public static void main(String[] args) throws Exception {
 
 		System.out.println(Test2.class.getSimpleName());
-		Trie trie = new Trie();
-		trie.add("one");
-		trie.add("two");
-		trie.add("three");
-		trie.add("car");
-		trie.add("carpet");
+		AVL bst = new AVL();
+		bst.root = bst.insert(1, bst.root);
+		bst.root = bst.insert(2, bst.root);
+		bst.root = bst.insert(3, bst.root);
+		
+		
+		
+		System.out.println("size-> " + bst.size);
+		System.out.println("root null-> " + (bst.root == null));
+		BinarySTree.levelOrder(bst.root);
+		BTreePrinter.printNode(bst.root);
 
-		trie.bfs();
-		System.out.println("remove-> " + trie.remove("two"));
-		System.out.println("remove-> " + trie.remove("one"));
-		System.out.println("remove-> " + trie.remove("three"));
-		System.out.println("remove-> " + trie.remove("car"));
-		trie.bfs();
-		// mh.remove("two");
 	}
 
-	/**
-	 * Prefix based binary tree l = average length of words & n = number of
-	 * words Insertion/Deletion - 0(l) Search 0(l)
-	 */
-	static class Trie {
-		class Node {
-			Character c;
-			String word;
-			Map<Character, Node> children = new HashMap<>();
-			boolean isTerminal;
-
-			public Node(Character c) {
-				this.c = c;
-			}
-		}
+	static class AVL {
+		// private static class Node {
+		// int data;
+		// int ht;
+		// Node left, right;
+		//
+		// public Node(int data) {
+		// this.data = data;
+		// }
+		// }
 
 		Node root;
+		int size;
 
-		public Trie() {
-			root = new Node(null);
+		public AVL() {
+			root = null;
+			size = 0;
 		}
 
-		public void add(String word) {
-			checkInput(word);
-			Node cur = root;
-			for (char c : word.toCharArray()) {
-				if (cur.children.get(c) == null) {
-					cur.children.put(c, new Node(c));
-				}
-				cur = cur.children.get(c);
-			}
-			cur.isTerminal = true;
-			cur.word = word;
+		public Node insert(int data) {
+			return insert(data, root);
 		}
 
-		public boolean remove(String word) {
-			checkInput(word);
-			Node cur = root;
+		private Node insert(int data, Node root) {
+			Node newNode = new Node(data);
 
-			// Check if word exists
-			if (!contains(word)) {
-				return false;
-			}
-
-			// Perform deletion
-			for (char c : word.toCharArray()) {
-				if (cur.children.get(c).children.isEmpty()) {
-					cur.children.remove(c);
-					return true;
+			if (root == null) {
+				root = newNode;
+			} else if (data < root.data) {
+				root.left = insert(data, root.left);
+				if (isUnbalanced(root)) {
+					root = data < root.left.data ? rotateWithLeft(root) : doubleWithLeft(root);
 				}
-				cur = cur.children.get(c);
+			} else {
+				root.right = insert(data, root.right);
+				if (isUnbalanced(root)) {
+					root = data < root.right.data ? rotateWithRight(root) : doubleWithRight(root);
+				}
 			}
-			cur.isTerminal = false;
-			cur.word = null;
-			return true;
+
+			size += 1;
+			root.ht = height(root);
+			return root;
 		}
 
-		public boolean contains(String word) {
-			checkInput(word);
-			Node cur = root;
-			for (char c : word.toCharArray()) {
-				if (cur.children.get(c) == null) {
-					return false; // word does not exist
-				}
-				cur = cur.children.get(c);
-			}
-			return true;
+		private int height(Node n) {
+			if (n == null)
+				return -1;
+			if (n.left == null && n.right == null)
+				return 0;
+			return 1 + Math.max(height(n.left), height(n.right));
 		}
 
-		private void checkInput(String word) {
-			if (word == null || word.trim().isEmpty())
-				throw new IllegalArgumentException();
+		private boolean isUnbalanced(Node n) {
+			return Math.abs(height(n.left) - height(n.right)) > 1;
 		}
 
-		public void bfs() {
-			Queue<Node> q = new LinkedList<>();
-			q.add(root);
-			while (!q.isEmpty()) {
-				Node r = q.remove();
-				if (r.isTerminal) {
-					System.out.println("visited-> " + r.word);
-				}
-				for (Map.Entry<Character, Node> entry : r.children.entrySet()) {
-					q.add(entry.getValue());
-				}
-			}
+		private boolean isUnbalanced2(Node n) {
+			return Math.abs(n.left.ht - n.right.ht) > 1;
+		}
+
+		private Node rotateWithLeft(Node root) {
+			Node n = root.left;
+			root.left = n.right;
+			n.right = root;
+			root.ht = height(root);
+			n.ht = height(n);
+			return n;
+		}
+
+		private Node rotateWithRight(Node root) {
+			Node n = root.right;
+			root.right = n.left;
+			n.left = root;
+			root.ht = height(root);
+			n.ht = height(n);
+			return n;
+		}
+
+		private Node doubleWithLeft(Node root) {
+			root.left = rotateWithRight(root.left);
+			return rotateWithLeft(root);
+		}
+
+		private Node doubleWithRight(Node root) {
+			root.right = rotateWithLeft(root.right);
+			return rotateWithRight(root);
 		}
 	}
 

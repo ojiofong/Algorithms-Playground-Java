@@ -50,13 +50,13 @@ public class Solution {
 
 	public static Node getLinkedNodes() {
 		Node head = new Node(1);
-		head.next(new Node(2)).next(new Node(3)).next(new Node(4)).next(new Node(5));
+		head.next(new Node(2)).next(new Node(3)).next(new Node(4)).next(new Node(5)).next(new Node(6));
 		return head;
 	}
 
 	public static Node getLinkedNodes2() {
 		Node head = new Node(7);
-		head.next(new Node(7)).next(new Node(3)).next(new Node(4)).next(new Node(5));
+		head.next(new Node(7)).next(new Node(7)).next(new Node(3)).next(new Node(4)).next(new Node(5));
 		return head;
 	}
 
@@ -223,7 +223,7 @@ public class Solution {
 
 			if (revHead1.data != revHead2.data) {
 				// println Will throw NullPointerException if no intersection
-				System.out.println("Intersect at " + prev.data);
+//				System.out.println("Intersect at " + prev.data);
 				return prev;
 			}
 

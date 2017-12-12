@@ -1,6 +1,7 @@
 package linkedlists;
 
-import linkedlists.Solution.Node;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * LinkedList
@@ -20,7 +21,7 @@ public class Solution {
 		printLinkedNodes(m);
 		seperateEvenOdd(head);
 		deepCopyLinkedList(getLinkedNodes());
-
+		deepCopyLinkedListWithRandomNodes(getLinkedNodes());
 	}
 
 	private static Node merge(Node a, Node b) {
@@ -81,6 +82,7 @@ public class Solution {
 	public static class Node {
 		public Node next;
 		public Node behind;
+		public Node random;
 		public int data;
 
 		public Node(int data) {
@@ -223,7 +225,7 @@ public class Solution {
 
 			if (revHead1.data != revHead2.data) {
 				// println Will throw NullPointerException if no intersection
-//				System.out.println("Intersect at " + prev.data);
+				// System.out.println("Intersect at " + prev.data);
 				return prev;
 			}
 
@@ -242,11 +244,10 @@ public class Solution {
 	**/
 	private static void seperateEvenOdd(Node head) {
 		System.out.println("seperateEvenOdd");
-		 head = new Node(17);
-		head.next(new Node(15)).next(new Node(8)).next(new Node(12)).next(new Node(10))
-		.next(new Node(5)).next(new Node(4)).next(new Node(1)).next(new Node(7))
-		.next(new Node(6));
-		
+		head = new Node(17);
+		head.next(new Node(15)).next(new Node(8)).next(new Node(12)).next(new Node(10)).next(new Node(5))
+				.next(new Node(4)).next(new Node(1)).next(new Node(7)).next(new Node(6));
+
 		head = getLinkedNodes();
 
 		printLinkedNodes(head);
@@ -256,31 +257,32 @@ public class Solution {
 		Node prev = null;
 		Node firstOdd = null;
 		boolean foundOdd = false;
-		
-		while(cur!=null){
-			
+
+		while (cur != null) {
+
 			Node next = cur.next;
-			
-			if(!foundOdd){
-				if(isOdd(cur.data)){
+
+			if (!foundOdd) {
+				if (isOdd(cur.data)) {
 					foundOdd = true;
 					firstOdd = cur;
 				}
 			}
-			
-			if(foundOdd && isEven(cur.data)){
-				prev.next = prev.next.next; //erase cur 
-				if(lastEven == null){
+
+			if (foundOdd && isEven(cur.data)) {
+				prev.next = prev.next.next; // erase cur
+				if (lastEven == null) {
 					cur.next = firstOdd;
 					head = cur;
-				}else{
+				} else {
 					cur.next = firstOdd;
 					lastEven.next = cur;
 				}
 			}
-			
-			if(isEven(cur.data))lastEven = cur;
-			
+
+			if (isEven(cur.data))
+				lastEven = cur;
+
 			prev = cur;
 			cur = next;
 		}
@@ -288,42 +290,81 @@ public class Solution {
 		printLinkedNodes(head);
 
 	}
-	
-	private static boolean isOdd(int n){
-		return n%2!=0;
+
+	private static boolean isOdd(int n) {
+		return n % 2 != 0;
 	}
 
-	private static boolean isEven(int n){
-		return n%2==0;
+	private static boolean isEven(int n) {
+		return n % 2 == 0;
 	}
-	
-	
-	private static void deepCopyLinkedList(Node head){
-		if(head == null) return;
-		
+
+	private static void deepCopyLinkedList(Node head) {
+		if (head == null)
+			return;
+
 		System.out.println("deepCopyLinkedList");
 		printLinkedNodes(head);
-		
+
 		Node cur = head;
 		Node copyHead = null;
 		Node last = null;
-		
-		while(cur!=null){
+
+		while (cur != null) {
 
 			Node newNode = new Node(cur.data);
-			
-			if(last == null){
+
+			if (last == null) {
 				copyHead = newNode;
 				last = copyHead;
-			}else{
+			} else {
 				last.next = newNode;
 				last = newNode;
 			}
-			
+
+			cur = cur.next;
+		}
+
+		printLinkedNodes(copyHead);
+	}
+
+	private static Node deepCopyLinkedListWithRandomNodes(Node root) {
+
+		if (root == null)
+			return null;
+
+		Node cur = root;
+		Node copyHead = null;
+		Node last = null;
+		Map<Node, Node> map = new HashMap<>();
+
+		while (cur != null) {
+			map.put(cur, new Node(cur.data));
 			cur = cur.next;
 		}
 		
+		cur = root; // reset cur to root/head
+
+		while (cur != null) {
+			Node copiedNode = map.get(cur);
+			copiedNode.next = map.get(cur.next);
+			copiedNode.random = map.get(cur.random);
+
+			if (last == null) {
+				copyHead = copiedNode;
+				last = copyHead;
+			} else {
+				last.next = copiedNode;
+				last = copiedNode;
+			}
+
+			cur = cur.next;
+		}
+		
+		System.out.println("deepCopyLinkedListWithRandomNodes");
 		printLinkedNodes(copyHead);
+		return copyHead;
+
 	}
 
 }// End of class

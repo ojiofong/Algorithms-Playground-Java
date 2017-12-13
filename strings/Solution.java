@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -237,11 +236,11 @@ public class Solution {
 		return count; // num of chars to delete to form anagram
 	}
 
-	public static String isBracketBalanced(String s) {
+	public static boolean isBracketBalanced(String s) {
 		if (s == null || s.isEmpty())
-			return "NO";
+			return false;
 
-		Map<Character, Character> map = new HashMap<>();
+		HashMap<Character, Character> map = new HashMap<>();
 		map.put('(', ')');
 		map.put('{', '}');
 		map.put('[', ']');
@@ -250,16 +249,13 @@ public class Solution {
 
 		for (char c : s.toCharArray()) {
 			if (map.containsKey(c)) {
-				stack.push(map.get(c)); // push the closing tag to match later
-			} else {
-				if (stack.isEmpty())
-					return "NO";
-				if (stack.pop() != c)
-					return "NO";
+				stack.push(map.get(c)); // push closing tag to match later
+			} else if (stack.isEmpty() || c != stack.pop()) {
+				return false;
 			}
 		}
 
-		return stack.isEmpty() ? "YES" : "NO";
+		return stack.isEmpty();
 
 	}
 
@@ -324,8 +320,7 @@ public class Solution {
 
 	/**
 	 * Reverse String words only Given: "one two three" Expected: "three two
-	 * one" Note - No extra copy or String.split()
-	 * Time O(n^2)  Space O(1)
+	 * one" Note - No extra copy or String.split() Time O(n^2) Space O(1)
 	 */
 	public static void reverseStringWordsOnly(String str) {
 
@@ -334,9 +329,9 @@ public class Solution {
 		int N = arr.length;
 		int i = 0;
 		int j = N - 1;
-		
+
 		reverseChars(arr, i, j);
-		
+
 		for (int k = 0; k < N; k++) {
 			if (String.valueOf(arr[k]).equals(" ")) {
 				reverseChars(arr, i, k - 1); // use k-1
@@ -361,7 +356,7 @@ public class Solution {
 			j--;
 		}
 	}
-	
+
 	// subtracting by char '0'(zero) a char (of digit '0' to '9')
 	// can be converted into int(0 to 9)
 	public static void stringToInt(String str) throws Exception {
@@ -382,25 +377,25 @@ public class Solution {
 		System.out.println("stringToInt-> " + ans);
 
 	}
-	
+
 	// Start from right to left and apply factor (multiplication) appropriately
 	public static void stringToInt2(String str) throws Exception {
-		
+
 		int factor = 1;
 		int ans = 0;
 		boolean isNegative = str.charAt(0) == '-';
 		int firstCharIndex = isNegative ? 1 : 0;
-		for (int j=str.length()-1; j >= firstCharIndex; j--){
+		for (int j = str.length() - 1; j >= firstCharIndex; j--) {
 			char c = str.charAt(j);
-			if (c < '0' || c > '9'){
+			if (c < '0' || c > '9') {
 				throw new IllegalArgumentException("numbers only bro");
 			}
 			ans += (c - '0') * factor;
 			factor *= 10;
 		}
-		
+
 		ans = isNegative ? (ans * -1) : ans;
-		
+
 		System.out.println("ans-> " + ans);
 
 	}

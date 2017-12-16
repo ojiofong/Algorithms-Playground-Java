@@ -22,6 +22,7 @@ public class Solution {
 		seperateEvenOdd(head);
 		deepCopyLinkedList(getLinkedNodes());
 		deepCopyLinkedListWithRandomNodes(getLinkedNodes());
+		removeNthFromEnd(getLinkedNodes(), 2);
 	}
 
 	private static Node merge(Node a, Node b) {
@@ -342,7 +343,7 @@ public class Solution {
 			map.put(cur, new Node(cur.data));
 			cur = cur.next;
 		}
-		
+
 		cur = root; // reset cur to root/head
 
 		while (cur != null) {
@@ -360,11 +361,41 @@ public class Solution {
 
 			cur = cur.next;
 		}
-		
+
 		System.out.println("deepCopyLinkedListWithRandomNodes");
 		printLinkedNodes(copyHead);
 		return copyHead;
 
+	}
+
+	/*-
+	 * O(n) time and constant space.
+	 */
+	private static Node removeNthFromEnd(Node head, int n) {
+		System.out.println("removeNthFromEnd");
+		if (head == null)
+			return null;
+
+		Node start = new Node(0);
+		start.next = head;
+		Node cur = start;
+		Node behind = start;
+
+		// 1 -> last position.
+		// n+1 -> one step behind position n
+		for (int i = 1; i <= n + 1 && cur != null; i++) {
+			cur = cur.next;
+		}
+
+		while (cur != null) {
+			behind = behind.next;
+			cur = cur.next;
+		}
+
+		behind.next = behind.next.next; // Remove/Delete node
+
+		printLinkedNodes(start.next);
+		return start.next; // return head
 	}
 
 }// End of class

@@ -30,6 +30,8 @@ public class Solution {
 		System.out.println("wordLadder -> " + wordLadder("hit", "cog", dict));
 		printOpenCloseParenthesis(2);
 		reverseStringWordsOnly("one two three");
+		lengthOfLongestSubstring("ababcaabcabcaab");
+		lengthOfLongestSubstringFast("ababcaabcabcaab");
 	}
 
 	public void allSubstringsOfAString(String str) {
@@ -398,6 +400,62 @@ public class Solution {
 
 		System.out.println("ans-> " + ans);
 
+	}
+
+	/*-
+	 * Given a string, find the length of the longest substring without repeating characters.
+	   "abcabcbb" -> "abc", length is 3.
+	   "bbbbb" -> "b", length of 1.
+	   "pwwkew" ->"wke", length of 3. 
+	   Must be a substring, "pwke" is a subsequence and not a substring.
+	   
+	   O(n^2) time and O(256) space
+	 */
+	private static int lengthOfLongestSubstring(String s) {
+		int max = 0;
+		if (s == null)
+			return max;
+		Set<Character> set = new HashSet<>();
+
+		for (int i = 0; i < s.length(); i++) {
+			for (int k = i; k < s.length(); k++) {
+				char c = s.charAt(k);
+				if (!set.add(c)) {
+					set.clear();
+					break; // Start from the next char
+				}
+				max = Math.max(max, set.size());
+			}
+		}
+		System.out.println("lengthOfLongestSubstring-> " + max);
+		return max;
+	}
+
+	/*-
+	 * Given a string, find the length of the longest substring without repeating characters.
+	   "abcabcbb" -> "abc", length is 3.
+	   "bbbbb" -> "b", length of 1.
+	   "pwwkew" ->"wke", length of 3. 
+	   Must be a substring, "pwke" is a subsequence and not a substring.
+	   
+	   O(n) time and O(256) space
+	 */
+	private static int lengthOfLongestSubstringFast(String s) {
+		if (s == null || s.trim().isEmpty())
+			return 0;
+		
+		int result = 0;
+		int[] ascii = new int[256];
+		for(int i=0, j=0; i < s.length(); i++){
+			char c = s.charAt(i);
+			if(ascii[c] > 0){
+				j = Math.max(j, ascii[c]); // latest first index of new substring
+			}
+			ascii[c] = i + 1; // first index of new substring
+			result = Math.max(result, i-j+1); // + 1 for size since index starts with zero
+		}
+		System.out.println("lengthOfLongestSubstringFast-> " + result);
+		return result;
 	}
 
 	// static ReentrantLock mObject = new ReentrantLock();

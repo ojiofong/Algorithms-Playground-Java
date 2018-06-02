@@ -296,7 +296,7 @@ public class Solution {
 	/**
 	 * Given any array of +ve integers e.g { 0, 3, 0, 0, 5, 6, 0 } put zeros
 	 * behind ==> Expected 0,0,0,0,3,5,6
-	 * 
+	 *
 	 */
 	private static void moveZerosBehind() {
 		int[] arr = new int[] { 0, 3, 0, 0, 5, 6, 0 };
@@ -406,9 +406,9 @@ public class Solution {
 	 * Given a string, find the length of the longest substring without repeating characters.
 	   "abcabcbb" -> "abc", length is 3.
 	   "bbbbb" -> "b", length of 1.
-	   "pwwkew" ->"wke", length of 3. 
+	   "pwwkew" ->"wke", length of 3.
 	   Must be a substring, "pwke" is a subsequence and not a substring.
-	   
+
 	   O(n^2) time and O(256) space
 	 */
 	private static int lengthOfLongestSubstring(String s) {
@@ -435,15 +435,15 @@ public class Solution {
 	 * Given a string, find the length of the longest substring without repeating characters.
 	   "abcabcbb" -> "abc", length is 3.
 	   "bbbbb" -> "b", length of 1.
-	   "pwwkew" ->"wke", length of 3. 
+	   "pwwkew" ->"wke", length of 3.
 	   Must be a substring, "pwke" is a subsequence and not a substring.
-	   
+
 	   O(n) time and O(256) space
 	 */
 	private static int lengthOfLongestSubstringFast(String s) {
 		if (s == null || s.trim().isEmpty())
 			return 0;
-		
+
 		int result = 0;
 		int[] ascii = new int[256];
 		for(int i=0, j=0; i < s.length(); i++){
@@ -458,25 +458,71 @@ public class Solution {
 		return result;
 	}
 
-	// static ReentrantLock mObject = new ReentrantLock();
-	// static Object mObject2 = new Object();
-	// public static void varTest(String... strs){
-	// List<Integer> list = new ArrayList<>();
-	// list.add(1);
-	// list.add(2);
-	// list.add(3);
-	// Iterator<Integer> mIterator = null;
-	//
-	// synchronized(mObject2){
-	// mIterator = list.iterator();
-	// while(mIterator.hasNext()){
-	// System.out.println("iterator "+ mIterator.next());
-	// }
-	// }
-	//
-	//
-	// System.out.println(""+strs.length);
-	// mObject.lock();
-	// mObject.unlock();
-	// }
-} // End of class - Strings
+	/*-
+	* Given a string, Determine if it's a special word.
+		A special word is a word such that removing one character at every level will return at least one valid dictionary word.
+		E.g. "Sprint" is a special word.
+		"sprint" -> dictionary word
+		"print" -> dictionary word
+		"pint" -> dictionary word
+		"pit" -> dictionary word
+		"it" -> dictionary word
+		"i" -> dictionary word
+
+		O(n!) time - n is number of characters in the input string
+		O(n + n!) space
+			 - n (characters) for call stack space (Without Memoization)
+			 - n! (Memoization) if all words are valid (With Memoization)
+	*/
+	public boolean isSpecialWord(String str) {
+			 // Assume valid initial input
+			 // Helper Node to get arr obj via call-by-sharing
+			 Node obj = new Node(new boolean[str.length()]);
+			 isSpecialWordHelper(str, obj, new HashSet<String>());
+
+			 // Check if there's a valid word at all n-1 levels
+			 return isAllTrue(obj.arr);
+	 }
+
+	 private void isSpecialWordHelper(String word, Node obj, Set<String> memo) {
+
+			 int n = word.length();
+
+			 if (memo.contains(word)) {
+					 return;
+			 } else if (isDictionaryWord(word)) {
+					 obj.arr[n - 1] = true;
+					 memo.add(word); // Memoization improvement
+			 } else {
+					 return; // No need to check invalid words further
+			 }
+
+			 for (int i = 0; i < n; i++) {
+					 String sub = removeCharAtIndex(i, word);
+					 isSpecialWordHelper(sub, obj, memo);
+			 }
+	 }
+
+	 private boolean isDictionaryWord(String str) {
+			 // Place Holder dictionary for testing
+			 Set<String> dict = new HashSet<>();
+			 dict.add("sprint");
+			 dict.add("print");
+			 dict.add("pint");
+			 dict.add("pit");
+			 dict.add("it");
+			 dict.add("i");
+
+			 return dict.contains(str);
+	 }
+
+	 private String removeCharAtIndex(int i, String str) {
+			 return new StringBuilder(str).replace(i, i + 1, "").toString();
+	 }
+
+	 private boolean isAllTrue(boolean[] arr) {
+			 for (boolean b : arr) {
+					 if (!b) return false;
+			 }
+			 return true;
+	 }

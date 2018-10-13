@@ -457,72 +457,79 @@ public class Solution {
 		System.out.println("lengthOfLongestSubstringFast-> " + result);
 		return result;
 	}
+	
+	private static String longestPalindrome(String s) {
+		if (s == null || s.trim().isEmpty())
+			return null;
+		int length = s.length();
+		String longest = null;
+		for (int k = 0; k < length && longest == null || (length - k) > longest.length(); k++) {
+			int j = length;
+			while (k < j && longest == null || (j - k) > longest.length()) {
+				String sub = s.substring(k, j);
+				if (isPalindrome(sub)) {
+					longest = sub;
+				}
+				j--;
+			}
+		}
+		return longest == null ? s.charAt(0) + "" : longest;
+	}
 
+	private static boolean isPalindrome(String s) {
+		int i = 0;
+		int j = s.length() - 1;
+		while (i <= j) {
+			if (s.charAt(i) != s.charAt(j)) {
+				return false;
+			}
+			i++;
+			j--;
+		}
+		return true;
+	}
+	
 	/*-
-	* Given a string, Determine if it's a special word.
-		A special word is a word such that removing one character at every level will return at least one valid dictionary word.
-		E.g. "Sprint" is a special word.
-		"sprint" -> dictionary word
-		"print" -> dictionary word
-		"pint" -> dictionary word
-		"pit" -> dictionary word
-		"it" -> dictionary word
-		"i" -> dictionary word
+	 * Given a string, determine if it's a special word
+	 * A special word is a word where every String minus one character is a dictionary word
+	 * E.g. sprint -> print -> pint -> pin -> in -> i
+	   
+	   O(n!) time - n is number of chars in word
+	   O(n) space - n is number of chars in word
+	 */
+	public static boolean isSpecial(String word) {
+		
+		Set<String> dict = new HashSet<>(); // sample dictionary
+		dict.add("sprint");
+		dict.add("print");
+		dict.add("pint");
+		dict.add("pin");
+		dict.add("in");
+		dict.add("i");
+		
+		Set<String> memo = new HashSet<>(); // memoization
+		Set<Integer> result = new HashSet<>(); // hold word.length() found in dict
+		
+		isSpecial(word, memo, dict, result);
+		
+		return result.size() == word.length();
+	}
 
-		O(n!) time - n is number of characters in the input string
-		O(n + n!) space
-			 - n (characters) for call stack space (Without Memoization)
-			 - n! (Memoization) if all words are valid (With Memoization)
-	*/
-	public boolean isSpecialWord(String str) {
-			 // Assume valid initial input
-			 // Helper Node to get arr obj via call-by-sharing
-			 Node obj = new Node(new boolean[str.length()]);
-			 isSpecialWordHelper(str, obj, new HashSet<String>());
+	private static void isSpecial(String word, Set<String> memo, Set<String> dict, Set<Integer> result) {
 
-			 // Check if there's a valid word at all n-1 levels
-			 return isAllTrue(obj.arr);
-	 }
+		if (word == null || word.isEmpty() || memo.contains(word) || result.contains(word.length()))
+			return;
 
-	 private void isSpecialWordHelper(String word, Node obj, Set<String> memo) {
+		memo.add(word);
 
-			 int n = word.length();
+		if (dict.contains(word)) {
+			result.add(word.length()); // nice trick to track the valid word level by String length
 
-			 if (memo.contains(word)) {
-					 return;
-			 } else if (isDictionaryWord(word)) {
-					 obj.arr[n - 1] = true;
-					 memo.add(word); // Memoization improvement
-			 } else {
-					 return; // No need to check invalid words further
-			 }
+			for (int i = 0; i < word.length(); i++) {
+				String sub = new StringBuilder(word).deleteCharAt(i).toString();
+				isSpecial(sub, memo, dict, result);
+			}
+		}
 
-			 for (int i = 0; i < n; i++) {
-					 String sub = removeCharAtIndex(i, word);
-					 isSpecialWordHelper(sub, obj, memo);
-			 }
-	 }
-
-	 private boolean isDictionaryWord(String str) {
-			 // Place Holder dictionary for testing
-			 Set<String> dict = new HashSet<>();
-			 dict.add("sprint");
-			 dict.add("print");
-			 dict.add("pint");
-			 dict.add("pit");
-			 dict.add("it");
-			 dict.add("i");
-
-			 return dict.contains(str);
-	 }
-
-	 private String removeCharAtIndex(int i, String str) {
-			 return new StringBuilder(str).replace(i, i + 1, "").toString();
-	 }
-
-	 private boolean isAllTrue(boolean[] arr) {
-			 for (boolean b : arr) {
-					 if (!b) return false;
-			 }
-			 return true;
-	 }
+	}
+} // End of class - Strings

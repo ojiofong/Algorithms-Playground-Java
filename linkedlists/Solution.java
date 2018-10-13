@@ -372,27 +372,29 @@ public class Solution {
 	 * O(n) time and constant space.
 	 */
 	private static Node removeNthFromEnd(Node head, int n) {
-		System.out.println("removeNthFromEnd");
-		if (head == null)
-			return null;
+		System.out.println("removeNthFromEnd n = " + n);
+		if (head == null || n <= 0)
+			return head;
 
 		Node start = new Node(0);
 		start.next = head;
-		Node cur = start;
-		Node behind = start;
+		Node fast = start;
+		Node slow = start;
 
-		// 1 -> last position.
-		// n+1 -> one step behind position n
-		for (int i = 1; i <= n + 1 && cur != null; i++) {
-			cur = cur.next;
+		int i;
+		for (i = 0; i < n && fast.next != null; i++) {
+			fast = fast.next;
 		}
 
-		while (cur != null) {
-			behind = behind.next;
-			cur = cur.next;
+		if (i < n)
+			throw new IllegalArgumentException("LinkedList contains less than " + n + " nodes");
+
+		while (fast.next != null) {
+			fast = fast.next;
+			slow = slow.next;
 		}
 
-		behind.next = behind.next.next; // Remove/Delete node
+		slow.next = slow.next.next; // Remove/Delete node
 
 		printLinkedNodes(start.next);
 		return start.next; // return head

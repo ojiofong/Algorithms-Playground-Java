@@ -1,116 +1,72 @@
 package zzz;
 
-import tree.BTreePrinter;
-import tree.BinarySTree;
-import tree.Node;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Test2 {
 
 	public static void main(String[] args) throws Exception {
-
 		System.out.println(Test2.class.getSimpleName());
-		AVL bst = new AVL();
-		bst.root = bst.insert(1, bst.root);
-		bst.root = bst.insert(2, bst.root);
-		bst.root = bst.insert(3, bst.root);
-		
-		
-		
-		System.out.println("size-> " + bst.size);
-		System.out.println("root null-> " + (bst.root == null));
-		BinarySTree.levelOrder(bst.root);
-		BTreePrinter.printNode(bst.root);
+
+		String word = "sprint";
+		System.out.println("\nisSpecial->" + isSpecial(word));
 
 	}
+	/*-
+	 * Given a string, determine if it's a special word
+	 * A special word is a word where every String minus one character is a dictionary word
+	 * E.g. sprint -> print -> pint -> pin -> in -> i
+	   
+	   O(n!) time and O(n) space
+	 */
+	public static boolean isSpecial(String word) {
+		
+		Set<String> dict = new HashSet<>(); // sample dictionary
+		dict.add("sprint");
+		dict.add("print");
+		dict.add("pint");
+		dict.add("pin");
+		dict.add("in");
+		dict.add("i");
+		
+		Set<String> memo = new HashSet<>(); // memoization
+		Set<Integer> result = new HashSet<>(); // hold word.length() found in dict
+		
+		isSpecial(word, memo, dict, result);
+		
+		return result.size() == word.length();
+	}
 
-	static class AVL {
-		// private static class Node {
-		// int data;
-		// int ht;
-		// Node left, right;
-		//
-		// public Node(int data) {
-		// this.data = data;
-		// }
-		// }
+	private static void isSpecial(String word, Set<String> memo, Set<String> dict, Set<Integer> result) {
+		
+		System.out.println("recurse-> " + word);
 
-		Node root;
-		int size;
+		if (word == null || word.isEmpty() || memo.contains(word) || result.contains(word.length()))
+			return;
 
-		public AVL() {
-			root = null;
-			size = 0;
-		}
+		memo.add(word);
 
-		public Node insert(int data) {
-			return insert(data, root);
-		}
+		if (dict.contains(word)) {
+			result.add(word.length());
 
-		private Node insert(int data, Node root) {
-			Node newNode = new Node(data);
-
-			if (root == null) {
-				root = newNode;
-			} else if (data < root.data) {
-				root.left = insert(data, root.left);
-				if (isUnbalanced(root)) {
-					root = data < root.left.data ? rotateWithLeft(root) : doubleWithLeft(root);
-				}
-			} else {
-				root.right = insert(data, root.right);
-				if (isUnbalanced(root)) {
-					root = data < root.right.data ? rotateWithRight(root) : doubleWithRight(root);
-				}
+			for (int i = 0; i < word.length(); i++) {
+				String sub = new StringBuilder(word).deleteCharAt(i).toString();
+				isSpecial(sub, memo, dict, result);
 			}
-
-			size += 1;
-			root.ht = height(root);
-			return root;
 		}
 
-		private int height(Node n) {
-			if (n == null)
-				return -1;
-			if (n.left == null && n.right == null)
-				return 0;
-			return 1 + Math.max(height(n.left), height(n.right));
-		}
-
-		private boolean isUnbalanced(Node n) {
-			return Math.abs(height(n.left) - height(n.right)) > 1;
-		}
-
-		private boolean isUnbalanced2(Node n) {
-			return Math.abs(n.left.ht - n.right.ht) > 1;
-		}
-
-		private Node rotateWithLeft(Node root) {
-			Node n = root.left;
-			root.left = n.right;
-			n.right = root;
-			root.ht = height(root);
-			n.ht = height(n);
-			return n;
-		}
-
-		private Node rotateWithRight(Node root) {
-			Node n = root.right;
-			root.right = n.left;
-			n.left = root;
-			root.ht = height(root);
-			n.ht = height(n);
-			return n;
-		}
-
-		private Node doubleWithLeft(Node root) {
-			root.left = rotateWithRight(root.left);
-			return rotateWithLeft(root);
-		}
-
-		private Node doubleWithRight(Node root) {
-			root.right = rotateWithLeft(root.right);
-			return rotateWithRight(root);
-		}
 	}
+
+	private static Set<String> getDict() {
+		Set<String> dict = new HashSet<>();
+		dict.add("sprint");
+		dict.add("print");
+		dict.add("pint");
+		dict.add("pin");
+		dict.add("in");
+		dict.add("i");
+		return dict;
+	}
+	// endregion
 
 }

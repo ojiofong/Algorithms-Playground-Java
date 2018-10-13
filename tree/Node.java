@@ -25,5 +25,9 @@ public class Node {
 		this.objectData = data;
 		this.data = Integer.parseInt((String)data);
 	}
+	
+	public String toString(){
+		return "["+ data + " ht:" + ht + "]";
+	}
 
 }

@@ -5,7 +5,7 @@ import java.util.Queue;
 
 public class BinarySTree {
 
-	static Node root;
+	public Node root;
 
 	// private class Node {
 	// Node left, right, parent;
@@ -49,10 +49,10 @@ public class BinarySTree {
 		// visitNode(root);
 		// inOrderTraversal(root);
 		// preOrderTraversal(root);
-		levelOrder(root);
-		BTreePrinter.printNode(root);
+		levelOrder(bst.root);
+		BTreePrinter.printNode(bst.root);
 		// levelOrder2()
-		findBSTMinimumValueDifference(root);
+		findBSTMinimumValueDifference(bst.root);
 		System.out.println("minDiff: " + minDiff);
 		// preOrderTraversal(root);
 		// System.out.println("found: " + bst.findNode(7));

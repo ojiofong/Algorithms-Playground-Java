@@ -1,75 +1,72 @@
 package zzz;
 
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Test2 {
 
 	public static void main(String[] args) throws Exception {
 		System.out.println(Test2.class.getSimpleName());
-		int[] arr = { 3, 2, 5, 0, 1, 4 };
-		System.out.println(Arrays.toString(arr));
-//		mergeSort(arr);
-		quickSort(arr);
-		System.out.println(Arrays.toString(arr));
+
+		String word = "sprint";
+		System.out.println("\nisSpecial->" + isSpecial(word));
 
 	}
-
-	public static void mergeSort(int[] arr) {
-		merge(arr, 0, arr.length - 1);
-	}
-
-	public static void quickSort(int[] arr) {
-		quick(arr, 0, arr.length - 1);
-	}
-
-	private static void merge(int[] arr, int lo, int hi) {
-		if (lo < hi) {
-			int mid = lo + (hi - lo) / 2;
-			merge(arr, lo, mid);
-			merge(arr, mid + 1, hi);
-			mergeAll(arr, lo, mid, hi);
-		}
-	}
-
-	private static void mergeAll(int[] arr, int lo, int mid, int hi) {
-		int[] helper = Arrays.copyOf(arr, arr.length);
-
-		int i = lo;
-		int j = mid + 1;
-		int k = lo;
-
-		while (i <= mid && j <= hi) {
-			arr[k++] = helper[i] < helper[j] ? helper[i++] : helper[j++];
-		}
-
-		while (i <= mid) {
-			arr[k++] = helper[i++];
-		}
-	}
-
-	private static void quick(int[] arr, int lo, int hi) {
-		int i = lo;
-		int j = hi;
-		int pivot = arr[lo + (hi - lo) / 2];
+	/*-
+	 * Given a string, determine if it's a special word
+	 * A special word is a word where every String minus one character is a dictionary word
+	 * E.g. sprint -> print -> pint -> pin -> in -> i
+	   
+	   O(n!) time and O(n) space
+	 */
+	public static boolean isSpecial(String word) {
 		
-		while (i <= j) {
-			while (arr[i] < pivot)
-				i++;
-			while (arr[j] > pivot)
-				j--;
-			if (i <= j)
-				swap(arr, i++, j--);
-		}
-		if (i <= hi)
-			quick(arr, i, hi);
-		if (j >= lo)
-			quick(arr, lo, j);
+		Set<String> dict = new HashSet<>(); // sample dictionary
+		dict.add("sprint");
+		dict.add("print");
+		dict.add("pint");
+		dict.add("pin");
+		dict.add("in");
+		dict.add("i");
+		
+		Set<String> memo = new HashSet<>(); // memoization
+		Set<Integer> result = new HashSet<>(); // hold word.length() found in dict
+		
+		isSpecial(word, memo, dict, result);
+		
+		return result.size() == word.length();
 	}
 
-	private static void swap(int[] arr, int i, int j) {
-		int temp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = temp;
+	private static void isSpecial(String word, Set<String> memo, Set<String> dict, Set<Integer> result) {
+		
+		System.out.println("recurse-> " + word);
+
+		if (word == null || word.isEmpty() || memo.contains(word) || result.contains(word.length()))
+			return;
+
+		memo.add(word);
+
+		if (dict.contains(word)) {
+			result.add(word.length());
+
+			for (int i = 0; i < word.length(); i++) {
+				String sub = new StringBuilder(word).deleteCharAt(i).toString();
+				isSpecial(sub, memo, dict, result);
+			}
+		}
+
 	}
+
+	private static Set<String> getDict() {
+		Set<String> dict = new HashSet<>();
+		dict.add("sprint");
+		dict.add("print");
+		dict.add("pint");
+		dict.add("pin");
+		dict.add("in");
+		dict.add("i");
+		return dict;
+	}
+	// endregion
 
 }

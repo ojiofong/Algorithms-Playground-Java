@@ -1,9 +1,11 @@
 package strings;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
@@ -15,7 +17,7 @@ public class Solution {
 	public static void main(String[] args) {
 		System.out.println(Solution.class.getSimpleName());
 		Solution solu = new Solution();
-		solu.allSubstringsOfAString("abc");
+		solu.allSubstringsFaster("abc");
 		longestDuplicateSub("ababcaabcabcaab");
 		allCaseComboOfString("", "abc");
 		System.out.println("");
@@ -32,9 +34,14 @@ public class Solution {
 		reverseStringWordsOnly("one two three");
 		lengthOfLongestSubstring("ababcaabcabcaab");
 		lengthOfLongestSubstringFast("ababcaabcabcaab");
+
+		System.out.println("isSpecial -> " + isSpecial("sprint"));
 	}
 
-	public void allSubstringsOfAString(String str) {
+	/**
+	 * O(n^3) Time O(1) Space
+	 */
+	public void allSubstringsSlow(String str) {
 		int N = str.length();
 		for (int i = 0; i < N; i++) {
 			int t = N;
@@ -45,21 +52,53 @@ public class Solution {
 		}
 		System.out.println("");
 	}
+	
+	/**
+	 * O(n^2) Time
+	 *  O(k) Space for indices
+	 */
+	public static List<String> allSubstringsFaster(String str) {
+		System.out.println("*****Start allSubstringsFaster****: " + str);
+		
+		List<String> result = new ArrayList<>();
+
+		List<Integer> startList = new ArrayList<>();
+		List<Integer> endList = new ArrayList<>();
+
+		for (int i = 0; i < str.length(); i++) {
+			// StringBuilder sb = new StringBuilder();
+			for (int k = i; k < str.length(); k++) {
+				// sb.append(str.charAt(k));
+				// System.out.println(sb.toString()); // println adds O(n)
+				startList.add(i);
+				endList.add(k);
+			}
+		}
+
+		for (int i = 0; i < startList.size(); i++) {
+			int start = startList.get(i);
+			int end = endList.get(i);
+			String sub = str.substring(start, end + 1);
+			result.add(sub);
+			System.out.println(sub); // println adds O(n)
+		}
+
+		System.out.println("*****End of allSubstringsFaster****: " + str + " space:"+ startList.size());
+		
+		return result;
+	}
 
 	public static void longestDuplicateSub(String str) {
-		// Get all substrings of str
-		// check duplicate on the fly
-		// hold the longest if true
 
 		String longest = "";
 
-		for (int i = 0; i < str.length(); i++) {
-			for (int k = 1; k <= str.length() - i; k++) {
-				String sub = str.substring(i, k + i);
-				boolean isSubDuplicate = str.replaceFirst(sub, "").contains(sub);
-				if (isSubDuplicate) {
-					longest = sub.length() > longest.length() ? sub : longest;
-				}
+		// Get all substrings of str
+		List<String> substrings = allSubstringsFaster(str);
+		Set<String> set = new HashSet<>();
+
+		for (String sub : substrings) {
+			if (!set.add(sub) && sub.length() > longest.length()) {
+				longest = sub;
 			}
 		}
 
@@ -408,7 +447,7 @@ public class Solution {
 	   "bbbbb" -> "b", length of 1.
 	   "pwwkew" ->"wke", length of 3.
 	   Must be a substring, "pwke" is a subsequence and not a substring.
-
+	
 	   O(n^2) time and O(256) space
 	 */
 	private static int lengthOfLongestSubstring(String s) {
@@ -437,7 +476,7 @@ public class Solution {
 	   "bbbbb" -> "b", length of 1.
 	   "pwwkew" ->"wke", length of 3.
 	   Must be a substring, "pwke" is a subsequence and not a substring.
-
+	
 	   O(n) time and O(256) space
 	 */
 	private static int lengthOfLongestSubstringFast(String s) {
@@ -446,18 +485,20 @@ public class Solution {
 
 		int result = 0;
 		int[] ascii = new int[256];
-		for(int i=0, j=0; i < s.length(); i++){
+		for (int i = 0, j = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
-			if(ascii[c] > 0){
-				j = Math.max(j, ascii[c]); // latest first index of new substring
+			if (ascii[c] > 0) {
+				j = Math.max(j, ascii[c]); // latest first index of new
+											// substring
 			}
-			ascii[c] = i + 1; // first index of new substring
-			result = Math.max(result, i-j+1); // + 1 for size since index starts with zero
+			ascii[c] = i + 1; // initial index end of new substring
+			result = Math.max(result, i - j + 1); // + 1 for size since index
+													// starts with zero
 		}
 		System.out.println("lengthOfLongestSubstringFast-> " + result);
 		return result;
 	}
-	
+
 	private static String longestPalindrome(String s) {
 		if (s == null || s.trim().isEmpty())
 			return null;
@@ -488,7 +529,7 @@ public class Solution {
 		}
 		return true;
 	}
-	
+
 	/*-
 	 * Given a string, determine if it's a special word
 	 * A special word is a word where every String minus one character is a dictionary word
@@ -498,20 +539,21 @@ public class Solution {
 	   O(n) space - n is number of chars in word
 	 */
 	public static boolean isSpecial(String word) {
-		
+
 		Set<String> dict = new HashSet<>(); // sample dictionary
 		dict.add("sprint");
 		dict.add("print");
 		dict.add("pint");
-		dict.add("pin");
-		dict.add("in");
+		dict.add("pit");
+		dict.add("it");
 		dict.add("i");
-		
+
 		Set<String> memo = new HashSet<>(); // memoization
-		Set<Integer> result = new HashSet<>(); // hold word.length() found in dict
-		
+		Set<Integer> result = new HashSet<>(); // hold word.length() found in
+												// dict
+
 		isSpecial(word, memo, dict, result);
-		
+
 		return result.size() == word.length();
 	}
 

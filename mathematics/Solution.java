@@ -5,7 +5,8 @@ public class Solution {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println(squareRoot(10));
-		System.out.println(power(3, 2));
+		System.out.println("pow -> " + power(2, 4));
+		System.out.println("powFast -> " + powFastSolu(2, 4));
 		System.out.println("multiply -> " + multiply(1, 6));
 		System.out.println("divide -> " + divide(5, 2));
 
@@ -47,16 +48,25 @@ public class Solution {
 	}
 	
 	// Log n time
-	static double powFast(int base, int exponent){
+	private static double powFast(int base, int exponent){
 	    if(base == 0) return 0;
 	    if(exponent == 0) return 1;
 	    if(exponent == 1) return base;
 		
-		  if (exponent % 2 == 0 ){
-		        return powFast(base, exponent/2) * powFast(base, exponent/2);
-		    }else{
-		        return powFast(base, exponent/2) * powFast(base, exponent/2) + base;
-		    }
+		if (exponent % 2 == 0) {
+			return powFast(base, exponent / 2) * powFast(base, exponent / 2);
+		} else {
+			return powFast(base, exponent / 2) * powFast(base, exponent / 2) * base;
+		}
+	}
+	
+	// Log n time
+	public static double powFastSolu(int base, int exponent) {
+		if (exponent < 0) {
+			return 1 / powFast(base, exponent);
+		} else {
+			return powFast(base, exponent);
+		}
 	}
 
 	private static double multiply(double a, double b) {

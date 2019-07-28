@@ -12,17 +12,17 @@ public class Solution {
 		System.out.println("hey");
 
 		Node head = getLinkedNodes();
-		printLinkedNodes(head);
-		printLinkedNodes(reverseLL(head));
-		// reversePrint(head);
-		System.out.println("\nnth last node -> " + nthLastNode(head, 2).data);
-		getIntersect(getLinkedNodes(), getLinkedNodes2());
-		Node m = merge(getLinkedNodes(), getLinkedNodes2());
-		printLinkedNodes(m);
-		seperateEvenOdd(head);
-		deepCopyLinkedList(getLinkedNodes());
-		deepCopyLinkedListWithRandomNodes(getLinkedNodes());
-		removeNthFromEnd(getLinkedNodes(), 2);
+//		printLinkedNodes(head);
+//		printLinkedNodes(reverseLL(head));
+//		// reversePrint(head);
+//		System.out.println("\nnth last node -> " + nthLastNode(head, 2).data);
+//		getIntersect(getLinkedNodes(), getLinkedNodes2());
+//		Node m = merge(getLinkedNodes(), getLinkedNodes2());
+//		printLinkedNodes(m);
+		separateEvenOdd(head);
+//		deepCopyLinkedList(getLinkedNodes());
+//		deepCopyLinkedListWithRandomNodes(getLinkedNodes());
+//		removeNthFromEnd(getLinkedNodes(), 2);
 	}
 
 	private static Node merge(Node a, Node b) {
@@ -242,62 +242,46 @@ public class Solution {
 	/*-
 	Input: 17->15->8->12->10->5->4->1->7->6->NULL
 	Output: 8->12->10->4->6->17->15->5->1->7->NULL
+	Order of output doesn't matter as long as separated
+	O(n) time
+	O(1) space
 	**/
-	private static void seperateEvenOdd(Node head) {
-		System.out.println("seperateEvenOdd");
+	private static void separateEvenOdd(Node head) {
+		System.out.println("separateEvenOdd");
 		head = new Node(17);
 		head.next(new Node(15)).next(new Node(8)).next(new Node(12)).next(new Node(10)).next(new Node(5))
 				.next(new Node(4)).next(new Node(1)).next(new Node(7)).next(new Node(6));
 
-		head = getLinkedNodes();
+		// head = getLinkedNodes();
 
 		printLinkedNodes(head);
 
 		Node cur = head;
-		Node lastEven = null;
-		Node prev = null;
-		Node firstOdd = null;
-		boolean foundOdd = false;
+		Node first = null;
+		Node last = null;
 
 		while (cur != null) {
-
 			Node next = cur.next;
 
-			if (!foundOdd) {
-				if (isOdd(cur.data)) {
-					foundOdd = true;
-					firstOdd = cur;
-				}
+			if (first == null) {
+				cur.next = null;
+				first = last = cur;
+			} else if (cur.data % 2 == 0) {
+				cur.next = first;
+				first = cur;
+			} else {
+				cur.next = null;
+				last.next = cur;
+				last = cur;
 			}
 
-			if (foundOdd && isEven(cur.data)) {
-				prev.next = prev.next.next; // erase cur
-				if (lastEven == null) {
-					cur.next = firstOdd;
-					head = cur;
-				} else {
-					cur.next = firstOdd;
-					lastEven.next = cur;
-				}
-			}
-
-			if (isEven(cur.data))
-				lastEven = cur;
-
-			prev = cur;
 			cur = next;
 		}
 
+		head = first;
+
 		printLinkedNodes(head);
 
-	}
-
-	private static boolean isOdd(int n) {
-		return n % 2 != 0;
-	}
-
-	private static boolean isEven(int n) {
-		return n % 2 == 0;
 	}
 
 	private static void deepCopyLinkedList(Node head) {

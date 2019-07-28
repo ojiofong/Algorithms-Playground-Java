@@ -529,6 +529,31 @@ public class Solution {
 		}
 		return true;
 	}
+	
+	/*-
+	 * Get all substrings that are palindrome
+	 * 
+	   
+	   O(n^2) time
+	   O(n) space
+	 */
+	public static Set<String> getPalindromeSubstrings(String str) {
+		Set<String> set = new HashSet<>();
+		for (int i = 0; i < str.length(); i++) {
+			getPal(set, str, i, i);
+			getPal(set, str, i, i + 1);
+		}
+
+		return set;
+	}
+
+	private static void getPal(Set<String> set, String s, int i, int j) {
+		while (i >= 0 && j < s.length() && s.charAt(i) == s.charAt(j)) {
+			set.add(s.substring(i, j + 1)); // add start + end indices to avoid str.substring time complexity
+			i--;
+			j++;
+		}
+	}
 
 	/*-
 	 * Given a string, determine if it's a special word

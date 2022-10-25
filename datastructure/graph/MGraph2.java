@@ -75,7 +75,7 @@ public class MGraph2 {
 
 	public void BFS(NodeG root) {
 		// Set<String> visited = new HashSet<>();
-		MQueue2 queue = new MQueue2();
+		MQueueDoubly queue = new MQueueDoubly();
 		visitNode(root);
 		// visited.add(root.key);
 		root.visited = true;

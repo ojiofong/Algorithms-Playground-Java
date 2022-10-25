@@ -163,7 +163,7 @@ public class BinarySTree2 {
 	public static void levelOrderTraversal(NodeB focus) {
 		if (focus == null)
 			return;
-		MQueue2 q = new MQueue2();
+		MQueueDoubly q = new MQueueDoubly();
 		//visitNode(focus);
 		q.enqueue(focus);
 

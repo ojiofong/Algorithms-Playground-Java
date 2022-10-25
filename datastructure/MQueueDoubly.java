@@ -1,11 +1,11 @@
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class MQueue2 {
+public class MQueueDoubly {
 
 	public static void main(String[] args) {
 		System.out.println("good");
-		MQueue2 queue = new MQueue2();
+		MQueueDoubly queue = new MQueueDoubly();
 		// for (int i = 0; i < 5; i++)
 		// queue.enqueue(i);
 		queue.enqueue(1);
@@ -35,7 +35,7 @@ public class MQueue2 {
 	Node first, last;
 	int size;
 
-	public MQueue2() {
+	public MQueueDoubly() {
 		first = last = null;
 	}
 
@@ -52,10 +52,10 @@ public class MQueue2 {
 
 		size++;
 	}
-	
+
 	public void enqueue(int index , Object data) {
 		Node newNode = new Node(data);
-		
+
 		Node cur = first;
 		int i = 0;
 		while(cur!=null && i <= index){
@@ -69,7 +69,7 @@ public class MQueue2 {
 		}
 
 	}
-	
+
 
 	public Object dequeue() {
 		if (!isEmpty()) {
@@ -91,7 +91,7 @@ public class MQueue2 {
 		}
 		return s;
 	}
-	
+
 	public String toStringMerged() {
 		String s = "";
 		Node focus = first;

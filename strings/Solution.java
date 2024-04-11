@@ -55,7 +55,7 @@ public class Solution {
 	
 	/**
 	 * O(n^2) Time
-	 *  O(k) Space for indices
+	 *  O(n^2) Space for indices
 	 */
 	public static List<String> allSubstringsFaster(String str) {
 		System.out.println("*****Start allSubstringsFaster****: " + str);

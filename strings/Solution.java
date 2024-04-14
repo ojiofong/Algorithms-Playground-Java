@@ -498,6 +498,64 @@ public class Solution {
 		System.out.println("lengthOfLongestSubstringFast-> " + result);
 		return result;
 	}
+ 
+	  // TODO: CLEAN UP AND CONVERT TO JAVA LATER	
+	  // Input: s = "abcabcbb"
+	  // output: 3
+	  // Explanation: The answer is "abc", with the length of 3.
+	  // Longest Substring Without Repeating Characters
+	  func lengthOfLongestSubstring(_ s: String) -> Int {
+	    
+	    var longestLength = 0
+	    
+	    for i, _ in s.enumerated(){
+	       var set = Set<String>()
+	       for (j=i, j<s.count, j++){
+	         val ch = s[j]
+	         if (set.contains(ch)){
+	           // duplicate
+	           break
+	         }else{
+	           set.add(ch)
+	           val start = i
+	           val end = j
+	           val currentLength = end - start + 1
+	           longestLength = max(longestLength, currentLength)
+	         }
+	       }
+	    }
+	    
+	    return longestLength
+	        
+	  }
+
+        // TODO: CLEAN UP AND CONVERT TO JAVA LATER
+	// Longest Palindrome Substring
+	func longestPalindromeSubstring(_ s: String) -> String {    
+	    if s.empty() {
+	      return s;
+	    }
+	    
+	    var targetStart = -1
+	    var targetEnd = -1
+	    
+	    for i, _ in s.enumerated(){
+	       for (j=i, j<s.count, j++){
+	           val start = i
+	           val end = j
+	           val currentLength = end - start + 1
+	           val longestLengthSoFar = targetEnd - targetStart + 1
+	           if currentLength > longestLengthSoFar {
+	             if isPalindrome(s, start, end) {  
+	                targetStart = start
+	                targetEnd = end
+	             }
+	           }
+	       }
+	    }
+	    
+	    return targetStart == -1 ? "" : s.substring(targetStart, targetEnd + 1)  
+	}
 
 	private static String longestPalindrome(String s) {
 		if (s == null || s.trim().isEmpty())

@@ -222,6 +222,32 @@ public class Solution {
 		return ans;
 	}
 
+
+        // TODO: CONVERT TO JAVA AND CLEANUP.
+	// Container With Most Water
+	// https://leetcode.com/problems/container-with-most-water/description/
+       func maxWaterArea(_ height: [Int]) -> Int {
+	        var maxArea = 0
+	        var left = 0
+	        var right = height.count - 1
+	        
+	        // Two pointers approach:
+	        while left < right {
+	            // Calculate the current area based on the shorter height
+	            let currentArea = (right - left) * min(height[left], height[right])
+	            maxArea = max(maxArea, currentArea)  // Update maxArea if needed
+	            
+	            // skip the smaller heights
+	            if height[left] < height[right] {
+	                left += 1
+	            } else {
+	                right -= 1
+	            }
+	        }
+	        
+	        return maxArea
+     }
+
 	// Kadane's algorithm algorithm relies on at least one positive number
 	// if all negative return the max negative value
 	// This method assumes there's at least one positive number

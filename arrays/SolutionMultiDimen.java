@@ -174,75 +174,98 @@ public class SolutionMultiDimen {
 		}
 	}
 
-/**
-TODO: CLEAN UP AND CONVERT TO JAVA
-Merge Intervals
-Medium
-Topics
-Companies
-Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, 
-and return an array of the non-overlapping intervals that cover all the intervals in the input.
+	/**
+	TODO: CLEAN UP AND CONVERT TO JAVA
+	Merge Intervals
+	Medium
+	Topics
+	Companies
+	Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, 
+	and return an array of the non-overlapping intervals that cover all the intervals in the input.
+	
+	Example 1:
+	Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+	Output: [[1,6],[8,10],[15,18]]
+	Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
+	
+	Example 2:
+	Input: intervals = [[1,4],[4,5]]
+	Output: [[1,5]]
+	Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+	*/
+	
+	func mergeOverlappingIntervals(_ intervals: [[Int]]) -> [[Int]] {
+	   // 1. Sort based on start interval to determine overlaps
+	   // 2. Loop sequentially and find overlaps (means end value of the overlap)
+	   // 3. If found, add to output
+	   // 4. Reset start/end 
+	   // 5. Continue loop
+	   // 6. Finally return the output
+	   
+	   if intervals.count <= 1 {
+	     return interval
+	   }
+	   
+	   var result = [[Int]]()
+	   
+	   // sort based on the start interval
+	   // unsorted: [[8,10],[15,18],[1,3],[2,6]]
+	   // sorted:   [[1,5],[2,3],[8,10], [15,18]]
+	   var sorted = intervals.sorted { $0[1] < $1[1] }
+	   
+	   var lastStart: Int =  sorted[0][0]
+	   var lastEnd: Int =  sorted[0][1]
+	   
+	   for i in 1..<sorted.count {
+	     val start = sorted[i][0]
+	     val end = sorted[i][1]
+	     
+	     val isOverlap = start < sorted[i-1][1] // first run 2 < 3
+	     
+	     if (isOverlap){
+	       lastEnd = max(sorted[i-1][1], end) // pick the end interval that's larger
+	     }else{
+	       // add
+	       result.append([lastStart, lastEnd])
+	       // update 
+	       lastStart = start
+	       lastEnd = end
+	     }
+	   }
+	   
+	  // append the last index
+	  result.append([lastStart, lastEnd])
+	   
+	  return result  
+	 }
 
-Example 1:
-Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
-Output: [[1,6],[8,10],[15,18]]
-Explanation: Since intervals [1,3] and [2,6] overlap, merge them into [1,6].
 
-Example 2:
-Input: intervals = [[1,4],[4,5]]
-Output: [[1,5]]
-Explanation: Intervals [1,4] and [4,5] are considered overlapping.
-*/
+	/**
+	Kth Largest Element in an Array
+	Example 1:
+	Input: nums = [3,2,1,5,6,4], k = 2
+	Output: 5
+	
+	Example 2:
+	Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+	Output: 4
+	*/
+	public static int findKthLargest(int[] nums, int k) {
+		// Create a min-heap using Java's PriorityQueue
+		PriorityQueue<Integer> heap = new PriorityQueue<>(k);
+		
+		for (int num : nums) {
+		    heap.add(num);
+		    // Ensure the heap size stays at k
+		    if (heap.size() > k) {
+			heap.poll(); // Removes the smallest element
+		    }
+		}
+		
+		// The root of the heap is the kth largest element
+		return heap.peek();
+	}
 
-func mergeOverlappingIntervals(_ intervals: [[Int]]) -> [[Int]] {
-   // 1. Sort based on start interval to determine overlaps
-   // 2. Loop sequentially and find overlaps (means end value of the overlap)
-   // 3. If found, add to output
-   // 4. Reset start/end 
-   // 5. Continue loop
-   // 6. Finally return the output
-   
-   if intervals.count <= 1 {
-     return interval
-   }
-   
-   var result = [[Int]]()
-   
-   // sort based on the end interval
-   // unsorted: [[8,10],[15,18],[1,3],[2,6]]
-   
-   // unsorted: [[1,5],[2,4],[8,10],[15,18]]
-   // 0 <= starti <= endi <= 1
-   
-   // sorted based on start interval: [[1,5],[2,3],[8,10], [15,18]]
-   let sorted = intervals.sorted { $0[1] < $1[1] }
-   
-   var lastStart: Int =  sorted[0][0]
-   var lastEnd: Int =  sorted[0][1]
-   
-   for i in 1..<sorted.count {
-     val interval = sorted[i]
-     val start = interval[0]
-     val end = interval[1]
-     
-     val isOverlap = start < sorted[i-1][1] // first run 2 < 3
-     
-     if (isOverlap){
-       lastEnd = max(sorted[i-1][1], sorted[i][1]) // pick the end interval that's larger
-     }else{
-       // add
-       result.append([lastStart, lastEnd])
-       // update 
-       lastStart = start
-       lastEnd = end
-     }
-   }
-   
-  // append the last index
-  result.append([lastStart, lastEnd])
-   
-  return result  
- }
 	
 
 } // End of class

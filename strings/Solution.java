@@ -657,4 +657,38 @@ public class Solution {
 		}
 
 	}
+
+	/**
+	print(isMatch("f6k", "facebook")) // True
+	print(isMatch("f6s", "focus"))      // False
+	print(isMatch("i18n", "internationalization")) // True
+	print(isMatch("i19n", "internationalization")) // False
+	print(isMatch("f2eb2k", "facebook")) // True
+	
+	7k ==> facebook
+	Container with max water - fast
+	facebook must ask
+	*/
+	public boolean isMatchF6k(String pattern, String word){
+	  if (pattern.length() > word.length()){
+	    return false;
+	  }
+	  
+	  int i = 0;
+	  int j = 0
+	  while (i < pattern.length() && j < word.length()){
+	    char c = pattern.chartAt(i);
+	    boolean isDigit = c >= '0' && <= '9'
+	    if (isDigit){
+	      i += 1
+	      j += numericValue
+	    }else{
+	      if (c != word.chartAt(i)){  return false; }
+	      i += 1
+	      j += 1
+	    }
+	  }
+	  
+	  return i = pattern.length() && j = word.length();
+	}
 } // End of class - Strings

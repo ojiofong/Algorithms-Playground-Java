@@ -266,6 +266,52 @@ public class SolutionMultiDimen {
 		return heap.peek();
 	}
 
+
+	/**
+ 	Word Search In Grid
+	Given an m x n grid of characters board and a string word, return true if word exists in the grid.
+	The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are 
+ 	horizontally or vertically neighboring. The same letter cell may not be used more than once.
+ 	https://leetcode.com/problems/word-search/description/
+  	O(m*n) time and space used by recursive stack
+ 	*/
+	public boolean wordSearchInGrid(char[][] board, String word) {
+	        for (int row=0; row<board.length; row++){
+	            for (int col=0; col<board[0].length; col++){
+	                Node start = new Node(row, col);
+	                if (dfsWordSearchInGrid(board, word, row, col, new HashSet<String>(), 0)){
+	                    return true;
+	                }
+	            }
+	        }
+	
+	        return false;
+    	}
+    
+    private boolean dfsWordSearchInGrid(char[][] board, String word, int row, int col, Set<String> visited, int k){
+        if (k == word.length()){
+            return true;
+        }
+        
+        if (!(row >= 0 && row < board.length && col >= 0 && col < board[0].length)){
+            return false; // out of bounds
+        }
+        
+        if (board[row][col] != word.charAt(k)){
+            return false; // make sure we're visiting the expected char
+        }
+        
+        String key = row + "," + col;
+        if (!visited.add(key)){
+            return false; // don't want to visit the same node twice
+        }
+        
+        return dfs(board, word, row-1, col, visited, k+1) || 
+            dfs(board, word, row+1, col, visited, k+1) || 
+            dfs(board, word, row, col-1, visited, k+1) || 
+            dfs(board, word, row, col+1, visited, k+1);
+    }
+
 	
 
 } // End of class

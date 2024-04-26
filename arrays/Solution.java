@@ -449,4 +449,43 @@ public class Solution {
 
 	}
 
+	/**
+ 	Longest Consecutive Sequence
+	Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+	You must write an algorithm that runs in O(n) time.
+	Example:
+	Input: nums = [100,4,200,1,3,2]
+	Output: 4
+	Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+ 	*/
+	public int longestConsecutive(int[] nums) {
+	        Set<Integer> fullSet = new HashSet<>();
+	        Set<Integer> startOfSequenceSet = new HashSet<>();
+	        int longest = 0;
+	        
+	        for (int value: nums){
+	            fullSet.add(value);
+	        }
+	        
+	        for (int value: fullSet){
+	            if (!fullSet.contains(value - 1)){
+	                startOfSequenceSet.add(value);
+	            }
+	        }
+	        
+	        // need startOfSequenceSet excluding other sequence values to prevent O(n^2) time in the nested while loop.
+	        for (int value: startOfSequenceSet){
+	            int curValue = value;
+	            int sequenceCount = 1;
+	            
+	            while (fullSet.contains(curValue + 1)){
+	                curValue += 1;
+	                sequenceCount += 1;
+	            }
+	            
+	            longest = Math.max(longest, sequenceCount);
+	        }
+	        return longest;
+    }
+
 }// End of class

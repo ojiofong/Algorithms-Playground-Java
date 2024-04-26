@@ -462,18 +462,22 @@ public class Solution {
 	        Set<Integer> fullSet = new HashSet<>();
 	        Set<Integer> startOfSequenceSet = new HashSet<>();
 	        int longest = 0;
-	        
+
+		// We need the fullSet for O(1) lookup
 	        for (int value: nums){
 	            fullSet.add(value);
 	        }
 	        
 	        for (int value: fullSet){
+		    // Check if value is the start a sequence. i.e. no other value before it, hence (value - 1)
 	            if (!fullSet.contains(value - 1)){
 	                startOfSequenceSet.add(value);
 	            }
 	        }
 	        
-	        // need startOfSequenceSet excluding other sequence values to prevent O(n^2) time in the nested while loop.
+	        // We need startOfSequenceSet since it contains only values that start each sequence 
+		// startOfSequenceSet excludes other sequence values, hence guaranteeing linear time 
+		// by preventing O(n^2) time in the nested while loop that counts the sequences.
 	        for (int value: startOfSequenceSet){
 	            int curValue = value;
 	            int sequenceCount = 1;

@@ -538,4 +538,72 @@ public class Solution {
         }
     }
 
+
+   /**
+    Median of Two Sorted Arrays
+    
+    Example 1:
+    Input: nums1 = [1,3], nums2 = [2]
+    Output: 2.00000
+    Explanation: merged array = [1,2,3] and median is 2.
+    
+    Example 2:
+    Input: nums1 = [1,2], nums2 = [3,4]
+    Output: 2.50000
+    Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
+    
+    https://leetcode.com/problems/median-of-two-sorted-arrays/
+    */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        // Key is to know how to merge 2 sorted arrays
+        // create a new array with combined size m + n
+        // find the median index for even and odd lengths
+        // O(m+n) time and space due to the combined merged array
+        
+        Integer[] merged = new Integer[nums1.length + nums2.length];
+        
+        // copy all nums1
+        for (int i=0; i<nums1.length; i++){
+            merged[i] = nums1[i];
+        }
+        
+        // do sorted merging
+        int i = nums1.length - 1;
+        int j = nums2.length - 1;
+        int k = merged.length - 1;
+        
+        while (i>=0 && j>=0){
+            if (nums1[i] > nums2[j]){
+                merged[k] = nums1[i];
+                i--;
+                k--;
+            }else{
+                merged[k] = nums2[j];
+                j--;
+                k--;
+            }
+        }
+        
+        while (j>=0){
+            merged[k] = nums2[j];
+            j--;
+            k--;
+        }
+        
+        // done merging the sorted arrays
+        System.out.println(Arrays.toString(merged));
+        
+        if (merged.length % 2 != 0){
+            // odd 
+            int medianIndex = merged.length/2;
+            return merged[medianIndex];
+        }{
+            // even
+            int medianIndex1 = merged.length/2;
+            int medianIndex2 = medianIndex1 - 1;
+            return (merged[medianIndex1] + merged[medianIndex2]) / 2.0;
+        }
+        
+    }
+
 }// End of class

@@ -312,6 +312,62 @@ public class SolutionMultiDimen {
             dfs(board, word, row, col+1, visited, k+1);
     }
 
+
+     /**
+    Given an array of intervals intervals where intervals[i] = [starti, endi], 
+    return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.
+    https://leetcode.com/problems/non-overlapping-intervals/
+
+    Example 1:
+    Input: intervals = [[1,2],[2,3],[3,4],[1,3]]
+    Output: 1
+    Explanation: [1,3] can be removed and the rest of the intervals are non-overlapping.
+    
+    Example 2:
+    Input: intervals = [[1,2],[1,2],[1,2]]
+    Output: 2
+    Explanation: You need to remove two [1,2] to make the rest of the intervals non-overlapping.
+    
+    Example 3:
+    Input: intervals = [[1,2],[2,3]]
+    Output: 0
+    Explanation: You don't need to remove any of the intervals since they're already non-overlapping.
+    
+    Example 3:
+    Input: intervals = [[1,100],[11,22],[1,11],[2,12]]
+    Output: 2
+    
+    Time: O(n log n)
+    Space: O(1)
+    
+    */
+    public int eraseOverlapIntervals(int[][] intervals) {
+        if (intervals.length == 0) {
+            return 0;
+        }
+
+        // Sort intervals based on their end time
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));
+
+        // Initialize the count of removals and the end time of the last added interval
+        int removals = 0;
+        int lastIncludedEnd = intervals[0][1];
+
+        // Iterate through the intervals starting from the second interval
+        for (int i = 1; i < intervals.length; i++) {
+            // If overlap i.e. the current interval starts before the end of the last included interval
+            if (intervals[i][0] < lastIncludedEnd) {
+                // We need to remove this interval
+                removals++;
+            } else {
+                // Otherwise, update the end time to the current interval's end time
+                lastIncludedEnd = intervals[i][1];
+                System.out.print(Arrays.toString(intervals[i]));
+            }
+        }
+        return removals;
+    }
+
 	
 
 } // End of class

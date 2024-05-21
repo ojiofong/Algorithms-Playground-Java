@@ -356,6 +356,45 @@ public class Solution {
 		combinationsOfSizeR(arr, r, count, data, i + 1);
 	}
 
+	 /**
+	   input: "aab".toCharArray();
+	    stdout:
+	    a a b 
+	    a ab  
+	    aa b  
+	    aab 
+	    
+	    char[] input = s.toCharArray();
+	    char[] output = new char[input.length * 2];
+	    printCombinations(input, 0, output, 0);
+	    
+	    Time O(2^n)
+	    Space O(2^n) needed to save every output string
+	  */
+	  void printCombinations(char[] input,int index, char[] output, int outLength) {
+	    // no more digits left in input string
+	    if (input.length == index){
+	        // print output string & return
+	        String outputString = String.valueOf(output);
+	        System.out.println(outputString);
+	        return;
+	    }
+	     
+	    // place current digit in input string
+	    output[outLength] = input[index];
+	     
+	    // separate next digit with a space
+	    output[outLength + 1] = ' ';
+	     
+	    // 1. first call
+	    printCombinations(input, index + 1, output, outLength + 2);
+	    // 2. second call
+	    // if next digit exists make a call without including space
+	    if(input.length != index + 1){
+	        printCombinations(input, index + 1, output, outLength + 1); 
+	    }   
+	  }
+
 	/*-
 	Input: 17->15->8->12->10->5->4->1->7->6->NULL
 	Output: 8->12->10->4->6->17->15->5->1->7->NULL

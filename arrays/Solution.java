@@ -310,53 +310,30 @@ public class Solution {
 	/*-
 	 * Generate all combinations of size r in arr[] of size n:
 	 * 
-	    int[] arr = new int[] { 1, 2, 3, 4, 5 };
+	    char[] arr = new int[] { 1, 2, 3, 4, 5 };
 	    int r = 3;
 	    int n = arr.length;
-	    int data[] = new int[r];
+	    char[] data = new char[r];
 	    
 	 *  outputs: 123, 124, 125, 134...345
 	 *  
-	 *  Complexity O(n choose k) = O(n!/k!(n-k)!) = O(n!) since k is constant
+	 *  Time: O(nCr * r)
+         *  Space: O(r) for the output array 
 	 */
-	static void combinationsOfSizeR(int arr[], int n, int r, int index, int data[], int i) {
-		// Current combination is ready to be printed, print it
-		if (index == r) {
-			System.out.println(Arrays.toString(data));
+	static void combinationOfSizeR(int r, char[] input, char[] output, int inputIndex, int outputIndex){
+		if (outputIndex == r){
+			System.out.println(Arrays.toString(output));
 			return;
 		}
 
-		// When no more elements are there to put in data[]
-		if (i >= n)
-			return;
+		if (inputIndex >= input.length) return; // out of bounds
 
-		// current is included, put next at next location
-		data[index] = arr[i];
-		combinationsOfSizeR(arr, n, r, index + 1, data, i + 1);
-
-		// current is excluded, replace it with next (Note that i+1 is passed,
-		// but index is not changed)
-		combinationsOfSizeR(arr, n, r, index, data, i + 1);
+		output[outputIndex] = input[inputIndex];
+		combinationOfSizeR(r, input, output , inputIndex + 1, outputIndex + 1);
+		combinationOfSizeR(r, input, output , inputIndex + 1, outputIndex);
 	}
 
-	// Second solution one less argument
-	static void combinationsOfSizeR(int arr[], int r, int count, int data[], int i) {
-		// Current combination is ready to be printed, print it
-		if (count == r) {
-			System.out.println(Arrays.toString(data));
-			return;
-		}
-
-		// When no more elements are there to put in data[]
-		if (i >= arr.length)
-			return;
-
-		data[count] = arr[i];
-		combinationsOfSizeR(arr, r, count + 1, data, i + 1);
-		combinationsOfSizeR(arr, r, count, data, i + 1);
-	}
-
-	 /**
+	 /*-
 	   input: "aab".toCharArray();
 	    stdout:
 	    a a b 
@@ -365,35 +342,26 @@ public class Solution {
 	    aab 
 	    
 	    char[] input = s.toCharArray();
-	    char[] output = new char[input.length * 2];
-	    printCombinations(input, 0, output, 0);
+	    char[] output = new char[input.length * 2]; // double size to allow for spacing
+	    substringCombinations(input, 0, output, 0);
 	    
 	    Time O(2^n)
 	    Space O(2^n) needed to save every output string
 	  */
-	  void printCombinations(char[] input,int index, char[] output, int outLength) {
-	    // no more digits left in input string
-	    if (input.length == index){
-	        // print output string & return
-	        String outputString = String.valueOf(output);
-	        System.out.println(outputString);
+	static void substringCombinations(char[] input, char[] output, int inputIndex, int outputIndex) {
+	    if (input.length == inputIndex){
+	        System.out.println(String.valueOf(output));
 	        return;
 	    }
 	     
-	    // place current digit in input string
-	    output[outLength] = input[index];
-	     
-	    // separate next digit with a space
-	    output[outLength + 1] = ' ';
-	     
-	    // 1. first call
-	    printCombinations(input, index + 1, output, outLength + 2);
-	    // 2. second call
-	    // if next digit exists make a call without including space
-	    if(input.length != index + 1){
-	        printCombinations(input, index + 1, output, outLength + 1); 
+	    output[outputIndex] = input[inputIndex]; // place current digit in input string
+	    output[outputIndex + 1] = ' '; // separate next digit with a space
+
+	    substringCombinations(input, output, inputIndex + 1,  outputIndex + 2);
+	    if(input.length != inputIndex + 1){
+	        substringCombinations(input, output, inputIndex + 1, outputIndex + 1); 
 	    }   
-	  }
+	}
 
 	/*-
 	Input: 17->15->8->12->10->5->4->1->7->6->NULL

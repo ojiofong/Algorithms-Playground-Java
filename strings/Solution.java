@@ -467,34 +467,33 @@ public class Solution {
 		return result;
 	}
  
-	  // TODO: CLEAN UP AND CONVERT TO JAVA LATER	
-	  // Input: s = "abcabcbb"
-	  // output: 3
-	  // Explanation: The answer is "abc", with the length of 3.
-	  // Longest Substring Without Repeating Characters
-	  func lengthOfLongestSubstring(_ s: String) -> Int {
+	/*-
+	 * Get Length of Longest Substring Without Repeating Characters
+  	 * Input: s = "abcabcbb"
+	 * Output: 3
+	 * Explanation: The answer is "abc", with the length of 3.
+         *
+	 * O(n^2) time
+	 * O(1) space
+	 */
+	 private static int lengthOfLongestSubstringWithoutRepeatingChars(String s) {
+	    int longestLength = 0;
 	    
-	    var longestLength = 0
-	    
-	    for i, _ in s.enumerated(){
-	       var set = Set<String>()
-	       for (j=i, j<s.count, j++){
-	         val ch = s[j]
-	         if (set.contains(ch)){
-	           // duplicate
-	           break
+	    for (int i=0; i<s.length(); s++){
+	       Set<String> set = new HashSet<>();
+	       for (j=i; j<s.length(); j++){
+	         char c = s.charAt(j);
+	         if (set.contains(c)){
+	           break; // duplicate
 	         }else{
-	           set.add(ch)
-	           val start = i
-	           val end = j
-	           val currentLength = end - start + 1
-	           longestLength = max(longestLength, currentLength)
+	           set.add(c);
+	           int currentLength = j - i + 1;
+	           longestLength = Math.max(longestLength, currentLength)
 	         }
 	       }
 	    }
-	    
-	    return longestLength
-	        
+		 
+	    return longestLength;
 	  }
 
 	/*-

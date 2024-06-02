@@ -307,10 +307,10 @@ public class Solution {
 
 		while (i < Math.max(s1.length(), s2.length())){
 			if (i < s1.length()){
-				sum += s1.charAt(i);
+				sum += s1.charAt(i) * s1.charAt(i); // perfect squares are unique
 			}
 			if (i < s2.length()){
-				sum -= s2.charAt(i);
+				sum -= s2.charAt(i) * s2.charAt(i); // perfect squares are unique
 			}
 			i++;
 		}

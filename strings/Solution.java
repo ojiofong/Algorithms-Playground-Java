@@ -107,30 +107,15 @@ public class Solution {
 	}
 
 	/**
-	 * Returns the first non repeating character in a string Time 0(2n). Space
-	 * 0(256) or 0(1)
+	 * Returns the first non repeating character in a string 
+  	 * Time 0(n)
+         * Space 0(256) or 0(1)
 	 */
 	private static Character firstNonRepeatingCharInString(String str) {
-
-		System.out.println("");
-
-		str = "abcda";
-
-		// 0(n^2)
-		// for (int i = 0; i < str.length(); i++) { // 0(n)
-		// char c = str.charAt(i);
-		// int lastindex = str.lastIndexOf(c); // 0(n)
-		// if (lastindex == str.indexOf(c)) {
-		// System.out.println("1st non repeating char -> " + c);
-		// return c;
-		// }
-		// }
-
 		if (str == null || str.isEmpty())
 			return null;
 
-		// Hold ascii numbers only ...
-		int[] arr = new int[256];
+		int[] arr = new int[256]; // ascii
 
 		for (int i = 0; i < str.length(); i++) {
 			char c = str.charAt(i);
@@ -138,17 +123,14 @@ public class Solution {
 		}
 
 		for (int i = 0; i < str.length(); i++) {
-
 			char c = str.charAt(i);
-
 			if (arr[c] == 1) {
-				System.out.println("1st non repeating char -> " + c);
+				System.out.println("1st non repeating char:" + c);
 				return c;
 			}
 		}
 
-		System.out.println("no non repeating char detected");
-
+		System.out.println("no non repeating char found");
 		return null;
 	}
 

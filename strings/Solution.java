@@ -642,7 +642,7 @@ public class Solution {
 
 	private static void isSpecial(String word, Set<String> memo, Set<String> dict, Set<Integer> result) {
 
-		if (word == null || word.isEmpty() || memo.contains(word) || result.contains(word.length()))
+		if ( word == null || word.isEmpty() || memo.contains(word) )
 			return;
 
 		memo.add(word);

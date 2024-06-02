@@ -674,19 +674,19 @@ public class Solution {
 	    return false;
 	  }
 	  
-	  int i = 0;
-	  int j = 0
+	  int i = 0; // pattern index
+	  int j = 0  // word index
+		  
 	  while (i < pattern.length() && j < word.length()){
 	    char c = pattern.chartAt(i);
 	    boolean isDigit = c >= '0' && <= '9'
 	    if (isDigit){
-	      i += 1
-	      j += numericValue
+	      j += Integer.valueOf("" + c); // numeric value (not ascii)
 	    }else{
 	      if (c != word.chartAt(i)){  return false; }
-	      i += 1
-	      j += 1
+	      j++;
 	    }
+            i++;
 	  }
 	  
 	  return i = pattern.length() && j = word.length();

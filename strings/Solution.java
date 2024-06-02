@@ -37,41 +37,21 @@ public class Solution {
 
 		System.out.println("isSpecial -> " + isSpecial("sprint"));
 	}
-
-	/**
-	 * O(n^3) Time O(1) Space
-	 */
-	public void allSubstringsSlow(String str) {
-		int N = str.length();
-		for (int i = 0; i < N; i++) {
-			int t = N;
-			while (t > i) {
-				String sub = str.substring(i, t--);
-				System.out.print("[" + sub + "]");
-			}
-		}
-		System.out.println("");
-	}
 	
 	/**
 	 * O(n^2) Time
-	 *  O(n^2) Space for indices
+	 * O(n^2) Space for indices
+         * Faster because we get the start/end indices instead of the actual string within the nested loop
 	 */
 	public static List<String> allSubstringsFaster(String str) {
-		System.out.println("*****Start allSubstringsFaster****: " + str);
-		
 		List<String> result = new ArrayList<>();
-
 		List<Integer> startList = new ArrayList<>();
 		List<Integer> endList = new ArrayList<>();
 
 		for (int i = 0; i < str.length(); i++) {
-			// StringBuilder sb = new StringBuilder();
-			for (int k = i; k < str.length(); k++) {
-				// sb.append(str.charAt(k));
-				// System.out.println(sb.toString()); // println adds O(n)
+			for (int j = i; j < str.length(); j++) {
 				startList.add(i);
-				endList.add(k);
+				endList.add(j);
 			}
 		}
 
@@ -80,10 +60,7 @@ public class Solution {
 			int end = endList.get(i);
 			String sub = str.substring(start, end + 1);
 			result.add(sub);
-			System.out.println(sub); // println adds O(n)
 		}
-
-		System.out.println("*****End of allSubstringsFaster****: " + str + " space:"+ startList.size());
 		
 		return result;
 	}

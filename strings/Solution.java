@@ -664,31 +664,31 @@ public class Solution {
 	print(isMatch("i18n", "internationalization")) // True
 	print(isMatch("i19n", "internationalization")) // False
 	print(isMatch("f2eb2k", "facebook")) // True
-	
-	7k ==> facebook
-	Container with max water - fast
-	facebook must ask
+	print(isMatch("7k", "facebook")) // True
 	*/
 	public boolean isMatchF6k(String pattern, String word){
-	  if (pattern.length() > word.length()){
-	    return false;
-	  }
-	  
-	  int i = 0; // pattern index
-	  int j = 0  // word index
-		  
-	  while (i < pattern.length() && j < word.length()){
-	    char c = pattern.chartAt(i);
-	    boolean isDigit = c >= '0' && <= '9'
-	    if (isDigit){
-	      j += Integer.valueOf("" + c); // numeric value (not ascii)
-	    }else{
-	      if (c != word.chartAt(i)){  return false; }
-	      j++;
-	    }
-            i++;
-	  }
-	  
-	  return i = pattern.length() && j = word.length();
+		if (pattern.length() > word.length()) return false;
+		StringBuilder sb = new StringBuilder();
+		int i = 0; // pattern index
+		int j = 0; // word index
+		
+		while (i < pattern.length() && j < word.length()) {
+			char cur = pattern.charAt(i);
+			boolean isPatternLastIndex = i == pattern.length() - 1;
+			boolean isNextCharLetter = i + 1 < pattern.length() && !isDigit(pattern.charAt(i + 1));
+			if (isDigit(cur)) {
+				sb.append(cur);
+				if (isPatternLastIndex || isNextCharLetter) {
+					j += Integer.valueOf(sb.toString());
+				}
+			} else {
+				if (cur != word.charAt(j)) return false;
+				sb = new StringBuilder(); // reset numeric numbers e.g. 18, 123 (not just single digits)
+				j++;
+			}
+			i++;
+		}
+
+		return i == pattern.length() && j == word.length();
 	}
 } // End of class - Strings

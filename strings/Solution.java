@@ -300,36 +300,45 @@ public class Solution {
 
 	}
 
-	public static boolean isSubAnagram(String sub, String word) {
-		if (sub == null || word == null)
-			throw new IllegalArgumentException();
+	/*-
+	 * return true if substring of {str} is an anagram of {word}
+	 * (str: "abcdef", word: "cba") => true because substring abc is anagram of cba
+	 */
+	private static boolean isSubstringAnagram(String str, String word){
+		if (word.length() > str.length()) return false;
 
-		int subLength = sub.length();
-		int wordLength = word.length();
-		int subSum = 0;
+		int i =0; 
+		int j = i + word.length() - 1;
 
-		if (subLength > wordLength)
-			return false;
-
-		for (int i = 0; i < subLength; i++) {
-			char c = sub.charAt(i);
-			subSum += Math.pow(c, 2);
-		}
-
-		for (int i = 0; i < wordLength; i++) {
-			int index = i;
-			int wordSum = 0;
-			for (int k = 0; k < subLength && index < wordLength; k++) {
-				char c = word.charAt(index++);
-				wordSum += Math.pow(c, 2);
-			}
-
-			if (subSum == wordSum)
+		while (i<str.length() && j<str.length()){
+			// substring of word length only
+			String sub = str.substring(i, j+1); 
+			System.out.println(sub);
+			if (isAnagram(sub, word)){
 				return true;
+			}
+			i += 1;
+			j = i + word.length() - 1;
+		}
+		return false;
+	}
 
+	private static boolean isAnagram(String s1, String s2){
+		if (s1.length() != s2.length()) return false;
+		int i = 0;
+		int sum = 0;
+
+		while (i < Math.max(s1.length(), s2.length())){
+			if (i < s1.length()){
+				sum += s1.charAt(i);
+			}
+			if (i < s2.length()){
+				sum -= s2.charAt(i);
+			}
+			i++;
 		}
 
-		return false;
+	    return sum == 0;
 	}
 
 	/**

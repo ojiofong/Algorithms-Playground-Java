@@ -505,25 +505,25 @@ public class Solution {
 	private static String longestPalindromeSubstring(String s) {    
 	    if (s.isEmpty()) return s;
 	    
-	    int targetStart = -1
-	    int targetEnd = -1
+	    int targetStart = -1;
+	    int targetEnd = -1;
 	    
 	    for (int i=0; i<s.length(); i++) {
 	       for (j=i, j<s.length(), j++){
-	           int start = i
-	           int end = j
-	           int currentLength = end - start + 1
-	           int longestLengthSoFar = targetEnd - targetStart + 1
+	           int start = i;
+	           int end = j;
+	           int currentLength = end - start + 1;
+	           int longestLengthSoFar = targetEnd - targetStart + 1;
 	           if (currentLength > longestLengthSoFar) {
 	             if (isPalindrome(s, start, end)) {  
-	                targetStart = start
-	                targetEnd = end
+	                targetStart = start;
+	                targetEnd = end;
 	             }
 	           }
 	       }
 	    }
 	    
-	    return targetStart == -1 ? "" : s.substring(targetStart, targetEnd + 1)  
+	    return targetStart == -1 ? "" : s.substring(targetStart, targetEnd + 1);
 	}
 
 	private static boolean isPalindrome(String s) {

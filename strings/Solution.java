@@ -497,24 +497,25 @@ public class Solution {
 	        
 	  }
 
-        // TODO: CLEAN UP AND CONVERT TO JAVA LATER
-	// Longest Palindrome Substring
-	func longestPalindromeSubstring(_ s: String) -> String {    
-	    if s.empty() {
-	      return s;
-	    }
+	/*-
+	 * Get Longest Palindrome Substring
+	 * O(n^2) time
+	 * O(1) space
+	 */
+	private static String longestPalindromeSubstring(String s) {    
+	    if (s.isEmpty()) return s;
 	    
-	    var targetStart = -1
-	    var targetEnd = -1
+	    int targetStart = -1
+	    int targetEnd = -1
 	    
-	    for i, _ in s.enumerated(){
-	       for (j=i, j<s.count, j++){
-	           val start = i
-	           val end = j
-	           val currentLength = end - start + 1
-	           val longestLengthSoFar = targetEnd - targetStart + 1
-	           if currentLength > longestLengthSoFar {
-	             if isPalindrome(s, start, end) {  
+	    for (int i=0; i<s.length(); i++) {
+	       for (j=i, j<s.length(), j++){
+	           int start = i
+	           int end = j
+	           int currentLength = end - start + 1
+	           int longestLengthSoFar = targetEnd - targetStart + 1
+	           if (currentLength > longestLengthSoFar) {
+	             if (isPalindrome(s, start, end)) {  
 	                targetStart = start
 	                targetEnd = end
 	             }
@@ -525,31 +526,11 @@ public class Solution {
 	    return targetStart == -1 ? "" : s.substring(targetStart, targetEnd + 1)  
 	}
 
-	private static String longestPalindrome(String s) {
-		if (s == null || s.trim().isEmpty())
-			return null;
-		int length = s.length();
-		String longest = null;
-		for (int k = 0; k < length && longest == null || (length - k) > longest.length(); k++) {
-			int j = length;
-			while (k < j && longest == null || (j - k) > longest.length()) {
-				String sub = s.substring(k, j);
-				if (isPalindrome(sub)) {
-					longest = sub;
-				}
-				j--;
-			}
-		}
-		return longest == null ? s.charAt(0) + "" : longest;
-	}
-
 	private static boolean isPalindrome(String s) {
 		int i = 0;
 		int j = s.length() - 1;
 		while (i <= j) {
-			if (s.charAt(i) != s.charAt(j)) {
-				return false;
-			}
+			if (s.charAt(i) != s.charAt(j)) return false;
 			i++;
 			j--;
 		}
@@ -558,10 +539,8 @@ public class Solution {
 	
 	/*-
 	 * Get all substrings that are palindrome
-	 * 
-	   
-	   O(n^2) time
-	   O(n) space
+	 * O(n^2) time
+	 * O(n) space
 	 */
 	public static Set<String> getPalindromeSubstrings(String str) {
 		Set<String> set = new HashSet<>();

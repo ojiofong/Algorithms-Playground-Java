@@ -28,53 +28,38 @@ public class Solution {
 	 * {5,6,80,90} -> "1-4,7-79,81-89,91-100"
 	 * {1,3,99} -> "2,4-98,100"
 	 **/
-	private static String doRange100() {
-		int[] arr = { 5, 6, 80, 90 };
-		Arrays.sort(arr);
-
+	private static String doRange100(int[] arr) {
 		StringBuilder sb = new StringBuilder();
-		int size = arr.length;
-		int prev = 0;
-
-		for (int i = 0; i < size; i++) {
-
-			int a = arr[i];
+		for (int i = 0; i < arr.length; i++) {
 			boolean isFirstIndex = i == 0;
-			boolean isLastIndex = i == size - 1;
+			boolean isLastIndex = i == arr.length - 1;
+			int cur = arr[i];
 
 			if (isFirstIndex) {
-				int diff = a - 1;
-				if (diff == 2) {
-					sb.append(String.format("%d,", a - 1));
-				} else if (diff > 2) {
-					sb.append(String.format("1-%d,", a - 1));
-				}
-			} else {
-				int diff = a - prev;
-				if (diff == 2) {
-					sb.append(String.format("%d,", a - 1));
-				} else if (diff > 2) {
-					sb.append(String.format("%d-%d,", prev + 1, a - 1));
-				}
+				sb.append(getRange(1, cur - 1));
 			}
-
+			
+			if (!isLastIndex) {
+				sb.append(getRange(cur + 1, arr[i + 1] - 1));
+			} 
+			
 			if (isLastIndex) {
-				int diff = 100 - a;
-				if (diff == 1) {
-					sb.append(String.format("%d,", 100));
-				} else if (diff == 2) {
-					sb.append(String.format("%d,", 99));
-				} else if (diff > 2) {
-					sb.append(String.format("%d-%d,", a + 1, 100));
-				}
+				sb.append(getRange(cur + 1, 100));
 			}
-
-			prev = a;
 		}
 
-		// delete last comma ","
 		return sb.deleteCharAt(sb.length() - 1).toString();
+	}
 
+	private static String getRange(int a, int b) {
+		StringBuilder sb = new StringBuilder();
+		if (b < a) return "";
+
+		sb.append(a);
+		if (b - a > 0) sb.append("-" + b);
+		sb.append(",");
+
+		return sb.toString();
 	}
 
 	/**

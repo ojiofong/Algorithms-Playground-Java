@@ -313,14 +313,10 @@ public class Solution {
 		printLinkedNodes(copyHead);
 	}
 
-	private static Node deepCopyLinkedListWithRandomNodes(Node root) {
+	private static Node deepCopyLinkedListWithRandomNodes(Node head) {
+		if (root == null) return null;
 
-		if (root == null)
-			return null;
-
-		Node cur = root;
-		Node copyHead = null;
-		Node last = null;
+		Node cur = head;
 		Map<Node, Node> map = new HashMap<>();
 
 		while (cur != null) {
@@ -328,28 +324,15 @@ public class Solution {
 			cur = cur.next;
 		}
 
-		cur = root; // reset cur to root/head
-
+		cur = head; // start looping from head again
 		while (cur != null) {
 			Node copiedNode = map.get(cur);
 			copiedNode.next = map.get(cur.next);
 			copiedNode.random = map.get(cur.random);
-
-			if (last == null) {
-				copyHead = copiedNode;
-				last = copyHead;
-			} else {
-				last.next = copiedNode;
-				last = copiedNode;
-			}
-
 			cur = cur.next;
 		}
 
-		System.out.println("deepCopyLinkedListWithRandomNodes");
-		printLinkedNodes(copyHead);
-		return copyHead;
-
+		return map.get(head);
 	}
 
 	/*-

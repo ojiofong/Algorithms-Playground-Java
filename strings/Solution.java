@@ -636,5 +636,39 @@ public class Solution {
 		}
 
 		return i == pattern.length() && j == word.length();
-	}
+       }
+
+	public String addBinary(String a, String b) {
+	        int carry = 0;
+	        int aIndex = a.length() - 1;
+	        int bIndex = b.length() - 1;
+	        StringBuilder sb = new StringBuilder();
+	        
+	        while (aIndex >= 0 || bIndex >= 0){
+	            int aValue = aIndex >= 0 ? Integer.valueOf("" + a.charAt(aIndex)) : 0;
+	            int bValue = bIndex  >= 0 ? Integer.valueOf("" + b.charAt(bIndex)) : 0;
+	            int result = aValue + bValue + carry;
+	            
+	            if (result == 3){
+	                sb.insert(0, 1); // prepend 1: ([1 + 1] + 1 =>  [0] + 1 carry 1 => 1 carry 1)
+	                carry = 1;
+	            } else if (result == 2){
+	                sb.insert(0, 0); // prepend 0: (1 + 1 => 0 carry 1)
+	                carry = 1;
+	            } else {
+	                sb.insert(0, result); // prepend 0 or 1
+	                carry = 0;
+	            }
+	            
+	            aIndex--;
+	            bIndex--;
+	        }
+	        
+	        if (carry > 0){
+	            sb.insert(0, carry); // prepend carry of 1
+	        }
+	        
+	        return sb.toString();
+    }
+	
 } // End of class - Strings
